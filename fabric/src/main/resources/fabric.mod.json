@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "clay",
+  "version": "${version}",
+
+  "name": "Clay Soldiers",
+  "description": "This adds clay soldiers that attack for you!",
+  "authors": [
+    "Slainlite"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/clay-soldiers-reborn",
+    "issues": "https://github.com/matthewperiut/clay-soldiers/issues",
+    "sources": "https://github.com/matthewperiut/clay-soldiers"
+  },
+
+  "license": "MIT",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.matthewperiut.clay.fabric.ClayModFabric"
+    ]
+  },
+  "depends": {
+    "geckolib3": "*",
+    "fabricloader": ">=0.14.10",
+    "fabric-api": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  }
+}

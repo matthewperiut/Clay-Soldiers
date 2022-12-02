@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+#issueTrackerURL = "https://github.com/matthewperiut/clay-soldiers/"
+license = "MIT"
+
+[[mods]]
+modId = "clay"
+version = "${version}"
+displayName = "Clay Soldiers"
+authors = "Slainlite"
+description = '''
+This adds clay soldiers that attack for you!
+'''
+#logoFile = "icon.png"
+
+[[dependencies.clay]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.clay]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.clay]]
+modId = "geckolib3"
+mandatory = true
+versionRange = "[3.1.21,)"
+ordering = "NONE"
+side = "BOTH"

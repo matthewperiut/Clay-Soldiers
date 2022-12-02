@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "minecraft:clay"
+    },
+    "S": {
+      "item": "minecraft:soul_sand"
+    }
+  },
+  "pattern": [
+    "DSD",
+    "D D"
+  ],
+  "result": {
+    "count": 2,
+    "item": "clay:horse/clay"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "clay:soldier/clay",
+    "clay:soldier/red",
+    "clay:soldier/yellow",
+    "clay:soldier/green",
+    "clay:soldier/blue",
+    "clay:soldier/orange",
+    "clay:soldier/magenta",
+    "clay:soldier/lightblue",
+    "clay:soldier/lime",
+    "clay:soldier/pink",
+    "clay:soldier/cyan",
+    "clay:soldier/purple",
+    "clay:soldier/brown",
+    "clay:soldier/black",
+    "clay:soldier/gray",
+    "clay:soldier/white"
+  ]
+}

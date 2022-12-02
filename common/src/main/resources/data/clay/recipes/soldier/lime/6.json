@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+        "tag": "clay:soldiers"
+    },
+    {
+        "tag": "clay:soldiers"
+    },
+    {
+        "tag": "clay:soldiers"
+    },
+    {
+        "tag": "clay:soldiers"
+    },
+    {
+        "tag": "clay:soldiers"
+    },
+    {
+        "tag": "clay:soldiers"
+    },
+    {
+      "item": "minecraft:lime_dye"
+    }
+  ],
+  "result":
+  {
+    "count": 6,
+    "item": "clay:soldier/lime"
+  }
+}

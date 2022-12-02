@@ -21,5 +21,6 @@ public class ClayItems
         ITEMS.register(eventBus);
         DisruptorItems.register();
         SoldierDollItems.register();
+        HorseDollItems.register();
     }
 }

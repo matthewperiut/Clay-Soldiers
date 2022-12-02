@@ -16,6 +16,13 @@ public class HorseDollRenderer extends GeoEntityRenderer<HorseDollEntity>
         this.shadowRadius = 0.1f;
     }
 
+    public HorseDollRenderer(EntityRendererFactory.Context renderManager, Identifier texture_id)
+    {
+        super(renderManager, new HorseDollModel(texture_id));
+        this.texture_id = texture_id;
+        this.shadowRadius = 0.1f;
+    }
+
     @Override
     public Identifier getTextureResource(HorseDollEntity animatable)
     {

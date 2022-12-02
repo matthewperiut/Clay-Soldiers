@@ -10,7 +10,8 @@ public class ClayItemGroup
     public static final ItemGroup CLAY_GROUP = new ItemGroup(ClayMod.MOD_ID + ".clay_group")
     {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack createIcon()
+        {
             return new ItemStack(SoldierDollItems.CLAY_SOLDIER.get());
         }
     };

@@ -23,8 +23,13 @@ public class DisruptorItems
 
     public static void register()
     {
-        //DispenserBlock.registerBehavior(CLAY_DISRUPTOR.get(), disruptorBehavior);
-        //DispenserBlock.registerBehavior(TERRACOTTA_DISRUPTOR.get(), disruptorBehavior);
-        //DispenserBlock.registerBehavior(OBSIDIAN_DISRUPTOR.get(), disruptorBehavior);
+
+    }
+
+    public static void post()
+    {
+        DispenserBlock.registerBehavior(CLAY_DISRUPTOR.get(), disruptorBehavior);
+        DispenserBlock.registerBehavior(TERRACOTTA_DISRUPTOR.get(), disruptorBehavior);
+        DispenserBlock.registerBehavior(OBSIDIAN_DISRUPTOR.get(), disruptorBehavior);
     }
 }

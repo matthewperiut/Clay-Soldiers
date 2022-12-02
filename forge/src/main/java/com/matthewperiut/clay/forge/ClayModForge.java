@@ -1,15 +1,15 @@
 package com.matthewperiut.clay.forge;
 
 import com.matthewperiut.clay.ClayMod;
-import com.matthewperiut.clay.forge.item.ClayItems;
-import com.matthewperiut.clay.forge.item.ClayItemsColorProvider;
-import com.matthewperiut.clay.forge.item.SoldierDollItems;
-import net.minecraft.client.color.item.ItemColorProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import com.matthewperiut.clay.entity.horse.HorseDollEntity;
+import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
+import com.matthewperiut.clay.forge.entity.ClayEntityTypes;
+import com.matthewperiut.clay.forge.entity.HorseDollEntities;
+import com.matthewperiut.clay.forge.entity.SoldierDollEntities;
+import com.matthewperiut.clay.forge.item.*;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -23,17 +23,15 @@ import static com.matthewperiut.clay.ClayMod.MOD_ID;
 @Mod(MOD_ID)
 public class ClayModForge
 {
-    public static ClayItemsColorProvider clayItemsColorProvider = new ClayItemsColorProvider();;
-
     public ClayModForge()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ClayMod.init();
+        ClayEntityTypes.register(modEventBus);
         ClayItems.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
-
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -42,35 +40,64 @@ public class ClayModForge
 
     }
 
-    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ClientModEvents
+    private static void postEntity()
+    {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    }
+
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ModSetup
     {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
+        public static void commonSetup(FMLCommonSetupEvent event)
         {
-
+            postEntity();
+            DisruptorItems.post();
+            SoldierDollItems.post();
+            HorseDollItems.post();
         }
 
-        @SubscribeEvent
-        public void registerItemColors(RegisterColorHandlersEvent.Item event){
-            /*
-            event.register(clayItemsColorProvider,
-                    SoldierDollItems.CLAY_SOLDIER.get(),
-                    SoldierDollItems.RED_SOLDIER.get(),
-                    SoldierDollItems.YELLOW_SOLDIER.get(),
-                    SoldierDollItems.GREEN_SOLDIER.get(),
-                    SoldierDollItems.BLUE_SOLDIER.get(),
-                    SoldierDollItems.ORANGE_SOLDIER.get(),
-                    SoldierDollItems.MAGENTA_SOLDIER.get(),
-                    SoldierDollItems.LIGHTBLUE_SOLDIER.get(),
-                    SoldierDollItems.LIME_SOLDIER.get(),
-                    SoldierDollItems.PINK_SOLDIER.get(),
-                    SoldierDollItems.CYAN_SOLDIER.get(),
-                    SoldierDollItems.PURPLE_SOLDIER.get(),
-                    SoldierDollItems.BROWN_SOLDIER.get(),
-                    SoldierDollItems.BLACK_SOLDIER.get(),
-                    SoldierDollItems.GRAY_SOLDIER.get(),
-                    SoldierDollItems.WHITE_SOLDIER.get());*/
+        @SubscribeEvent(priority = EventPriority.LOW)
+        public static void onRegisterAttributes(final EntityAttributeCreationEvent event)
+        {
+            // I'll get around to caching these with a list and using that but im tired now
+            event.put(SoldierDollEntities.CLAY_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.RED_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.YELLOW_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.GREEN_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.BLUE_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.ORANGE_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.MAGENTA_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.LIGHTBLUE_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.LIME_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.PINK_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.CYAN_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.PURPLE_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.BROWN_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.BLACK_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.GRAY_SOLDIER.get(), SoldierDollEntity.setAttributes());
+            event.put(SoldierDollEntities.WHITE_SOLDIER.get(), SoldierDollEntity.setAttributes());
+
+            event.put(HorseDollEntities.DIRT_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.GRASS_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.MYCELIUM_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.SNOW_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.SAND_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.GRAVEL_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.FULL_GRASS_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.FULL_SNOW_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.LAPIS_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.CARROT_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.CLAY_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.SOUL_SAND_HORSE.get(), HorseDollEntity.setAttributes());
+            event.put(HorseDollEntities.CAKE_HORSE.get(), HorseDollEntity.setAttributes());
+        }
+
+        @SubscribeEvent(priority = EventPriority.LOWEST)
+        public static void clientSetup(FMLClientSetupEvent event)
+        {
+            SoldierDollEntities.clientRegister();
+            HorseDollEntities.clientRegister();
         }
     }
 }

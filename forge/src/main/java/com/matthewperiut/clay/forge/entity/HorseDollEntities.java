@@ -1,13 +1,8 @@
 package com.matthewperiut.clay.forge.entity;
 
 import com.matthewperiut.clay.ClayMod;
-import com.matthewperiut.clay.entity.client.HorseDollRenderer;
-import com.matthewperiut.clay.entity.client.SoldierDollRenderer;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
-import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.EntityRenderers;
+import com.matthewperiut.clay.util.ClientInfoStorage;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
@@ -105,14 +100,7 @@ public class HorseDollEntities
 
     private static void registerHorse(EntityType<? extends HorseDollEntity> entityType, Identifier texture)
     {
-        EntityRendererFactory<HorseDollEntity> factory = new EntityRendererFactory<HorseDollEntity>() {
-            @Override
-            public EntityRenderer<HorseDollEntity> create(Context ctx) {
-                return new HorseDollRenderer(ctx, texture);
-            }
-        };
-
-        EntityRenderers.register(entityType, factory);
+        new ClientInfoStorage(entityType, texture, ClientInfoStorage.RendererType.horse.ordinal());
     }
 
     public static void register()

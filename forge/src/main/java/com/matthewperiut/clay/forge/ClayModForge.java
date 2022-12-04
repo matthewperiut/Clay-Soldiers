@@ -6,7 +6,10 @@ import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.forge.entity.ClayEntityTypes;
 import com.matthewperiut.clay.forge.entity.HorseDollEntities;
 import com.matthewperiut.clay.forge.entity.SoldierDollEntities;
-import com.matthewperiut.clay.forge.item.*;
+import com.matthewperiut.clay.forge.item.ClayItems;
+import com.matthewperiut.clay.forge.item.DisruptorItems;
+import com.matthewperiut.clay.forge.item.HorseDollItems;
+import com.matthewperiut.clay.forge.item.SoldierDollItems;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -18,7 +21,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import static com.matthewperiut.clay.ClayMod.MOD_ID;
-
 
 @Mod(MOD_ID)
 public class ClayModForge
@@ -46,11 +48,9 @@ public class ClayModForge
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ModSetup
-    {
+    public static class ModSetup {
         @SubscribeEvent
-        public static void commonSetup(FMLCommonSetupEvent event)
-        {
+        public static void commonSetup(FMLCommonSetupEvent event) {
             postEntity();
             DisruptorItems.post();
             SoldierDollItems.post();
@@ -58,8 +58,7 @@ public class ClayModForge
         }
 
         @SubscribeEvent(priority = EventPriority.LOW)
-        public static void onRegisterAttributes(final EntityAttributeCreationEvent event)
-        {
+        public static void onRegisterAttributes(final EntityAttributeCreationEvent event) {
             // I'll get around to caching these with a list and using that but im tired now
             event.put(SoldierDollEntities.CLAY_SOLDIER.get(), SoldierDollEntity.setAttributes());
             event.put(SoldierDollEntities.RED_SOLDIER.get(), SoldierDollEntity.setAttributes());
@@ -96,8 +95,7 @@ public class ClayModForge
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public static void clientSetup(FMLClientSetupEvent event)
         {
-            SoldierDollEntities.clientRegister();
-            HorseDollEntities.clientRegister();
+            ClayModClientForge.setupEntityRenderers();
         }
     }
 }

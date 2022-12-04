@@ -1,17 +1,12 @@
 package com.matthewperiut.clay.forge.entity;
 
 import com.matthewperiut.clay.ClayMod;
-import com.matthewperiut.clay.entity.client.SoldierDollRenderer;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.entity.soldier.variant.*;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.EntityRenderers;
-import net.minecraft.entity.EntityDimensions;
+import com.matthewperiut.clay.util.ClientInfoStorage;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.registries.RegistryObject;
 
 import static com.matthewperiut.clay.forge.entity.ClayEntityTypes.ENTITY_TYPES;
@@ -126,14 +121,7 @@ public class SoldierDollEntities
 
     private static void registerSoldier(EntityType<? extends SoldierDollEntity> soldierType, Identifier texture)
     {
-        EntityRendererFactory<SoldierDollEntity> factory = new EntityRendererFactory<SoldierDollEntity>() {
-            @Override
-            public EntityRenderer<SoldierDollEntity> create(Context ctx) {
-                return new SoldierDollRenderer(ctx, texture);
-            }
-        };
-
-        EntityRenderers.register(soldierType, factory);
+        new ClientInfoStorage(soldierType, texture, ClientInfoStorage.RendererType.soldier.ordinal());
     }
     public static void register()
     {

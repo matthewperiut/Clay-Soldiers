@@ -21,6 +21,9 @@
   "entrypoints": {
     "main": [
       "com.matthewperiut.clay.fabric.ClayModFabric"
+    ],
+    "client": [
+      "com.matthewperiut.clay.fabric.ClayModClientFabric"
     ]
   },
   "depends": {

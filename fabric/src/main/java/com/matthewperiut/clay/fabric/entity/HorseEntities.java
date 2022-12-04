@@ -1,10 +1,8 @@
 package com.matthewperiut.clay.fabric.entity;
 
 import com.matthewperiut.clay.ClayMod;
-import com.matthewperiut.clay.entity.client.HorseDollModel;
-import com.matthewperiut.clay.entity.client.HorseDollRenderer;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import com.matthewperiut.clay.util.ClientInfoStorage;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -91,6 +89,7 @@ public class HorseEntities
     private static void registerHorse(EntityType<? extends HorseDollEntity> entityType, Identifier textureID)
     {
         FabricDefaultAttributeRegistry.register(entityType, HorseDollEntity.setAttributes());
-        EntityRendererRegistry.register(entityType, (context) -> { return new HorseDollRenderer(context, new HorseDollModel(textureID), textureID); });
+        new ClientInfoStorage(entityType, textureID, ClientInfoStorage.RendererType.horse.ordinal());
+        //EntityRendererRegistry.register(entityType, (context) -> { return new HorseDollRenderer(context, new HorseDollModel(textureID), textureID); });
     }
 }

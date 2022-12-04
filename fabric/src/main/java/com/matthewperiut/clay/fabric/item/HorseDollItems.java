@@ -2,9 +2,9 @@ package com.matthewperiut.clay.fabric.item;
 
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
+import com.matthewperiut.clay.util.ClientInfoStorage;
 import com.matthewperiut.clay.fabric.entity.HorseEntities;
 import com.matthewperiut.clay.item.horse.HorseDollItem;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.EntityType;
@@ -40,7 +40,8 @@ public class HorseDollItems
     {
         HorseDollItem item = registerHorseDollItem(name, entity);
         DispenserBlock.registerBehavior(item, SoldierDollItems.dollDispenserBehavior);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> color, item);
+        new ClientInfoStorage(item, color);
+        //ColorProviderRegistry.ITEM.register((stack, tintIndex) -> color, item);
         return item;
     }
 

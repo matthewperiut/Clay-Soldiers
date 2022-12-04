@@ -1,11 +1,9 @@
 package com.matthewperiut.clay.fabric.entity;
 
 import com.matthewperiut.clay.ClayMod;
-import com.matthewperiut.clay.entity.client.SoldierDollModel;
-import com.matthewperiut.clay.entity.client.SoldierDollRenderer;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.entity.soldier.variant.*;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import com.matthewperiut.clay.util.ClientInfoStorage;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -107,6 +105,7 @@ public class SoldierEntities
     private static void registerSoldier(EntityType<? extends SoldierDollEntity> entityType, Identifier textureID)
     {
         FabricDefaultAttributeRegistry.register(entityType, RegularSoldierDoll.setAttributes());
-        EntityRendererRegistry.register(entityType, (context) -> { return new SoldierDollRenderer(context, new SoldierDollModel(textureID), textureID); });
+        new ClientInfoStorage(entityType, textureID, ClientInfoStorage.RendererType.soldier.ordinal());
+        //EntityRendererRegistry.register(entityType, (context) -> { return new SoldierDollRenderer(context, new SoldierDollModel(textureID), textureID); });
     }
 }

@@ -2,10 +2,10 @@ package com.matthewperiut.clay.fabric.item;
 
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
+import com.matthewperiut.clay.util.ClientInfoStorage;
 import com.matthewperiut.clay.fabric.entity.SoldierEntities;
 import com.matthewperiut.clay.item.common.DollDispenserBehavior;
 import com.matthewperiut.clay.item.soldier.SoldierDollItem;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.DispenserBehavior;
@@ -42,7 +42,8 @@ public class SoldierDollItems
     {
         Item item = Registry.register(Registry.ITEM, new Identifier(ClayMod.MOD_ID, name), new SoldierDollItem(entity, new FabricItemSettings().maxCount(16).group(ClayItemGroup.CLAY_GROUP)));
         DispenserBlock.registerBehavior(item, dollDispenserBehavior);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> color, item);
+        new ClientInfoStorage(item, color);
+        //ColorProviderRegistry.ITEM.register((stack, tintIndex) -> color, item);
         return item;
     }
     public static void register()

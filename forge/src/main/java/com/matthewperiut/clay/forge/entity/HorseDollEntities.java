@@ -2,6 +2,7 @@ package com.matthewperiut.clay.forge.entity;
 
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
+import com.matthewperiut.clay.entity.soldier.variant.RegularSoldierDoll;
 import com.matthewperiut.clay.util.ClientInfoStorage;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -106,5 +107,59 @@ public class HorseDollEntities
     public static void register()
     {
 
+    }
+
+    // Suppliers
+    public static EntityType<HorseDollEntity> getDirtHorse()
+    {
+        return DIRT_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getGrassHorse()
+    {
+        return GRASS_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getMyceliumHorse()
+    {
+        return MYCELIUM_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getSnowHorse()
+    {
+        return SNOW_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getSandHorse()
+    {
+        return SAND_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getGravelHorse()
+    {
+        return GRAVEL_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getFullGrassHorse()
+    {
+        return FULL_GRASS_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getFullSnowHorse()
+    {
+        return FULL_SNOW_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getLapisHorse()
+    {
+        return LAPIS_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getCarrotHorse()
+    {
+        return CARROT_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getClayHorse()
+    {
+        return CLAY_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getSoulSandHorse()
+    {
+        return SOUL_SAND_HORSE.get();
+    }
+    public static EntityType<HorseDollEntity> getCakeHorse()
+    {
+        return CAKE_HORSE.get();
     }
 }

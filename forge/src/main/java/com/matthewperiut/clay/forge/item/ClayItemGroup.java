@@ -1,6 +1,7 @@
 package com.matthewperiut.clay.forge.item;
 
 import com.matthewperiut.clay.ClayMod;
+import com.matthewperiut.clay.forge.entity.SoldierDollEntities;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;

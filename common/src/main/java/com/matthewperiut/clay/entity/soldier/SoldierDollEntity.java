@@ -72,10 +72,11 @@ public class SoldierDollEntity extends PathAwareEntity implements IAnimatable, I
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.clay_soldier.run"));
             return PlayState.CONTINUE;
         }
-
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.clay_soldier.idle"));
-
-        return PlayState.CONTINUE;
+        else
+        {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.clay_soldier.idle"));
+            return PlayState.CONTINUE;
+        }
     }
 
     private PlayState attackPredicate(AnimationEvent event)
@@ -86,8 +87,6 @@ public class SoldierDollEntity extends PathAwareEntity implements IAnimatable, I
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.clay_soldier.attack"));
             this.handSwinging = false;
         }
-
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.clay_soldier.idle"));
         return PlayState.CONTINUE;
     }
 

@@ -127,4 +127,70 @@ public class SoldierDollEntities
     {
 
     }
+
+    // Suppliers
+    public static EntityType<?> getClaySoldier()
+    {
+        return CLAY_SOLDIER.get();
+    }
+    public static EntityType<?> getRedSoldier()
+    {
+        return RED_SOLDIER.get();
+    }
+    public static EntityType<?> getYellowSoldier()
+    {
+        return YELLOW_SOLDIER.get();
+    }
+    public static EntityType<?> getGreenSoldier()
+    {
+        return GREEN_SOLDIER.get();
+    }
+    public static EntityType<BlueSoldierDoll> getBlueSoldier()
+    {
+        return BLUE_SOLDIER.get();
+    }
+    public static EntityType<OrangeSoldierDoll> getOrangeSoldier()
+    {
+        return ORANGE_SOLDIER.get();
+    }
+    public static EntityType<MagentaSoldierDoll> getMagentaSoldier()
+    {
+        return MAGENTA_SOLDIER.get();
+    }
+    public static EntityType<LightblueSoldierDoll> getLightBlueSoldier()
+    {
+        return LIGHTBLUE_SOLDIER.get();
+    }
+    public static EntityType<LimeSoldierDoll> getLimeSoldier()
+    {
+        return LIME_SOLDIER.get();
+    }
+    public static EntityType<PinkSoldierDoll> getPinkSoldier()
+    {
+        return PINK_SOLDIER.get();
+    }
+    public static EntityType<CyanSoldierDoll> getCyanSoldier()
+    {
+        return CYAN_SOLDIER.get();
+    }
+    public static EntityType<PurpleSoldierDoll> getPurpleSoldier()
+    {
+        return PURPLE_SOLDIER.get();
+    }
+    public static EntityType<BrownSoldierDoll> getBrownSoldier()
+    {
+        return BROWN_SOLDIER.get();
+    }
+    public static EntityType<BlackSoldierDoll> getBlackSoldier()
+    {
+        return BLACK_SOLDIER.get();
+    }
+    public static EntityType<GraySoldierDoll> getGraySoldier()
+    {
+        return GRAY_SOLDIER.get();
+    }
+    public static EntityType<WhiteSoldierDoll> getWhiteSoldier()
+    {
+        return WHITE_SOLDIER.get();
+    }
 }

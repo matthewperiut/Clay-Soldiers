@@ -1,6 +1,8 @@
 package com.matthewperiut.clay.forge.item;
 
 import com.matthewperiut.clay.ClayMod;
+import com.matthewperiut.clay.forge.entity.HorseDollEntities;
+import com.matthewperiut.clay.forge.entity.SoldierDollEntities;
 import net.minecraft.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

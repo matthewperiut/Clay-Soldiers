@@ -31,14 +31,17 @@ public class HorseDollEntity extends PathAwareEntity implements IAnimatable, IAn
         super(entityType, world);
     }
 
-    public static DefaultAttributeContainer setAttributes()
+    public static DefaultAttributeContainer.Builder setAttributesBuilder()
     {
         return PathAwareEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0f)
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.8f)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.32f)
-                .build();
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.32f);
+    }
+    public static DefaultAttributeContainer setAttributes()
+    {
+        return setAttributesBuilder().build();
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)

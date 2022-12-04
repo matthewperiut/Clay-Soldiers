@@ -1,5 +1,6 @@
 package com.matthewperiut.clay.item.disruptor;
 
+import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import net.minecraft.client.item.TooltipContext;
@@ -12,6 +13,7 @@ import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -62,7 +64,7 @@ public class DisruptorItem extends ToolItem
         {
             if (!unlimited)
             {
-                if (stack.damage(1, world.getRandom(), (ServerPlayerEntity)null))
+                if (stack.method_7970(1, ClayMod.random, (ServerPlayerEntity)null))
                 {
                     return true;
                 }
@@ -96,7 +98,7 @@ public class DisruptorItem extends ToolItem
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.translatable("item.clay.disruptor.range").formatted(Formatting.GRAY));
+        tooltip.add(new TranslatableTextContent("item.clay.disruptor.range").formatted(Formatting.GRAY));
         super.appendTooltip(stack, world, tooltip, context);
     }
 }

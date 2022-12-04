@@ -1,5 +1,6 @@
 package com.matthewperiut.clay.item.common;
 
+import com.matthewperiut.clay.ClayMod;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -69,7 +70,7 @@ public class SpawnDollItem extends Item
                 if (entityType2.spawnFromItemStack((ServerWorld)world, itemStack, context.getPlayer(), blockPos2, SpawnReason.SPAWN_EGG, false, !Objects.equals(blockPos, blockPos2) && direction == Direction.UP) != null)
                 {
                     itemStack.decrement(1);
-                    world.emitGameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
+                    //world.emitGameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
                     world.playSound(context.getPlayer(), blockPos, SoundEvents.BLOCK_GRAVEL_BREAK, SoundCategory.BLOCKS, 1.f, 1.f);
                 }
             }
@@ -95,7 +96,7 @@ public class SpawnDollItem extends Item
         if (types.size() == 1)
             return types.get(0);
 
-        int selected = Random.createLocal().nextBetween(0, types.size()-1);
+        int selected = ClayMod.random.nextInt(0, types.size()-1);
         return types.get(selected);
     }
 }

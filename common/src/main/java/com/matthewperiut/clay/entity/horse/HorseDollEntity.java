@@ -24,7 +24,7 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 
 public class HorseDollEntity extends PathAwareEntity implements IAnimatable, IAnimationTickable
 {
-    private AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private AnimationFactory factory = new AnimationFactory(this);
 
     public HorseDollEntity(EntityType<? extends PathAwareEntity> entityType, World world)
     {

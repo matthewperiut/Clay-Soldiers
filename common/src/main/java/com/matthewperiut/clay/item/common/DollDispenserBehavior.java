@@ -38,7 +38,7 @@ public class DollDispenserBehavior implements DispenserBehavior
             if (e != null)
             {
                 world.playSound((PlayerEntity)null, pos, SoundEvents.BLOCK_GRAVEL_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                world.emitGameEvent(GameEvent.ENTITY_PLACE, spawnPos, GameEvent.Emitter.of(e));
+                //world.emitGameEvent(GameEvent.ENTITY_PLACE, spawnPos, GameEvent.Emitter.of(e));
                 stack.setCount(stack.getCount()-1);
             }
         }

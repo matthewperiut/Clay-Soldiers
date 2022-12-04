@@ -16,21 +16,20 @@ public class SoldierDollModel extends AnimatedGeoModel<SoldierDollEntity>
     {
         this.texture_id = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
     }
+
     @Override
-    public Identifier getModelResource(SoldierDollEntity object)
-    {
+    public Identifier getModelLocation(SoldierDollEntity object) {
         return new Identifier(ClayMod.MOD_ID, "geo/clay_soldier.geo.json");
     }
 
     @Override
-    public Identifier getTextureResource(SoldierDollEntity object)
-    {
+    public Identifier getTextureLocation(SoldierDollEntity object) {
         return texture_id;
     }
 
+
     @Override
-    public Identifier getAnimationResource(SoldierDollEntity animatable)
-    {
+    public Identifier getAnimationFileLocation(SoldierDollEntity animatable) {
         return new Identifier(ClayMod.MOD_ID, "animations/clay_soldier.animation.json");
     }
 }

@@ -88,7 +88,7 @@ public class HorseEntities
 
     private static void registerHorse(EntityType<? extends HorseDollEntity> entityType, Identifier textureID)
     {
-        FabricDefaultAttributeRegistry.register(entityType, HorseDollEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(entityType, HorseDollEntity.setAttributesBuilder());
         new ClientInfoStorage(entityType, textureID, ClientInfoStorage.RendererType.horse.ordinal());
         //EntityRendererRegistry.register(entityType, (context) -> { return new HorseDollRenderer(context, new HorseDollModel(textureID), textureID); });
     }

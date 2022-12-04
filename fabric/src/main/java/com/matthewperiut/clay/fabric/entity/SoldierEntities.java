@@ -104,7 +104,7 @@ public class SoldierEntities
 
     private static void registerSoldier(EntityType<? extends SoldierDollEntity> entityType, Identifier textureID)
     {
-        FabricDefaultAttributeRegistry.register(entityType, RegularSoldierDoll.setAttributes());
+        FabricDefaultAttributeRegistry.register(entityType, RegularSoldierDoll.setAttributesBuilder());
         new ClientInfoStorage(entityType, textureID, ClientInfoStorage.RendererType.soldier.ordinal());
         //EntityRendererRegistry.register(entityType, (context) -> { return new SoldierDollRenderer(context, new SoldierDollModel(textureID), textureID); });
     }

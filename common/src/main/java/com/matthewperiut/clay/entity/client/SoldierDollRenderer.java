@@ -24,7 +24,7 @@ public class SoldierDollRenderer extends GeoEntityRenderer<SoldierDollEntity>
     }
 
     @Override
-    public Identifier getTextureResource(SoldierDollEntity animatable)
+    public Identifier getTextureLocation(SoldierDollEntity animatable)
     {
         return texture_id;
     }

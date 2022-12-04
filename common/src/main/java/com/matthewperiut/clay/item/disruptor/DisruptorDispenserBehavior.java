@@ -1,5 +1,6 @@
 package com.matthewperiut.clay.item.disruptor;
 
+import com.matthewperiut.clay.ClayMod;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.item.Item;
@@ -28,7 +29,8 @@ public class DisruptorDispenserBehavior extends FallibleItemDispenserBehavior
                 {
                     if (!disruptor.unlimited)
                     {
-                        if (stack.damage(1, world.getRandom(), (ServerPlayerEntity)null))
+                        // stack.method_7970 = damage
+                        if (stack.method_7970(1, ClayMod.random, (ServerPlayerEntity)null))
                         {
                             stack.setCount(0);
                         }

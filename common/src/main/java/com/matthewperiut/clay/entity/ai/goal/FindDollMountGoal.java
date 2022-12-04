@@ -1,5 +1,6 @@
 package com.matthewperiut.clay.entity.ai.goal;
 
+import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import net.minecraft.entity.Entity;
@@ -49,7 +50,7 @@ public class FindDollMountGoal extends Goal
         HorseDollEntity chosen = null;
         for (HorseDollEntity horse : horses)
         {
-            if (this.mob.getRandom().nextFloat() < 0.33F)
+            if (ClayMod.random.nextFloat() < 0.33F)
             {
                 return horse;
             }
@@ -163,12 +164,12 @@ public class FindDollMountGoal extends Goal
             this.mob.getLookControl().lookAt(goalMob, 30.0F, 30.0F);
             double d = this.mob.squaredDistanceTo(goalMob.getX(), goalMob.getY(), goalMob.getZ());
 
-            if (this.mob.getRandom().nextFloat() < 0.25F)
+            if (ClayMod.random.nextFloat() < 0.25F)
             {
                 this.mob.getNavigation().startMovingTo(goalMob, this.speed);
             }
 
-            if (this.mob.getRandom().nextFloat() < 0.05f)
+            if (ClayMod.random.nextFloat() < 0.05f)
             {
                 this.mob.horseTarget = getGoal();
                 return;

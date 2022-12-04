@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[43,)"
+loaderVersion = "[40,)"
 #issueTrackerURL = "https://github.com/matthewperiut/clay-soldiers/"
 license = "MIT"
 
@@ -16,20 +16,20 @@ This adds clay soldiers that attack for you!
 [[dependencies.clay]]
 modId = "forge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "[40,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.clay]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.2,)"
+versionRange = "[1.18.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.clay]]
 modId = "geckolib3"
 mandatory = true
-versionRange = "[3.1.21,)"
+versionRange = "[3.0.35,)"
 ordering = "NONE"
 side = "BOTH"

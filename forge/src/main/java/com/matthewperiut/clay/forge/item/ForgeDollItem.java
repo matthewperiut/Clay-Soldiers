@@ -19,8 +19,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
-//1.18 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.ColorHandlerEvent;
+//1.19 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -138,7 +138,6 @@ public class ForgeDollItem extends Item {
     @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ClayMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
     private static class ColorRegisterHandler
     {
-        /* 1.18
         @SubscribeEvent(priority = EventPriority.HIGHEST)
         public static void registerItemColors(ColorHandlerEvent.Item event)
         {
@@ -146,7 +145,8 @@ public class ForgeDollItem extends Item {
             {
                 event.getItemColors().register((stack, tintIndex) -> doll.color, doll);
             }
-        }*/
+        }
+        /*1.19
         @SubscribeEvent(priority = EventPriority.HIGHEST)
         public static void registerItemColors(RegisterColorHandlersEvent.Item event)
         {
@@ -155,5 +155,6 @@ public class ForgeDollItem extends Item {
                 event.register((stack, tintIndex) -> doll.color, doll);
             }
         }
+         */
     }
 }

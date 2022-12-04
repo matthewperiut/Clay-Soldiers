@@ -14,20 +14,18 @@ public class HorseDollModel extends AnimatedGeoModel<HorseDollEntity>
     }
 
     @Override
-    public Identifier getModelResource(HorseDollEntity object)
+    public Identifier getModelLocation(HorseDollEntity object)
     {
         return new Identifier(ClayMod.MOD_ID, "geo/doll_horse.geo.json");
     }
 
     @Override
-    public Identifier getTextureResource(HorseDollEntity object)
-    {
+    public Identifier getTextureLocation(HorseDollEntity object) {
         return texture_id;
     }
 
     @Override
-    public Identifier getAnimationResource(HorseDollEntity animatable)
-    {
+    public Identifier getAnimationFileLocation(HorseDollEntity animatable) {
         return new Identifier(ClayMod.MOD_ID, "animations/doll_horse.animation.json");
     }
 }

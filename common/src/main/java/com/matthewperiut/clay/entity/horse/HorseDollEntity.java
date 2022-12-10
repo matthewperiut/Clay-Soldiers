@@ -12,19 +12,18 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class HorseDollEntity extends PathAwareEntity implements IAnimatable, IAnimationTickable
+public class HorseDollEntity extends PathAwareEntity implements GeoAnimatable
 {
-    private AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     public HorseDollEntity(EntityType<? extends PathAwareEntity> entityType, World world)
     {
@@ -44,29 +43,29 @@ public class HorseDollEntity extends PathAwareEntity implements IAnimatable, IAn
         return setAttributesBuilder().build();
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
+    private <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event)
     {
         if (event.isMoving())
         {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.doll_horse.run"));
+            event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.doll_horse.run"));
             return PlayState.CONTINUE;
         }
 
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.doll_horse.idle"));
+        event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.doll_horse.idle"));
 
         return PlayState.CONTINUE;
     }
 
     @Override
-    public void registerControllers(AnimationData animationData)
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar)
     {
-        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
     }
 
     @Override
-    public AnimationFactory getFactory()
+    public AnimatableInstanceCache getAnimatableInstanceCache()
     {
-        return this.factory;
+        return factory;
     }
 
     @Override
@@ -81,18 +80,20 @@ public class HorseDollEntity extends PathAwareEntity implements IAnimatable, IAn
     }
 
     @Override
-    public int tickTimer()
+    public double getTick(Object o)
     {
         return age;
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource src) {
+    protected SoundEvent getHurtSound(DamageSource src)
+    {
         return SoundEvents.BLOCK_GRAVEL_BREAK;
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    protected SoundEvent getDeathSound()
+    {
         return SoundEvents.BLOCK_GRAVEL_STEP;
     }
 
@@ -106,7 +107,8 @@ public class HorseDollEntity extends PathAwareEntity implements IAnimatable, IAn
 
     boolean dropBrick = false;
     @Override
-    protected Identifier getLootTableId() {
+    protected Identifier getLootTableId()
+    {
         if (dropBrick)
             return new Identifier("clay:entities/horse/brick");
         return super.getLootTableId();

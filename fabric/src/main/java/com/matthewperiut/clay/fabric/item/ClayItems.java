@@ -1,15 +1,19 @@
 package com.matthewperiut.clay.fabric.item;
 
 import com.matthewperiut.clay.ClayMod;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ClayItems
 {
-    public static Item registerItem(String name, Item item)
+    public static Item registerMiscItem(String name, Item item)
     {
-        return Registry.register(Registry.ITEM, new Identifier(ClayMod.MOD_ID, name), item);
+        Item final_item = Registry.register(Registries.ITEM, new Identifier(ClayMod.MOD_ID, name), item);
+        ItemGroupEvents.modifyEntriesEvent(ClayItemGroup.CLAY_MISC_GROUP).register(entries -> entries.add(final_item));
+        return final_item;
     }
 
     public static void registerItems()

@@ -25,6 +25,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import java.util.function.Supplier;
 public class ForgeDollItem extends Item {
     public static final DispenserBehavior dollDispenserBehavior = new DollDispenserBehavior();
     private static final List<ForgeDollItem> colored_dolls = new ArrayList<>();
-    private static final List<ForgeDollItem> dolls = new ArrayList<>();
+    public static final List<ForgeDollItem> dolls = new ArrayList<>();
     int color;
     public ArrayList<Supplier<EntityType<?>>> types;
 

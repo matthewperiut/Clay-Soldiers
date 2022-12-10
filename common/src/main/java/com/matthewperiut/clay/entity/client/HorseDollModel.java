@@ -3,9 +3,9 @@ package com.matthewperiut.clay.entity.client;
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 
-public class HorseDollModel extends AnimatedGeoModel<HorseDollEntity>
+public class HorseDollModel extends GeoModel<HorseDollEntity>
 {
     Identifier texture_id;
     public HorseDollModel(Identifier texture_id)

@@ -2,6 +2,7 @@ package com.matthewperiut.clay.forge.item;
 
 import com.matthewperiut.clay.forge.entity.HorseDollEntities;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.registries.RegistryObject;
 
 import static com.matthewperiut.clay.forge.item.ClayItems.ITEMS;
@@ -10,7 +11,7 @@ import static com.matthewperiut.clay.forge.item.SoldierDollItems.settings;
 public class HorseDollItems
 {
     public static final RegistryObject<Item> BRICK_HORSE = ITEMS.register("horse/brick",
-            () -> new Item(new Item.Settings().fireproof().maxCount(16).group(ClayItemGroup.CLAY_MISC_GROUP)));
+            () -> new Item(new Item.Settings().fireproof().maxCount(16)));
 
     public static final RegistryObject<Item> DIRT_HORSE =
             ITEMS.register("horse/dirt", () -> new ForgeDollItem(HorseDollEntities::getDirtHorse, settings(), 0x593A35));
@@ -35,12 +36,11 @@ public class HorseDollItems
 
     public static void register()
     {
-
+        //ClayItemGroup.items.add(new ItemStack(BRICK_HORSE.get(), 1));
     }
 
     public static void post()
     {
-
         ((ForgeDollItem) DIRT_HORSE.get()).types.add(HorseDollEntities::getGrassHorse);
         ((ForgeDollItem) DIRT_HORSE.get()).types.add(HorseDollEntities::getMyceliumHorse);
         ((ForgeDollItem) DIRT_HORSE.get()).types.add(HorseDollEntities::getSnowHorse);

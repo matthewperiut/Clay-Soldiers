@@ -2,6 +2,7 @@ package com.matthewperiut.clay.forge.item;
 
 import com.matthewperiut.clay.forge.entity.SoldierDollEntities;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.registries.RegistryObject;
 
 import static com.matthewperiut.clay.forge.item.ClayItems.ITEMS;
@@ -9,7 +10,7 @@ import static com.matthewperiut.clay.forge.item.ClayItems.ITEMS;
 public class SoldierDollItems
 {
     public static final RegistryObject<Item> BRICK_SOLDIER = ITEMS.register("soldier/brick",
-            () -> new Item(new Item.Settings().fireproof().maxCount(16).group(ClayItemGroup.CLAY_MISC_GROUP)));
+            () -> new Item(new Item.Settings().fireproof().maxCount(16)));
 
     public static final RegistryObject<Item> CLAY_SOLDIER =
             ITEMS.register("soldier/clay", () -> new ForgeDollItem(SoldierDollEntities::getClaySoldier, settings(), 0xAFB5C6));
@@ -46,11 +47,13 @@ public class SoldierDollItems
 
     public static Item.Settings settings()
     {
-        return new Item.Settings().maxCount(16).group(ClayItemGroup.CLAY_GROUP);
+        return new Item.Settings().maxCount(16);
     }
 
     public static void register()
     {
+        //ClayItemGroup.items.add(new ItemStack(BRICK_SOLDIER.get(), 1));
+
 
     }
 

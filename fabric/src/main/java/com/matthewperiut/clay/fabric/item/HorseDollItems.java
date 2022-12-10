@@ -6,17 +6,19 @@ import com.matthewperiut.clay.util.ClientInfoStorage;
 import com.matthewperiut.clay.fabric.entity.HorseEntities;
 import com.matthewperiut.clay.item.horse.HorseDollItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
-import static com.matthewperiut.clay.fabric.item.ClayItems.registerItem;
+import static com.matthewperiut.clay.fabric.item.ClayItems.registerMiscItem;
 
 public class HorseDollItems
 {
-    public static final Item BRICK_HORSE = registerItem("horse/brick", new Item(new FabricItemSettings().fireproof().maxCount(16).group(ClayItemGroup.CLAY_MISC_GROUP)));
+    public static final Item BRICK_HORSE = registerMiscItem("horse/brick", new Item(new FabricItemSettings().fireproof().maxCount(16)));
 
     public static final HorseDollItem DIRT_HORSE = registerHorseDollItem("horse/dirt", HorseEntities.DIRT_HORSE, 0x593A35);
     public static final HorseDollItem SAND_HORSE = registerHorseDollItem("horse/sand", HorseEntities.SAND_HORSE);
@@ -47,7 +49,8 @@ public class HorseDollItems
 
     public static HorseDollItem registerHorseDollItem(String name, EntityType<? extends HorseDollEntity> entity)
     {
-        HorseDollItem item = Registry.register(Registry.ITEM, new Identifier(ClayMod.MOD_ID, name), new HorseDollItem(entity, new FabricItemSettings().maxCount(16).group(ClayItemGroup.CLAY_GROUP)));
+        HorseDollItem item = Registry.register(Registries.ITEM, new Identifier(ClayMod.MOD_ID, name), new HorseDollItem(entity, new FabricItemSettings().maxCount(16)));
+        ItemGroupEvents.modifyEntriesEvent(ClayItemGroup.CLAY_GROUP).register(entries -> entries.add(item));
         return item;
     }
 }

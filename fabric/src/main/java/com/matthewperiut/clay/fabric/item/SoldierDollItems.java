@@ -2,24 +2,26 @@ package com.matthewperiut.clay.fabric.item;
 
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
-import com.matthewperiut.clay.util.ClientInfoStorage;
 import com.matthewperiut.clay.fabric.entity.SoldierEntities;
 import com.matthewperiut.clay.item.common.DollDispenserBehavior;
 import com.matthewperiut.clay.item.soldier.SoldierDollItem;
+import com.matthewperiut.clay.util.ClientInfoStorage;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.DispenserBehavior;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
-import static com.matthewperiut.clay.fabric.item.ClayItems.registerItem;
+import static com.matthewperiut.clay.fabric.item.ClayItems.registerMiscItem;
 
 public class SoldierDollItems
 {
     public static final DispenserBehavior dollDispenserBehavior = new DollDispenserBehavior();
-    public static final Item BRICK_SOLDIER = registerItem("soldier/brick", new Item(new FabricItemSettings().fireproof().maxCount(16).group(ClayItemGroup.CLAY_MISC_GROUP)));
+    public static final Item BRICK_SOLDIER = registerMiscItem("soldier/brick", new Item(new FabricItemSettings().fireproof().maxCount(16)));
 
     public static final Item CLAY_SOLDIER = registerClaySoldierItem("soldier/clay", SoldierEntities.CLAY_SOLDIER, 0xAFB5C6);
     public static final Item RED_SOLDIER = registerClaySoldierItem("soldier/red", SoldierEntities.RED_SOLDIER, 0xF54E42);
@@ -40,10 +42,10 @@ public class SoldierDollItems
 
     public static Item registerClaySoldierItem(String name, EntityType<? extends SoldierDollEntity> entity, int color)
     {
-        Item item = Registry.register(Registry.ITEM, new Identifier(ClayMod.MOD_ID, name), new SoldierDollItem(entity, new FabricItemSettings().maxCount(16).group(ClayItemGroup.CLAY_GROUP)));
+        Item item = Registry.register(Registries.ITEM, new Identifier(ClayMod.MOD_ID, name), new SoldierDollItem(entity, new FabricItemSettings().maxCount(16)));
+        ItemGroupEvents.modifyEntriesEvent(ClayItemGroup.CLAY_GROUP).register(entries -> entries.add(item));
         DispenserBlock.registerBehavior(item, dollDispenserBehavior);
         new ClientInfoStorage(item, color);
-        //ColorProviderRegistry.ITEM.register((stack, tintIndex) -> color, item);
         return item;
     }
     public static void register()

@@ -22,25 +22,24 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Objects;
 
 import static com.matthewperiut.clay.entity.soldier.Targets.AddTargets;
 
-public class SoldierDollEntity extends PathAwareEntity implements IAnimatable, IAnimationTickable
+public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
 {
     public HorseDollEntity horseTarget;
     public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
-    private AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private boolean isAnimating = false;
 
     public boolean hasWeapon = true;
@@ -60,55 +59,56 @@ public class SoldierDollEntity extends PathAwareEntity implements IAnimatable, I
                 .build();
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
+    private <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event)
     {
         if (this.hasVehicle())
         {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.clay_soldier.ride"));
+            event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.ride"));
             return PlayState.CONTINUE;
         }
         if (event.isMoving())
         {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.clay_soldier.run"));
+            event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.run"));
             return PlayState.CONTINUE;
         }
         else
         {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.clay_soldier.idle"));
+            event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.idle"));
             return PlayState.CONTINUE;
         }
     }
 
-    private PlayState attackPredicate(AnimationEvent event)
+    private PlayState attackPredicate(AnimationState event)
     {
         if (this.handSwinging)
         {
-            event.getController().markNeedsReload();
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.clay_soldier.attack"));
+            event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.attack"));
             this.handSwinging = false;
         }
         return PlayState.CONTINUE;
     }
 
     @Override
-    public ActionResult interactAt(PlayerEntity player, Vec3d hitPos, Hand hand) {
-        if (hand == Hand.MAIN_HAND) {
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar)
+    {
+        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController(this, "attackController", 0, this::attackPredicate));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache()
+    {
+        return animationCache;
+    }
+
+    @Override
+    public ActionResult interactAt(PlayerEntity player, Vec3d hitPos, Hand hand)
+    {
+        if (hand == Hand.MAIN_HAND)
+        {
             this.isAnimating = !this.isAnimating;
         }
         return super.interactAt(player, hitPos, hand);
-    }
-
-    @Override
-    public void registerControllers(AnimationData animationData)
-    {
-        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
-        animationData.addAnimationController(new AnimationController(this, "attackController", 0, this::attackPredicate));
-    }
-
-    @Override
-    public AnimationFactory getFactory()
-    {
-        return this.factory;
     }
 
     protected void selectTargets()
@@ -117,7 +117,8 @@ public class SoldierDollEntity extends PathAwareEntity implements IAnimatable, I
     }
 
     @Override
-    protected void initGoals() {
+    protected void initGoals()
+    {
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(5, new LookAroundGoal(this));
         this.goalSelector.add(4, new WanderAroundFarGoal(this, 1, 1));
@@ -131,7 +132,8 @@ public class SoldierDollEntity extends PathAwareEntity implements IAnimatable, I
     }
 
     @Override
-    public int tickTimer() {
+    public double getTick(Object o)
+    {
         return age;
     }
 
@@ -147,25 +149,28 @@ public class SoldierDollEntity extends PathAwareEntity implements IAnimatable, I
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource src) {
+    protected SoundEvent getHurtSound(DamageSource src)
+    {
         return SoundEvents.BLOCK_GRAVEL_BREAK;
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    protected SoundEvent getDeathSound()
+    {
         return SoundEvents.BLOCK_GRAVEL_STEP;
     }
 
     @Override
-    public void onPlayerCollision(PlayerEntity player) {
+    public void onPlayerCollision(PlayerEntity player)
+    {
         //this.setStackInHand(Hand.MAIN_HAND, new ItemStack(Items.SHEARS, 1));
         super.onPlayerCollision(player);
     }
 
-
     boolean dropBrick = false;
     @Override
-    protected Identifier getLootTableId() {
+    protected Identifier getLootTableId()
+    {
         if (dropBrick)
             return new Identifier("clay:entities/soldier/brick");
         return super.getLootTableId();
@@ -176,7 +181,7 @@ public class SoldierDollEntity extends PathAwareEntity implements IAnimatable, I
     {
         if (this.hasVehicle())
             Objects.requireNonNull(this.getVehicle()).kill();
-        if(damageSource.isFire())
+        if (damageSource.isFire())
             dropBrick = true;
         super.onDeath(damageSource);
     }

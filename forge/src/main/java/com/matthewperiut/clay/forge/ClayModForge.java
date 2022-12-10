@@ -6,10 +6,7 @@ import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.forge.entity.ClayEntityTypes;
 import com.matthewperiut.clay.forge.entity.HorseDollEntities;
 import com.matthewperiut.clay.forge.entity.SoldierDollEntities;
-import com.matthewperiut.clay.forge.item.ClayItems;
-import com.matthewperiut.clay.forge.item.DisruptorItems;
-import com.matthewperiut.clay.forge.item.HorseDollItems;
-import com.matthewperiut.clay.forge.item.SoldierDollItems;
+import com.matthewperiut.clay.forge.item.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -34,6 +31,7 @@ public class ClayModForge
         ClayItems.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(EventPriority.LOWEST, ClayItemGroup::registerCreativeModeTab);
         MinecraftForge.EVENT_BUS.register(this);
     }
 

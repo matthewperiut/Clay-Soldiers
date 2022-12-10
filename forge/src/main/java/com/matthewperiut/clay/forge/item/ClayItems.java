@@ -15,7 +15,8 @@ public class ClayItems
 
     public static RegistryObject<Item> registerItem(String name, Item item)
     {
-        return ITEMS.register(name, () -> new Item(new Item.Settings().maxCount(1).group(ClayItemGroup.CLAY_GROUP)));
+        // TODO itemgroup
+        return ITEMS.register(name, () -> new Item(new Item.Settings().maxCount(1)));
     }
 
     public static void register(IEventBus eventBus)

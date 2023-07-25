@@ -1,83 +1,143 @@
 {
-	"format_version": "1.8.0",
-	"animations": {
-		"animation.doll_horse.idle": {
-			"loop": true,
-			"animation_length": 2,
-			"bones": {
-				"head": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"1.0": {
-							"vector": [-7.5, 0, 0]
-						},
-						"2.0": {
-							"vector": [0, 0, 0]
-						}
-					}
-				}
-			}
-		},
-		"animation.doll_horse.run": {
-			"loop": true,
-			"animation_length": 0.5,
-			"bones": {
-				"rbleg": {
-					"rotation": {
-						"0.0": {
-							"vector": [-30, 0, 0]
-						},
-						"0.25": {
-							"vector": [30, 0, 0]
-						},
-						"0.5": {
-							"vector": [-30, 0, 0]
-						}
-					}
-				},
-				"lbleg": {
-					"rotation": {
-						"0.0": {
-							"vector": [50, 0, 0]
-						},
-						"0.25": {
-							"vector": [-30, 0, 0]
-						},
-						"0.5": {
-							"vector": [50, 0, 0]
-						}
-					}
-				},
-				"rfleg": {
-					"rotation": {
-						"0.0": {
-							"vector": [-30, 0, 0]
-						},
-						"0.25": {
-							"vector": [30, 0, 0]
-						},
-						"0.5": {
-							"vector": [-30, 0, 0]
-						}
-					}
-				},
-				"lfleg": {
-					"rotation": {
-						"0.0": {
-							"vector": [30, 0, 0]
-						},
-						"0.25": {
-							"vector": [-30, 0, 0]
-						},
-						"0.5": {
-							"vector": [30, 0, 0]
-						}
-					}
-				}
-			}
-		}
-	},
-	"geckolib_format_version": 2
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.doll_horse.idle": {
+      "loop": true,
+      "animation_length": 2,
+      "bones": {
+        "head": {
+          "rotation": {
+            "0.0": {
+              "vector": [
+                0,
+                0,
+                0
+              ]
+            },
+            "1.0": {
+              "vector": [
+                -7.5,
+                0,
+                0
+              ]
+            },
+            "2.0": {
+              "vector": [
+                0,
+                0,
+                0
+              ]
+            }
+          }
+        }
+      }
+    },
+    "animation.doll_horse.run": {
+      "loop": true,
+      "animation_length": 0.5,
+      "bones": {
+        "rbleg": {
+          "rotation": {
+            "0.0": {
+              "vector": [
+                -30,
+                0,
+                0
+              ]
+            },
+            "0.25": {
+              "vector": [
+                30,
+                0,
+                0
+              ]
+            },
+            "0.5": {
+              "vector": [
+                -30,
+                0,
+                0
+              ]
+            }
+          }
+        },
+        "lbleg": {
+          "rotation": {
+            "0.0": {
+              "vector": [
+                50,
+                0,
+                0
+              ]
+            },
+            "0.25": {
+              "vector": [
+                -30,
+                0,
+                0
+              ]
+            },
+            "0.5": {
+              "vector": [
+                50,
+                0,
+                0
+              ]
+            }
+          }
+        },
+        "rfleg": {
+          "rotation": {
+            "0.0": {
+              "vector": [
+                -30,
+                0,
+                0
+              ]
+            },
+            "0.25": {
+              "vector": [
+                30,
+                0,
+                0
+              ]
+            },
+            "0.5": {
+              "vector": [
+                -30,
+                0,
+                0
+              ]
+            }
+          }
+        },
+        "lfleg": {
+          "rotation": {
+            "0.0": {
+              "vector": [
+                30,
+                0,
+                0
+              ]
+            },
+            "0.25": {
+              "vector": [
+                -30,
+                0,
+                0
+              ]
+            },
+            "0.5": {
+              "vector": [
+                30,
+                0,
+                0
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "geckolib_format_version": 2
 }

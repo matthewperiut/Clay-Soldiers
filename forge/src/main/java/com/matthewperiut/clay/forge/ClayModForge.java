@@ -31,8 +31,8 @@ public class ClayModForge
         ClayItems.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(EventPriority.LOWEST, ClayItemGroup::registerCreativeModeTab);
         MinecraftForge.EVENT_BUS.register(this);
+        ClayItemGroup.TABS.register(modEventBus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -46,17 +46,26 @@ public class ClayModForge
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ModSetup {
+    public static class ModSetup
+    {
         @SubscribeEvent
-        public static void commonSetup(FMLCommonSetupEvent event) {
+        public static void commonSetup(FMLCommonSetupEvent event)
+        {
             postEntity();
             DisruptorItems.post();
             SoldierDollItems.post();
             HorseDollItems.post();
         }
 
+        @SubscribeEvent(priority = EventPriority.LOWEST)
+        public static void last(FMLCommonSetupEvent event)
+        {
+            event.enqueueWork(DispenseBehaviors::setupDispenserBehaviors);
+        }
+
         @SubscribeEvent(priority = EventPriority.LOW)
-        public static void onRegisterAttributes(final EntityAttributeCreationEvent event) {
+        public static void onRegisterAttributes(final EntityAttributeCreationEvent event)
+        {
             // I'll get around to caching these with a list and using that but im tired now
             event.put(SoldierDollEntities.CLAY_SOLDIER.get(), SoldierDollEntity.setAttributes());
             event.put(SoldierDollEntities.RED_SOLDIER.get(), SoldierDollEntity.setAttributes());

@@ -22,13 +22,13 @@ public class DisruptorDispenserBehavior extends FallibleItemDispenserBehavior
             if (item instanceof DisruptorItem)
             {
                 DisruptorItem disruptor = (DisruptorItem) item;
-                BlockPos blockPos = pointer.getPos().offset((Direction)pointer.getBlockState().get(DispenserBlock.FACING));
-                this.setSuccess(disruptor.killClay(world, Vec3d.ofCenter(pointer.getPos())));
+                BlockPos blockPos = pointer.getPos().offset((Direction) pointer.getBlockState().get(DispenserBlock.FACING));
+                this.setSuccess(disruptor.killClayEntity(world, Vec3d.ofCenter(pointer.getPos())));
                 if (this.isSuccess())
                 {
                     if (!disruptor.unlimited)
                     {
-                        if (stack.damage(1, world.getRandom(), (ServerPlayerEntity)null))
+                        if (stack.damage(1, world.getRandom(), (ServerPlayerEntity) null))
                         {
                             stack.setCount(0);
                         }

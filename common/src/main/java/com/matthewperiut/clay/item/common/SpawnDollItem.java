@@ -25,6 +25,7 @@ import java.util.Objects;
 public class SpawnDollItem extends Item
 {
     public ArrayList<EntityType<?>> types;
+
     public SpawnDollItem(ArrayList<EntityType<?>> types, Settings settings)
     {
         super(settings);
@@ -66,7 +67,7 @@ public class SpawnDollItem extends Item
             for (int i = 0; i < count; i++)
             {
                 EntityType<?> entityType2 = this.getEntityType(itemStack.getNbt());
-                if (entityType2.spawnFromItemStack((ServerWorld)world, itemStack, context.getPlayer(), blockPos2, SpawnReason.SPAWN_EGG, false, !Objects.equals(blockPos, blockPos2) && direction == Direction.UP) != null)
+                if (entityType2.spawnFromItemStack((ServerWorld) world, itemStack, context.getPlayer(), blockPos2, SpawnReason.SPAWN_EGG, false, !Objects.equals(blockPos, blockPos2) && direction == Direction.UP) != null)
                 {
                     itemStack.decrement(1);
                     world.emitGameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
@@ -80,8 +81,7 @@ public class SpawnDollItem extends Item
 
     public EntityType<?> getEntityType(@Nullable NbtCompound nbt)
     {
-        if (types.size() < 1)
-            return null;
+        if (types.size() < 1) return null;
 
         if (nbt != null && nbt.contains("EntityTag", 10))
         {
@@ -92,10 +92,9 @@ public class SpawnDollItem extends Item
             }
         }
 
-        if (types.size() == 1)
-            return types.get(0);
+        if (types.size() == 1) return types.get(0);
 
-        int selected = Random.createLocal().nextBetween(0, types.size()-1);
+        int selected = Random.createLocal().nextBetween(0, types.size() - 1);
         return types.get(selected);
     }
 }

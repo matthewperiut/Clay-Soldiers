@@ -2,14 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
       "item": "minecraft:brown_dye"
     }
   ],
-  "result":
-  {
+  "result": {
     "count": 1,
     "item": "clay:soldier/brown"
   }

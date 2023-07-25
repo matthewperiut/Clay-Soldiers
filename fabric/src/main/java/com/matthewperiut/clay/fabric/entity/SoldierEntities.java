@@ -18,70 +18,22 @@ public class SoldierEntities
     private static final float height = 0.5f;
     private static final float width = 0.25f;
 
-    public static final EntityType<RegularSoldierDoll> CLAY_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/clay"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, RegularSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<RedSoldierDoll> RED_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/red"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, RedSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<YellowSoldierDoll> YELLOW_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/yellow"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, YellowSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<GreenSoldierDoll> GREEN_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/green"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, GreenSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<BlueSoldierDoll> BLUE_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/blue"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BlueSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<OrangeSoldierDoll> ORANGE_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/orange"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, OrangeSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<MagentaSoldierDoll> MAGENTA_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/magenta"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, MagentaSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<LightblueSoldierDoll> LIGHTBLUE_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/lightblue"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, LightblueSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<LimeSoldierDoll> LIME_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/lime"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, LimeSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<PinkSoldierDoll> PINK_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/pink"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PinkSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<CyanSoldierDoll> CYAN_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/cyan"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, CyanSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<PurpleSoldierDoll> PURPLE_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/purple"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PurpleSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<BrownSoldierDoll> BROWN_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/brown"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BrownSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<BlackSoldierDoll> BLACK_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/black"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BlackSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<GraySoldierDoll> GRAY_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/gray"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, GraySoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
-    public static final EntityType<WhiteSoldierDoll> WHITE_SOLDIER = Registry.register(
-            Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/white"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, WhiteSoldierDoll::new)
-                    .dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<RegularSoldierDoll> CLAY_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/clay"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, RegularSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<RedSoldierDoll> RED_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/red"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, RedSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<YellowSoldierDoll> YELLOW_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/yellow"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, YellowSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<GreenSoldierDoll> GREEN_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/green"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, GreenSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<BlueSoldierDoll> BLUE_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/blue"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BlueSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<OrangeSoldierDoll> ORANGE_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/orange"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, OrangeSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<MagentaSoldierDoll> MAGENTA_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/magenta"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, MagentaSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<LightblueSoldierDoll> LIGHTBLUE_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/lightblue"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, LightblueSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<LimeSoldierDoll> LIME_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/lime"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, LimeSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<PinkSoldierDoll> PINK_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/pink"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PinkSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<CyanSoldierDoll> CYAN_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/cyan"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, CyanSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<PurpleSoldierDoll> PURPLE_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/purple"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PurpleSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<BrownSoldierDoll> BROWN_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/brown"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BrownSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<BlackSoldierDoll> BLACK_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/black"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BlackSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<GraySoldierDoll> GRAY_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/gray"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, GraySoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
+    public static final EntityType<WhiteSoldierDoll> WHITE_SOLDIER = Registry.register(Registries.ENTITY_TYPE, new Identifier(ClayMod.MOD_ID, "soldier/white"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, WhiteSoldierDoll::new).dimensions(EntityDimensions.fixed(width, height)).build());
 
     public static void register()
     {

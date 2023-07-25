@@ -8,6 +8,7 @@ import software.bernie.geckolib.model.GeoModel;
 public class HorseDollModel extends GeoModel<HorseDollEntity>
 {
     Identifier texture_id;
+
     public HorseDollModel(Identifier texture_id)
     {
         this.texture_id = texture_id;

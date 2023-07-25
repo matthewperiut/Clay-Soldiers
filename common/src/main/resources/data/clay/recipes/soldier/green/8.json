@@ -2,35 +2,34 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
       "item": "minecraft:green_dye"
     }
   ],
-  "result":
-  {
+  "result": {
     "count": 8,
     "item": "clay:soldier/green"
   }

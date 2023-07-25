@@ -30,7 +30,7 @@ public class FindDollMountGoal extends Goal
         World world = this.mob.getWorld();
         Entity result;
 
-        Box box = new Box(this.mob.getPos().subtract( 8, 4, 8), this.mob.getPos().add(8, 4, 8));
+        Box box = new Box(this.mob.getPos().subtract(8, 4, 8), this.mob.getPos().add(8, 4, 8));
         List<Entity> entities = world.getOtherEntities(this.mob, box);
         List<HorseDollEntity> horses = new ArrayList<>();
         for (Entity entity : entities)
@@ -64,6 +64,7 @@ public class FindDollMountGoal extends Goal
     }
 
     private long lastUpdateTime;
+
     @Override
     public boolean canStart()
     {
@@ -72,7 +73,7 @@ public class FindDollMountGoal extends Goal
             return false;
         }
 
-        long l = this.mob.world.getTime();
+        long l = this.mob.getWorld().getTime();
         if (l - this.lastUpdateTime < 20L)
         {
             return false;
@@ -145,7 +146,7 @@ public class FindDollMountGoal extends Goal
         HorseDollEntity goalMob = this.mob.horseTarget;
         if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(goalMob))
         {
-            this.mob.setTarget((LivingEntity)null);
+            this.mob.setTarget((LivingEntity) null);
         }
         this.mob.getNavigation().stop();
     }
@@ -156,7 +157,8 @@ public class FindDollMountGoal extends Goal
         return true;
     }
 
-    public void tick() {
+    public void tick()
+    {
         HorseDollEntity goalMob = this.mob.horseTarget;
         if (goalMob != null)
         {
@@ -186,8 +188,7 @@ public class FindDollMountGoal extends Goal
         {
             if (shouldContinue())
             {
-                if (target.age > 40)
-                    this.mob.startRiding(target);
+                if (target.age > 40) this.mob.startRiding(target);
             }
         }
     }

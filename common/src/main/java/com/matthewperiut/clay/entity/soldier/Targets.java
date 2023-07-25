@@ -7,7 +7,8 @@ import net.minecraft.entity.mob.MobEntity;
 
 public class Targets
 {
-    public boolean checker(Object obj, Class someClass) {
+    public boolean checker(Object obj, Class someClass)
+    {
         return someClass.isInstance(obj);
     }
 

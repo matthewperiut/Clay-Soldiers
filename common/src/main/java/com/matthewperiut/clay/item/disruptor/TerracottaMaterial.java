@@ -1,6 +1,7 @@
 package com.matthewperiut.clay.item.disruptor;
 
-public class TerracottaMaterial extends ClayMaterial {
+public class TerracottaMaterial extends ClayMaterial
+{
     @Override
     public int getDurability()
     {

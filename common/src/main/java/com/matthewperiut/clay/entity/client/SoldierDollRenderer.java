@@ -9,6 +9,7 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 public class SoldierDollRenderer extends GeoEntityRenderer<SoldierDollEntity>
 {
     public Identifier texture_id;
+
     public SoldierDollRenderer(EntityRendererFactory.Context renderManager, GeoModel<SoldierDollEntity> modelProvider, Identifier texture_id)
     {
         super(renderManager, modelProvider);

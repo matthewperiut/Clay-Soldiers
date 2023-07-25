@@ -51,12 +51,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
 
     public static DefaultAttributeContainer setAttributes()
     {
-        return PathAwareEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0f)
-                .add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.0f)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f)
-                .build();
+        return PathAwareEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0f).add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f).build();
     }
 
     private <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event)
@@ -82,8 +77,10 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     {
         if (this.handSwinging)
         {
+            event.getController().forceAnimationReset();
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.attack"));
             this.handSwinging = false;
+            return PlayState.STOP;
         }
         return PlayState.CONTINUE;
     }
@@ -92,7 +89,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar)
     {
         controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController(this, "attackController", 0, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController(this, "attackController", 1, this::attackPredicate));
     }
 
     @Override
@@ -168,21 +165,27 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     }
 
     boolean dropBrick = false;
+
     @Override
     protected Identifier getLootTableId()
     {
-        if (dropBrick)
-            return new Identifier("clay:entities/soldier/brick");
+        if (dropBrick) return new Identifier("clay:entities/soldier/brick");
         return super.getLootTableId();
     }
 
     @Override
     public void onDeath(DamageSource damageSource)
     {
-        if (this.hasVehicle())
-            Objects.requireNonNull(this.getVehicle()).kill();
-        if (damageSource.isFire())
+        if (this.hasVehicle()) Objects.requireNonNull(this.getVehicle()).kill();
+        if (damageSource.getType().equals(this.getWorld().getDamageSources().inFire().getType()) || (damageSource.getType().equals(this.getWorld().getDamageSources().lava().getType())))
             dropBrick = true;
         super.onDeath(damageSource);
+    }
+
+    @Override
+    public boolean tryAttack(Entity target)
+    {
+        swingHand(Hand.MAIN_HAND);
+        return super.tryAttack(target);
     }
 }

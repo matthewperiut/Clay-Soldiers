@@ -9,7 +9,9 @@ import java.util.List;
 
 public class ClientInfoStorage
 {
-    public enum RendererType { soldier, horse }
+    public enum RendererType
+    {soldier, horse}
+
     public static class RendererDataBundle
     {
         public int type;
@@ -44,6 +46,7 @@ public class ClientInfoStorage
     }
 
     public static List<ColoredItemDataBundle> coloredItemDataBundleList = new ArrayList<>();
+
     public ClientInfoStorage(Item item, int color)
     {
         coloredItemDataBundleList.add(new ColoredItemDataBundle(item, color));

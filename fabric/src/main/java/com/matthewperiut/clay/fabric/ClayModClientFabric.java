@@ -24,11 +24,17 @@ public class ClayModClientFabric implements ClientModInitializer
         {
             if (bundle.type == ClientInfoStorage.RendererType.soldier.ordinal())
             {
-                EntityRendererRegistry.register((EntityType<? extends SoldierDollEntity>) bundle.entityType, (context) -> { return new SoldierDollRenderer(context, new SoldierDollModel(bundle.textureID), bundle.textureID); });
+                EntityRendererRegistry.register((EntityType<? extends SoldierDollEntity>) bundle.entityType, (context) ->
+                {
+                    return new SoldierDollRenderer(context, new SoldierDollModel(bundle.textureID), bundle.textureID);
+                });
             }
             if (bundle.type == ClientInfoStorage.RendererType.horse.ordinal())
             {
-                EntityRendererRegistry.register((EntityType<? extends HorseDollEntity>) bundle.entityType, (context) -> { return new HorseDollRenderer(context, new HorseDollModel(bundle.textureID), bundle.textureID); });
+                EntityRendererRegistry.register((EntityType<? extends HorseDollEntity>) bundle.entityType, (context) ->
+                {
+                    return new HorseDollRenderer(context, new HorseDollModel(bundle.textureID), bundle.textureID);
+                });
             }
         }
 

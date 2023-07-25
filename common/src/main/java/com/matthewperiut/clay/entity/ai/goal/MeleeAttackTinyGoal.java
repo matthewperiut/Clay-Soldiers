@@ -30,50 +30,73 @@ public class MeleeAttackTinyGoal extends Goal
         this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
     }
 
-    public boolean canStart() {
-        long l = this.mob.world.getTime();
-        if (l - this.lastUpdateTime < 20L) {
+    public boolean canStart()
+    {
+        long l = this.mob.getWorld().getTime();
+        if (l - this.lastUpdateTime < 20L)
+        {
             return false;
-        } else {
+        }
+        else
+        {
             this.lastUpdateTime = l;
             LivingEntity livingEntity = this.mob.getTarget();
-            if (livingEntity == null) {
+            if (livingEntity == null)
+            {
                 return false;
-            } else if (!livingEntity.isAlive()) {
+            }
+            else if (!livingEntity.isAlive())
+            {
                 return false;
-            } else {
+            }
+            else
+            {
                 this.path = this.mob.getNavigation().findPathTo(livingEntity, 0);
-                if (this.path != null) {
+                if (this.path != null)
+                {
                     return true;
-                } else {
+                }
+                else
+                {
                     return this.getSquaredMaxAttackDistance(livingEntity) >= this.mob.squaredDistanceTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
                 }
             }
         }
     }
 
-    public boolean shouldContinue() {
+    public boolean shouldContinue()
+    {
         LivingEntity livingEntity = this.mob.getTarget();
-        if (livingEntity == null) {
+        if (livingEntity == null)
+        {
             return false;
-        } else if (!livingEntity.isAlive()) {
+        }
+        else if (!livingEntity.isAlive())
+        {
             return false;
-        } else if (!this.mob.isInWalkTargetRange(livingEntity.getBlockPos())) {
+        }
+        else if (!this.mob.isInWalkTargetRange(livingEntity.getBlockPos()))
+        {
             return false;
-        } else {
-            return !(livingEntity instanceof PlayerEntity) || !livingEntity.isSpectator() && !((PlayerEntity)livingEntity).isCreative();
+        }
+        else
+        {
+            return !(livingEntity instanceof PlayerEntity) || !livingEntity.isSpectator() && !((PlayerEntity) livingEntity).isCreative();
         }
     }
 
-    public void start() {
+    public void start()
+    {
         this.mob.getNavigation().startMovingAlong(this.path, this.speed);
         this.mob.setAttacking(true);
     }
 
-    public void stop() {
+    public void stop()
+    {
         LivingEntity livingEntity = this.mob.getTarget();
-        if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(livingEntity)) {
-            this.mob.setTarget((LivingEntity)null);
+        if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(livingEntity))
+        {
+            this.mob.setTarget((LivingEntity) null);
         }
 
         this.mob.setAttacking(false);
@@ -88,17 +111,19 @@ public class MeleeAttackTinyGoal extends Goal
     private void pushTowardOther(Vec3d direction, double mod)
     {
         Entity mob = this.mob;
-        if (mob.hasVehicle())
-            mob = mob.getVehicle();
+        if (mob.hasVehicle()) mob = mob.getVehicle();
         double x = direction.getX();
         double y = direction.getY();
         double z = direction.getZ();
-        double length = sqrt( Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2) );
+        double length = sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
         mob.addVelocity((x / length) * mod, (y / length) * mod, (z / length) * mod);
     }
-    public void tick() {
+
+    public void tick()
+    {
         LivingEntity livingEntity = this.mob.getTarget();
-        if (livingEntity != null) {
+        if (livingEntity != null)
+        {
             this.mob.getLookControl().lookAt(livingEntity, 30.0F, 30.0F);
             double d = this.mob.squaredDistanceTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
             if ((this.mob.getVisibilityCache().canSee(livingEntity)))
@@ -114,13 +139,15 @@ public class MeleeAttackTinyGoal extends Goal
     protected void attack(LivingEntity target, double squaredDistance)
     {
         double d = this.getSquaredMaxAttackDistance(target);
-        if (squaredDistance <= d) {
+        if (squaredDistance <= d)
+        {
             this.mob.swingHand(Hand.MAIN_HAND);
             this.mob.tryAttack(target);
         }
     }
 
-    protected double getSquaredMaxAttackDistance(LivingEntity entity) {
+    protected double getSquaredMaxAttackDistance(LivingEntity entity)
+    {
         return 1.0;
     }
 }

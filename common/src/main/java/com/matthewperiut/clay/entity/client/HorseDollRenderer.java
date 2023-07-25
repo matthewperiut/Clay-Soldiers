@@ -9,6 +9,7 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 public class HorseDollRenderer extends GeoEntityRenderer<HorseDollEntity>
 {
     public Identifier texture_id;
+
     public HorseDollRenderer(EntityRendererFactory.Context renderManager, GeoModel<HorseDollEntity> modelProvider, Identifier texture_id)
     {
         super(renderManager, modelProvider);

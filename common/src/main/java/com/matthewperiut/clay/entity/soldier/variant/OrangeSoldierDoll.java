@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 public class OrangeSoldierDoll extends SoldierDollEntity
 {
     public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/orange.png");
+
     public OrangeSoldierDoll(EntityType<? extends PathAwareEntity> type, World worldIn)
     {
         super(type, worldIn);

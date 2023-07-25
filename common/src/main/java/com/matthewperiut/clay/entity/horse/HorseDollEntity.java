@@ -32,12 +32,9 @@ public class HorseDollEntity extends PathAwareEntity implements GeoAnimatable
 
     public static DefaultAttributeContainer.Builder setAttributesBuilder()
     {
-        return PathAwareEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0f)
-                .add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.8f)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.32f);
+        return PathAwareEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0f).add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.8f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.32f);
     }
+
     public static DefaultAttributeContainer setAttributes()
     {
         return setAttributesBuilder().build();
@@ -100,24 +97,23 @@ public class HorseDollEntity extends PathAwareEntity implements GeoAnimatable
     @Override
     public boolean handleAttack(Entity attacker)
     {
-        if (attacker instanceof PlayerEntity)
-            kill();
+        if (attacker instanceof PlayerEntity) kill();
         return super.handleAttack(attacker);
     }
 
     boolean dropBrick = false;
+
     @Override
     protected Identifier getLootTableId()
     {
-        if (dropBrick)
-            return new Identifier("clay:entities/horse/brick");
+        if (dropBrick) return new Identifier("clay:entities/horse/brick");
         return super.getLootTableId();
     }
 
     @Override
     public void onDeath(DamageSource damageSource)
     {
-        if(damageSource.isFire())
+        if (damageSource.getType().equals(this.getWorld().getDamageSources().inFire().getType()) || damageSource.getType().equals(this.getWorld().getDamageSources().lava().getType()))
             dropBrick = true;
         super.onDeath(damageSource);
     }

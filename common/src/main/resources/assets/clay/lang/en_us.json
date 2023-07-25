@@ -5,7 +5,6 @@
   "item.clay.disruptor.terracotta": "Terracotta Disruptor",
   "item.clay.disruptor.obsidian": "Obsidian Disruptor",
   "item.clay.disruptor.range": "Kills Clay Creatures in 32x32 Block Area",
-
   "item.clay.soldier.brick": "Brick Soldier",
   "item.clay.soldier.clay": "Clay Soldier",
   "entity.clay.soldier.clay": "Clay Soldier",
@@ -39,7 +38,6 @@
   "entity.clay.soldier.gray": "Gray Soldier",
   "item.clay.soldier.white": "White Soldier",
   "entity.clay.soldier.white": "White Soldier",
-
   "item.clay.horse.brick": "Brick Horse",
   "item.clay.horse.dirt": "Dirt Horse",
   "entity.clay.horse.dirt": "Dirt Horse",

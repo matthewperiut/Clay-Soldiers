@@ -9,6 +9,7 @@ import com.matthewperiut.clay.forge.entity.SoldierDollEntities;
 import com.matthewperiut.clay.util.ClientInfoStorage;
 import net.minecraft.client.render.entity.EntityRenderers;
 import net.minecraft.entity.EntityType;
+
 public class ClayModClientForge
 {
     public static void setupEntityRenderers()

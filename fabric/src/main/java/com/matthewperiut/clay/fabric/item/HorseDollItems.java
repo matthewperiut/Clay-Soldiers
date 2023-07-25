@@ -2,9 +2,10 @@ package com.matthewperiut.clay.fabric.item;
 
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
-import com.matthewperiut.clay.util.ClientInfoStorage;
 import com.matthewperiut.clay.fabric.entity.HorseEntities;
+import com.matthewperiut.clay.item.common.DollDispenserBehavior;
 import com.matthewperiut.clay.item.horse.HorseDollItem;
+import com.matthewperiut.clay.util.ClientInfoStorage;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.DispenserBlock;
@@ -41,7 +42,7 @@ public class HorseDollItems
     public static HorseDollItem registerHorseDollItem(String name, EntityType<? extends HorseDollEntity> entity, int color)
     {
         HorseDollItem item = registerHorseDollItem(name, entity);
-        DispenserBlock.registerBehavior(item, SoldierDollItems.dollDispenserBehavior);
+        DispenserBlock.registerBehavior(item, DollDispenserBehavior.DOLL_DISPENSE);
         new ClientInfoStorage(item, color);
         //ColorProviderRegistry.ITEM.register((stack, tintIndex) -> color, item);
         return item;

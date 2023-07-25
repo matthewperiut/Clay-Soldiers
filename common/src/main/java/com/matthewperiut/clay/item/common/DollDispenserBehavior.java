@@ -20,12 +20,14 @@ import net.minecraft.world.event.GameEvent;
 
 public class DollDispenserBehavior implements DispenserBehavior
 {
+    public static DollDispenserBehavior DOLL_DISPENSE = new DollDispenserBehavior();
+
     @Override
     public ItemStack dispense(BlockPointer pointer, ItemStack stack)
     {
         if (stack.getItem() instanceof SpawnDollItem)
         {
-            ServerWorld world = (ServerWorld)pointer.getWorld();
+            ServerWorld world = (ServerWorld) pointer.getWorld();
             BlockPos pos = pointer.getPos();
             DispenserBlockEntity dispenserEntity = pointer.getBlockEntity();
             BlockState dispenserBlock = world.getBlockState(dispenserEntity.getPos());
@@ -37,9 +39,9 @@ public class DollDispenserBehavior implements DispenserBehavior
             Entity e = entityType.spawnFromItemStack(world, stack, null, spawnPos, SpawnReason.DISPENSER, false, false);
             if (e != null)
             {
-                world.playSound((PlayerEntity)null, pos, SoundEvents.BLOCK_GRAVEL_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_GRAVEL_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 world.emitGameEvent(GameEvent.ENTITY_PLACE, spawnPos, GameEvent.Emitter.of(e));
-                stack.setCount(stack.getCount()-1);
+                stack.setCount(stack.getCount() - 1);
             }
         }
 

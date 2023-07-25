@@ -2,32 +2,31 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
       "item": "minecraft:orange_dye"
     }
   ],
-  "result":
-  {
+  "result": {
     "count": 7,
     "item": "clay:soldier/orange"
   }

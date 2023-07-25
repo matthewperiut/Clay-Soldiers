@@ -8,8 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ClayEntityTypes
 {
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
-            DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ClayMod.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ClayMod.MOD_ID);
     // 1.18 DeferredRegister.create(ForgeRegistries.ENTITIES, ClayMod.MOD_ID);
 
     public static void register(IEventBus eventBus)

@@ -2,26 +2,25 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
-        "tag": "clay:soldiers"
+      "tag": "clay:soldiers"
     },
     {
       "item": "minecraft:light_blue_dye"
     }
   ],
-  "result":
-  {
+  "result": {
     "count": 5,
     "item": "clay:soldier/lightblue"
   }

@@ -9,7 +9,6 @@ import com.matthewperiut.clay.util.ClientInfoStorage;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.DispenserBlock;
-import net.minecraft.block.dispenser.DispenserBehavior;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -20,7 +19,6 @@ import static com.matthewperiut.clay.fabric.item.ClayItems.registerMiscItem;
 
 public class SoldierDollItems
 {
-    public static final DispenserBehavior dollDispenserBehavior = new DollDispenserBehavior();
     public static final Item BRICK_SOLDIER = registerMiscItem("soldier/brick", new Item(new FabricItemSettings().fireproof().maxCount(16)));
 
     public static final Item CLAY_SOLDIER = registerClaySoldierItem("soldier/clay", SoldierEntities.CLAY_SOLDIER, 0xAFB5C6);
@@ -44,10 +42,11 @@ public class SoldierDollItems
     {
         Item item = Registry.register(Registries.ITEM, new Identifier(ClayMod.MOD_ID, name), new SoldierDollItem(entity, new FabricItemSettings().maxCount(16)));
         ItemGroupEvents.modifyEntriesEvent(ClayItemGroup.CLAY_GROUP).register(entries -> entries.add(item));
-        DispenserBlock.registerBehavior(item, dollDispenserBehavior);
+        DispenserBlock.registerBehavior(item, DollDispenserBehavior.DOLL_DISPENSE);
         new ClientInfoStorage(item, color);
         return item;
     }
+
     public static void register()
     {
 

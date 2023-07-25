@@ -117,4 +117,10 @@ public class HorseDollEntity extends PathAwareEntity implements GeoAnimatable
             dropBrick = true;
         super.onDeath(damageSource);
     }
+
+    @Override
+    public boolean cannotDespawn()
+    {
+        return true;
+    }
 }

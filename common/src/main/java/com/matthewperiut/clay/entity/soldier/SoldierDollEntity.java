@@ -188,4 +188,10 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
         swingHand(Hand.MAIN_HAND);
         return super.tryAttack(target);
     }
+
+    @Override
+    public boolean cannotDespawn()
+    {
+        return true;
+    }
 }

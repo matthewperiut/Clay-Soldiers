@@ -160,7 +160,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     @Override
     public void onPlayerCollision(PlayerEntity player)
     {
-        //this.setStackInHand(Hand.MAIN_HAND, new ItemStack(Items.SHEARS, 1));
+        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STICK, 1));
         super.onPlayerCollision(player);
     }
 

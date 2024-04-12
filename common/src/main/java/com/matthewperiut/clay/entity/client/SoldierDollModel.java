@@ -14,11 +14,6 @@ public class SoldierDollModel extends GeoModel<SoldierDollEntity>
         this.texture_id = texture_id;
     }
 
-    public SoldierDollModel()
-    {
-        this.texture_id = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
-    }
-
     @Override
     public Identifier getModelResource(SoldierDollEntity object)
     {

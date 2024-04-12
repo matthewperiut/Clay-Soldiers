@@ -39,10 +39,8 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
 {
     public HorseDollEntity horseTarget;
     public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
-    private AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private boolean isAnimating = false;
-
-    public boolean hasWeapon = true;
 
     public SoldierDollEntity(EntityType<? extends PathAwareEntity> type, World worldIn)
     {
@@ -59,21 +57,19 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
         if (this.hasVehicle())
         {
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.ride"));
-            return PlayState.CONTINUE;
         }
         if (event.isMoving())
         {
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.run"));
-            return PlayState.CONTINUE;
         }
         else
         {
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.idle"));
-            return PlayState.CONTINUE;
         }
+        return PlayState.CONTINUE;
     }
 
-    private PlayState attackPredicate(AnimationState event)
+    private PlayState attackPredicate(AnimationState<SoldierDollEntity> event)
     {
         if (this.handSwinging)
         {
@@ -88,8 +84,8 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar)
     {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController(this, "attackController", 1, this::attackPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "attackController", 1, this::attackPredicate));
     }
 
     @Override

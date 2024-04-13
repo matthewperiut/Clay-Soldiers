@@ -23,6 +23,9 @@
       "com.matthewperiut.clay.fabric.ClayModClientFabric"
     ]
   },
+  "mixins": [
+    "clay.mixins.json"
+  ],
   "depends": {
     "geckolib": "*",
     "fabricloader": ">=0.14.19",

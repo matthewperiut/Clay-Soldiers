@@ -1,7 +1,9 @@
 package com.matthewperiut.clay.entity.horse;
 
+import com.matthewperiut.clay.extensions.ISpawnReasonExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -45,18 +47,16 @@ public class HorseDollEntity extends PathAwareEntity implements GeoAnimatable
         if (event.isMoving())
         {
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.doll_horse.run"));
-            return PlayState.CONTINUE;
+        } else {
+            event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.doll_horse.idle"));
         }
-
-        event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.doll_horse.idle"));
-
         return PlayState.CONTINUE;
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar)
     {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     @Override
@@ -121,6 +121,9 @@ public class HorseDollEntity extends PathAwareEntity implements GeoAnimatable
     @Override
     public boolean cannotDespawn()
     {
-        return true;
+        if (this instanceof ISpawnReasonExtension) {
+            return ((ISpawnReasonExtension) this).clay$getSpawnReason() == SpawnReason.SPAWN_EGG;
+        }
+        return super.cannotDespawn();
     }
 }

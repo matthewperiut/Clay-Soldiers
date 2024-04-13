@@ -3,9 +3,11 @@ package com.matthewperiut.clay.entity.soldier;
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.ai.goal.FindDollMountGoal;
 import com.matthewperiut.clay.entity.ai.goal.MeleeAttackTinyGoal;
-import com.matthewperiut.clay.entity.horse.HorseDollEntity;
+import com.matthewperiut.clay.entity.ai.goal.PickUpUpgradesGoal;
+import com.matthewperiut.clay.extensions.ISpawnReasonExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -57,6 +59,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
         if (this.hasVehicle())
         {
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.ride"));
+            return PlayState.CONTINUE;
         }
         if (event.isMoving())
         {
@@ -188,6 +191,9 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     @Override
     public boolean cannotDespawn()
     {
-        return true;
+        if (this instanceof ISpawnReasonExtension) {
+            return ((ISpawnReasonExtension) this).clay$getSpawnReason() == SpawnReason.SPAWN_EGG;
+        }
+        return super.cannotDespawn();
     }
 }

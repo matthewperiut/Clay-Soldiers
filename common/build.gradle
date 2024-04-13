@@ -1,9 +1,10 @@
+
 architectury {
     common(rootProject.enabled_platforms.split(","))
 }
 
 loom {
-    //accessWidenerPath = file("src/main/resources/examplemod.accesswidener")
+    //accessWidenerPath = file("src/main/resources/clay.accesswidener")
 }
 
 repositories {

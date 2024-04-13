@@ -8,7 +8,9 @@ architectury {
 }
 
 loom {
-
+    forge {
+        mixinConfig "clay.mixins.json"
+    }
 }
 
 repositories {

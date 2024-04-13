@@ -1,18 +1,14 @@
 package com.matthewperiut.clay.entity.soldier;
 
 import com.matthewperiut.clay.entity.soldier.variant.*;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.mob.MobEntity;
 
 public class Targets
 {
-    public boolean checker(Object obj, Class someClass)
-    {
-        return someClass.isInstance(obj);
-    }
-
-    private static void add(Class soldierType, Object entity, GoalSelector targetSelector)
+    private static void add(Class<? extends LivingEntity> soldierType, Object entity, GoalSelector targetSelector)
     {
         if (!soldierType.isInstance(entity))
         {

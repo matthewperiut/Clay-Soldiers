@@ -81,7 +81,7 @@ public class SpawnDollItem extends Item
 
     public EntityType<?> getEntityType(@Nullable NbtCompound nbt)
     {
-        if (types.size() < 1) return null;
+        if (types.isEmpty()) return null;
 
         if (nbt != null && nbt.contains("EntityTag", 10))
         {

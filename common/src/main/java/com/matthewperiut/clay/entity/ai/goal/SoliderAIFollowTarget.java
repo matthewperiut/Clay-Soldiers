@@ -82,4 +82,30 @@ public abstract class SoliderAIFollowTarget extends Goal {
             }
         }
     }
+
+    public static class Upgrade extends SoliderAIFollowTarget {
+        public Upgrade(SoldierDollEntity soldier, double speed) {
+            super(soldier, speed);
+        }
+
+        @Override
+        void action(double distanceToTarget) {
+
+        }
+
+        @Override
+        Entity getTarget() {
+            return null;
+        }
+
+        @Override
+        boolean hasValidTarget() {
+            return false;
+        }
+
+        @Override
+        void cleanUp() {
+
+        }
+    }
 }

@@ -1,6 +1,8 @@
 package com.matthewperiut.clay.entity.client;
 
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
@@ -15,6 +17,7 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 
+@Environment(EnvType.CLIENT)
 public class SoldierDollRenderer extends GeoEntityRenderer<SoldierDollEntity>
 {
     private static final String LEFT_HAND = "lhand";

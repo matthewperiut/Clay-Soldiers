@@ -1,4 +1,4 @@
-package com.matthewperiut.clay.extensions;
+package com.matthewperiut.clay.extension;
 
 import net.minecraft.entity.SpawnReason;
 

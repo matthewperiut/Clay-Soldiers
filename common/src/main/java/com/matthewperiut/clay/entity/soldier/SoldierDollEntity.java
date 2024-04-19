@@ -5,7 +5,7 @@ import com.matthewperiut.clay.entity.ai.goal.MeleeAttackTinyGoal;
 import com.matthewperiut.clay.entity.ai.goal.SoldierAIFindTarget;
 import com.matthewperiut.clay.entity.ai.goal.SoliderAIFollowTarget;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
-import com.matthewperiut.clay.extensions.ISpawnReasonExtension;
+import com.matthewperiut.clay.extension.ISpawnReasonExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -52,6 +52,11 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     public SoldierDollEntity(EntityType<? extends PathAwareEntity> type, World worldIn)
     {
         super(type, worldIn);
+    }
+
+    public static DefaultAttributeContainer.Builder createAttributes() {
+        return PathAwareEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0f).add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f);
+
     }
 
     public static DefaultAttributeContainer setAttributes()
@@ -114,7 +119,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
 
     protected void selectTargets()
     {
-        this.targetSelector.add(2, new SoldierAIFindTarget.Mount(this, TypeFilter.instanceOf(HorseDollEntity.class)));
+        this.targetSelector.add(4, new SoldierAIFindTarget.Mount(this, TypeFilter.instanceOf(HorseDollEntity.class)));
         AddTargets(this, this.targetSelector);
     }
 

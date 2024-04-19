@@ -1,6 +1,6 @@
 package com.matthewperiut.clay.mixins;
 
-import com.matthewperiut.clay.extensions.ISpawnReasonExtension;
+import com.matthewperiut.clay.extension.ISpawnReasonExtension;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;

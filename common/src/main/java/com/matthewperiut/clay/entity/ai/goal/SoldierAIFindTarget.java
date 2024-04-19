@@ -3,6 +3,7 @@ package com.matthewperiut.clay.entity.ai.goal;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Box;
@@ -67,6 +68,19 @@ public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
         @Override
         public boolean canStart() {
             return !this.soldier.hasVehicle() && super.canStart();
+        }
+    }
+
+    public static class Upgrade extends SoldierAIFindTarget<ItemEntity> {
+
+        public Upgrade(SoldierDollEntity soldier, TypeFilter<Entity, ItemEntity> filter) {
+            super(soldier, filter);
+        }
+
+        @Override
+        protected boolean isTargetable(ItemEntity searchTarget) {
+            // TODO check upgrades on the soldier
+            return false;
         }
     }
 }

@@ -2,9 +2,12 @@ package com.matthewperiut.clay.entity.client;
 
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib.model.GeoModel;
 
+@Environment(EnvType.CLIENT)
 public class SoldierDollModel extends GeoModel<SoldierDollEntity>
 {
     Identifier texture_id;

@@ -6,7 +6,6 @@ import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -25,13 +24,12 @@ public class DollDispenserBehavior implements DispenserBehavior
     @Override
     public ItemStack dispense(BlockPointer pointer, ItemStack stack)
     {
-        if (stack.getItem() instanceof SpawnDollItem)
+        if (stack.getItem() instanceof SpawnDollItem doll)
         {
-            ServerWorld world = (ServerWorld) pointer.getWorld();
+            ServerWorld world = pointer.getWorld();
             BlockPos pos = pointer.getPos();
             DispenserBlockEntity dispenserEntity = pointer.getBlockEntity();
             BlockState dispenserBlock = world.getBlockState(dispenserEntity.getPos());
-            SpawnDollItem doll = (SpawnDollItem) stack.getItem();
             Direction direction = dispenserBlock.get(Properties.FACING);
             BlockPos spawnPos = pos.add(new Vec3i(direction.getOffsetX(), direction.getOffsetY(), direction.getOffsetZ()));
 
@@ -39,7 +37,7 @@ public class DollDispenserBehavior implements DispenserBehavior
             Entity e = entityType.spawnFromItemStack(world, stack, null, spawnPos, SpawnReason.DISPENSER, false, false);
             if (e != null)
             {
-                world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_GRAVEL_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, SoundEvents.BLOCK_GRAVEL_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 world.emitGameEvent(GameEvent.ENTITY_PLACE, spawnPos, GameEvent.Emitter.of(e));
                 stack.setCount(stack.getCount() - 1);
             }

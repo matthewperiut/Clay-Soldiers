@@ -1,11 +1,14 @@
 package com.matthewperiut.clay.entity.client;
 
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
+@Environment(EnvType.CLIENT)
 public class HorseDollRenderer extends GeoEntityRenderer<HorseDollEntity>
 {
     public Identifier texture_id;

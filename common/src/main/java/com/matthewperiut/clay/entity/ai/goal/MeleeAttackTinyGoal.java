@@ -96,7 +96,7 @@ public class MeleeAttackTinyGoal extends Goal
         LivingEntity livingEntity = this.mob.getTarget();
         if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(livingEntity))
         {
-            this.mob.setTarget((LivingEntity) null);
+            this.mob.setTarget(null);
         }
 
         this.mob.setAttacking(false);

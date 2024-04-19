@@ -4,7 +4,7 @@ architectury {
 }
 
 loom {
-    //accessWidenerPath = file("src/main/resources/clay.accesswidener")
+    accessWidenerPath = file("src/main/resources/clay.accesswidener")
 }
 
 repositories {
@@ -19,7 +19,7 @@ dependencies {
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     // Remove the next line if you don't want to depend on the API
-    // modApi "dev.architectury:architectury:${rootProject.architectury_version}"
+    modApi "dev.architectury:architectury:${rootProject.architectury_version}"
     // ONLY use core package from geckolib!
     modImplementation "software.bernie.geckolib:geckolib-fabric-${rootProject.gecko_lib}"
 }

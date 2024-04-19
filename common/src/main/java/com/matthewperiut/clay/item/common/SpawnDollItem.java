@@ -3,7 +3,6 @@ package com.matthewperiut.clay.item.common;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
@@ -21,18 +20,19 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public class SpawnDollItem extends Item
 {
-    public ArrayList<EntityType<?>> types;
+    public ArrayList<Supplier<EntityType<?>>> types;
 
-    public SpawnDollItem(ArrayList<EntityType<?>> types, Settings settings)
+    public SpawnDollItem(ArrayList<Supplier<EntityType<?>>> types, Settings settings)
     {
         super(settings);
         this.types = types;
     }
 
-    public SpawnDollItem(EntityType<? extends MobEntity> defaultType, Settings settings)
+    public SpawnDollItem(Supplier<EntityType<?>> defaultType, Settings settings)
     {
         super(settings);
         this.types = new ArrayList<>();
@@ -88,13 +88,13 @@ public class SpawnDollItem extends Item
             NbtCompound nbtCompound = nbt.getCompound("EntityTag");
             if (nbtCompound.contains("id", 8))
             {
-                return EntityType.get(nbtCompound.getString("id")).orElse(types.get(0));
+                return EntityType.get(nbtCompound.getString("id")).orElse(types.get(0).get());
             }
         }
 
-        if (types.size() == 1) return types.get(0);
+        if (types.size() == 1) return types.get(0).get();
 
         int selected = Random.createLocal().nextBetween(0, types.size() - 1);
-        return types.get(selected);
+        return types.get(selected).get();
     }
 }

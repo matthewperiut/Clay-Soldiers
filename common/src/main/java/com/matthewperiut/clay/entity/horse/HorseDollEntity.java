@@ -1,6 +1,6 @@
 package com.matthewperiut.clay.entity.horse;
 
-import com.matthewperiut.clay.extensions.ISpawnReasonExtension;
+import com.matthewperiut.clay.extension.ISpawnReasonExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;

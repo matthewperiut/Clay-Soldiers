@@ -1,7 +1,6 @@
 package com.matthewperiut.clay.forge;
 
 import com.matthewperiut.clay.ClayMod;
-import com.matthewperiut.clay.registry.ItemRegistry;
 import dev.architectury.platform.forge.EventBuses;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,7 +27,6 @@ public class ClayModForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        ItemRegistry.post();
-        System.out.println("post");
+        ClayMod.post();
     }
 }

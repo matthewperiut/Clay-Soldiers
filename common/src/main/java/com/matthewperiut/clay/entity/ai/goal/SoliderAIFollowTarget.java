@@ -2,7 +2,9 @@ package com.matthewperiut.clay.entity.ai.goal;
 
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
+import com.matthewperiut.clay.upgrade.UpgradeManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.Goal;
 
 import java.util.EnumSet;
@@ -90,22 +92,32 @@ public abstract class SoliderAIFollowTarget extends Goal {
 
         @Override
         void action(double distanceToTarget) {
-
+            if (distanceToTarget <= 2) {
+                ItemEntity target = getTarget();
+                UpgradeManager.INSTANCE.applyUpdate(soldier, target.getStack());
+                target.getStack().decrement(1);
+                if (target.getStack().getCount() == 0) {
+                    target.setDespawnImmediately();
+                }
+                cleanUp();
+            }
         }
 
         @Override
-        Entity getTarget() {
+        ItemEntity getTarget() {
+            if (this.soldier.getFollowingEntity() instanceof ItemEntity)
+                return (ItemEntity) this.soldier.getFollowingEntity();
             return null;
         }
 
         @Override
         boolean hasValidTarget() {
-            return false;
+            return getTarget() != null && getTarget().getStack().getCount() >= 1;
         }
 
         @Override
         void cleanUp() {
-
+            soldier.setFollowingEntity(null);
         }
     }
 }

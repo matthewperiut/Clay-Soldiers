@@ -2,7 +2,6 @@ package com.matthewperiut.clay.entity.ai.goal;
 
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.Path;
@@ -10,7 +9,7 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public class FindDollMountGoal extends Goal
@@ -18,9 +17,11 @@ public class FindDollMountGoal extends Goal
     protected final SoldierDollEntity mob;
     private final double speed;
     private Path path;
+    private HorseDollEntity target;
 
     public FindDollMountGoal(SoldierDollEntity mob, double speed)
     {
+        this.setControls(EnumSet.of(Control.MOVE));
         this.mob = mob;
         this.speed = speed;
     }
@@ -28,21 +29,11 @@ public class FindDollMountGoal extends Goal
     public HorseDollEntity getGoal()
     {
         World world = this.mob.getWorld();
-        Entity result;
 
         Box box = new Box(this.mob.getPos().subtract(8, 4, 8), this.mob.getPos().add(8, 4, 8));
-        List<Entity> entities = world.getOtherEntities(this.mob, box);
-        List<HorseDollEntity> horses = new ArrayList<>();
-        for (Entity entity : entities)
-        {
-            if (entity instanceof HorseDollEntity)
-            {
-                if (!entity.hasPassengers())
-                {
-                    horses.add((HorseDollEntity) entity);
-                }
-            }
-        }
+
+        List<HorseDollEntity> horses = world.getEntitiesByClass(HorseDollEntity.class, box, (horse) -> !horse.hasPassengers());
+
 
         // closest
         double distance = 1000;
@@ -73,40 +64,37 @@ public class FindDollMountGoal extends Goal
             return false;
         }
 
-        long l = this.mob.getWorld().getTime();
-        if (l - this.lastUpdateTime < 20L)
+        long currentWorldTime = this.mob.getWorld().getTime();
+        if (currentWorldTime - this.lastUpdateTime < 20L)
         {
             return false;
         }
         else
         {
-            this.lastUpdateTime = l;
-            this.mob.horseTarget = getGoal();
-            HorseDollEntity goalMob = this.mob.horseTarget;
-            if (goalMob == null)
+            this.lastUpdateTime = currentWorldTime;
+            this.target = getGoal();
+            if (this.target == null)
             {
                 return false;
-            }
-            else if (!goalMob.isAlive())
+            } else if (!this.target.isAlive())
             {
                 return false;
             }
             else
             {
-                this.path = this.mob.getNavigation().findPathTo(goalMob, 0);
+                this.path = this.mob.getNavigation().findPathTo(this.target, 0);
                 if (this.path != null)
                 {
                     return true;
                 }
                 else
                 {
-                    return this.getSquaredMaxRideDistance(goalMob) >= this.mob.squaredDistanceTo(goalMob.getX(), goalMob.getY(), goalMob.getZ());
+                    return this.getSquaredMaxRideDistance(this.target) >= this.mob.squaredDistanceTo(this.target.getX(), this.target.getY(), this.target.getZ());
                 }
             }
         }
     }
 
-    private int updateCountdownTicks;
     private int cooldown;
 
     @Override
@@ -119,34 +107,24 @@ public class FindDollMountGoal extends Goal
     @Override
     public boolean shouldContinue()
     {
-        HorseDollEntity goalMob = this.mob.horseTarget;
-        if (goalMob == null)
+        if (this.target == null)
         {
             return false;
-        }
-        else if (!goalMob.isAlive())
+        } else if (!this.target.isAlive())
         {
             return false;
-        }
-        else if (goalMob.hasPassengers())
+        } else if (this.target.hasPassengers())
         {
             return false;
-        }
-        else if (!this.mob.isInWalkTargetRange(goalMob.getBlockPos()))
-        {
-            return false;
-        }
-
-        return true;
+        } else return this.mob.isInWalkTargetRange(this.target.getBlockPos());
     }
 
     @Override
     public void stop()
     {
-        HorseDollEntity goalMob = this.mob.horseTarget;
-        if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(goalMob))
+        if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(this.target))
         {
-            this.mob.setTarget((LivingEntity) null);
+            this.mob.setTarget(null);
         }
         this.mob.getNavigation().stop();
     }
@@ -159,7 +137,7 @@ public class FindDollMountGoal extends Goal
 
     public void tick()
     {
-        HorseDollEntity goalMob = this.mob.horseTarget;
+        HorseDollEntity goalMob = this.target;
         if (goalMob != null)
         {
             this.mob.getLookControl().lookAt(goalMob, 30.0F, 30.0F);
@@ -172,7 +150,7 @@ public class FindDollMountGoal extends Goal
 
             if (this.mob.getRandom().nextFloat() < 0.05f)
             {
-                this.mob.horseTarget = getGoal();
+                this.target = getGoal();
                 return;
             }
 

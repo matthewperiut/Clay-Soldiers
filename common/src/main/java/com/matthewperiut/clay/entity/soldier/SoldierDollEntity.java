@@ -6,9 +6,10 @@ import com.matthewperiut.clay.entity.ai.goal.SoldierAIFindTarget;
 import com.matthewperiut.clay.entity.ai.goal.SoliderAIFollowTarget;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.extension.ISpawnReasonExtension;
+import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
@@ -19,8 +20,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -38,6 +37,7 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.HashSet;
 import java.util.Objects;
 
 import static com.matthewperiut.clay.entity.soldier.Targets.AddTargets;
@@ -45,6 +45,7 @@ import static com.matthewperiut.clay.entity.soldier.Targets.AddTargets;
 public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
 {
     private Entity followingEntity;
+    public HashSet<ISoldierUpgrade> upgrades = new HashSet<>();
     public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private boolean isAnimating = false;
@@ -120,6 +121,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     protected void selectTargets()
     {
         this.targetSelector.add(4, new SoldierAIFindTarget.Mount(this, TypeFilter.instanceOf(HorseDollEntity.class)));
+        this.targetSelector.add(4, new SoldierAIFindTarget.Upgrade(this, TypeFilter.instanceOf(ItemEntity.class)));
         AddTargets(this, this.targetSelector);
     }
 
@@ -131,6 +133,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
         this.goalSelector.add(4, new WanderAroundFarGoal(this, 1, 1));
         this.goalSelector.add(3, new MeleeAttackTinyGoal(this, 1, false));
         this.goalSelector.add(2, new SoliderAIFollowTarget.Mount(this, 1));
+        this.goalSelector.add(2, new SoliderAIFollowTarget.Upgrade(this, 1));
         this.goalSelector.add(1, new SwimGoal(this));
 
         selectTargets(); // priority 3
@@ -170,7 +173,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     @Override
     public void onPlayerCollision(PlayerEntity player)
     {
-        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STICK, 1));
         super.onPlayerCollision(player);
     }
 
@@ -214,5 +216,9 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
 
     public void setFollowingEntity(Entity followingEntity) {
         this.followingEntity = followingEntity;
+    }
+
+    public boolean maxedOutUpgrades() {
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 package com.matthewperiut.clay.entity.ai.goal;
 
+import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
@@ -11,19 +12,18 @@ import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
-import java.util.EnumSet;
 import java.util.List;
 
 public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
     protected final SoldierDollEntity soldier;
     protected final TypeFilter<Entity, T> typeFilter;
     protected T target;
+    protected int tickDelay = 20;
 
     public SoldierAIFindTarget(SoldierDollEntity soldier, TypeFilter<Entity, T> filter) {
         this.target = null;
         this.soldier = soldier;
         this.typeFilter = filter;
-        this.setControls(EnumSet.of(Control.TARGET));
     }
 
     @Override
@@ -42,11 +42,16 @@ public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
     }
 
     protected void findTarget() {
-        World world = this.soldier.getWorld();
-
+        if (tickDelay-- > 0) {
+            return;
+        }
+        tickDelay = 20;
         Box box = new Box(this.soldier.getPos().subtract(8, 4, 8), this.soldier.getPos().add(8, 4, 8));
 
+        World world = this.soldier.getWorld();
+
         List<T> targets = world.getEntitiesByType(this.typeFilter, box, this::isTargetable);
+        ClayMod.LOGGER.info("Found {} targets", targets.size());
 
         if (targets.isEmpty()) return;
 
@@ -64,6 +69,7 @@ public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
 
         @Override
         protected boolean isTargetable(HorseDollEntity searchTarget) {
+            ClayMod.LOGGER.info("searching for horse");
             return searchTarget.isAlive() && !searchTarget.hasPassengers() && searchTarget.canSee(soldier);
         }
 
@@ -82,6 +88,7 @@ public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
         @Override
         protected boolean isTargetable(ItemEntity searchTarget) {
             ISoldierUpgrade upgrade = UpgradeManager.INSTANCE.getUpgrade(searchTarget.getStack());
+            ClayMod.LOGGER.info("searching for upgrade");
             return upgrade != null && !soldier.upgrades.contains(upgrade);
         }
 

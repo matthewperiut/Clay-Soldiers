@@ -23,20 +23,19 @@ public abstract class SoliderAIFollowTarget extends Goal {
     @Override
     public boolean canStart() {
         Entity target = getTarget();
-        return target != null && hasValidTarget();
+        return target != null && target.isAlive() && hasValidTarget();
     }
 
     @Override
     public void tick() {
         Entity target = getTarget();
-        if (target != null) {
-            this.soldier.getLookControl().lookAt(target, 30.0F, 30.0F);
-            double distanceToTarget = this.soldier.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
-            if (this.soldier.getRandom().nextFloat() < 0.25F) {
-                this.soldier.getNavigation().startMovingTo(target, this.speed);
-            }
-            action(distanceToTarget);
+        this.soldier.getLookControl().lookAt(target, 30.0F, 30.0F);
+        double distanceToTarget = this.soldier.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
+        if (this.soldier.getRandom().nextFloat() < 0.25F) {
+            this.soldier.getNavigation().startMovingTo(target, this.speed);
         }
+        action(distanceToTarget);
+
     }
 
     @Override
@@ -51,6 +50,7 @@ public abstract class SoliderAIFollowTarget extends Goal {
 
     abstract boolean hasValidTarget();
 
+    // TODO maybe this doesn't need to be abstract
     abstract void cleanUp();
 
     public static class Mount extends SoliderAIFollowTarget {

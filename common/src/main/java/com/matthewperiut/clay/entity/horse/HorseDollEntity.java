@@ -115,7 +115,6 @@ public class HorseDollEntity extends PathAwareEntity implements GeoAnimatable
     {
         if (damageSource.getType().equals(this.getWorld().getDamageSources().inFire().getType()) || damageSource.getType().equals(this.getWorld().getDamageSources().lava().getType()))
             dropBrick = true;
-        getPassengerList().forEach(Entity::dismountVehicle);
         super.onDeath(damageSource);
     }
 

@@ -20,4 +20,6 @@ public interface ISoldierUpgrade {
 
     default void onDeath(SoldierDollEntity soldier) {
     }
+
+    int hashCode();
 }

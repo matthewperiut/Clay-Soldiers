@@ -1,6 +1,5 @@
 package com.matthewperiut.clay.entity.ai.goal;
 
-import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
@@ -83,9 +82,6 @@ public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
         @Override
         protected boolean isTargetable(ItemEntity searchTarget) {
             ISoldierUpgrade upgrade = UpgradeManager.INSTANCE.getUpgrade(searchTarget.getStack());
-            ClayMod.LOGGER.info("{}", upgrade);
-            ClayMod.LOGGER.info("{}", searchTarget);
-            // TODO not working correct
             return upgrade != null && !soldier.upgrades.contains(upgrade);
         }
 

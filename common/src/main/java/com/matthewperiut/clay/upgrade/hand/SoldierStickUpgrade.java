@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class SoldierStickUpgrade implements ISoldierUpgrade {
@@ -47,5 +48,10 @@ public class SoldierStickUpgrade implements ISoldierUpgrade {
         EntityAttributeInstance attackInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
         if (attackInstance != null)
             attackInstance.removeModifier(MODIFIER_ID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(IDENTIFIER.toString());
     }
 }

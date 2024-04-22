@@ -25,6 +25,11 @@ public class SoldierStickUpgrade implements ISoldierUpgrade {
         return new ItemStack(Items.STICK, 1);
     }
 
+    @Override
+    public Identifier getUpgradeIdentifier() {
+        return IDENTIFIER;
+    }
+
     public boolean canUpgrade(ItemStack itemStack, SoldierDollEntity soldier) {
         return !soldier.upgrades.contains(this) && itemStack.isOf(Items.STICK);
     }
@@ -35,8 +40,9 @@ public class SoldierStickUpgrade implements ISoldierUpgrade {
         }
         soldier.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STICK, 1));
         EntityAttributeInstance attackInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-        if (attackInstance != null)
-            attackInstance.addPersistentModifier(new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":solder_stick_upgrade", 2, EntityAttributeModifier.Operation.ADDITION));
+        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":solder_stick_upgrade", 2, EntityAttributeModifier.Operation.ADDITION);
+        if (attackInstance != null && attackInstance.hasModifier(attributeModifier))
+            attackInstance.addPersistentModifier(attributeModifier);
     }
 
     @Override

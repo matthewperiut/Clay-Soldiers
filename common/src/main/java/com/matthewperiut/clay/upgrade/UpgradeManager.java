@@ -5,6 +5,7 @@ import com.matthewperiut.clay.network.UpgradeAdded;
 import com.matthewperiut.clay.registry.UpgradeRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,10 @@ public class UpgradeManager {
     public ISoldierUpgrade getUpgrade(ItemStack stack) {
         Optional<Map.Entry<ItemStack, ISoldierUpgrade>> optionalEntry = possibleUpgrades.entrySet().stream().filter(e -> e.getKey().isOf(stack.getItem())).findFirst();
         return optionalEntry.map(Map.Entry::getValue).orElse(null);
+    }
+
+    public ISoldierUpgrade getUpgrade(Identifier identifier) {
+        return UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.get(identifier);
     }
 
     private HashMap<ItemStack, ISoldierUpgrade> getItemUpgrades() {

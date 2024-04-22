@@ -6,7 +6,9 @@ import com.matthewperiut.clay.entity.ai.goal.SoldierAIFindTarget;
 import com.matthewperiut.clay.entity.ai.goal.SoliderAIFollowTarget;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.extension.ISpawnReasonExtension;
+import com.matthewperiut.clay.nbt.NBTValues;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
+import com.matthewperiut.clay.upgrade.UpgradeManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -20,6 +22,9 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -42,16 +47,14 @@ import java.util.Objects;
 
 import static com.matthewperiut.clay.entity.soldier.Targets.AddTargets;
 
-public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
-{
+public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable {
     private Entity followingEntity;
     public HashSet<ISoldierUpgrade> upgrades = new HashSet<>();
     public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private boolean isAnimating = false;
 
-    public SoldierDollEntity(EntityType<? extends PathAwareEntity> type, World worldIn)
-    {
+    public SoldierDollEntity(EntityType<? extends PathAwareEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
@@ -60,33 +63,25 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
 
     }
 
-    public static DefaultAttributeContainer setAttributes()
-    {
+    public static DefaultAttributeContainer setAttributes() {
         return PathAwareEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0f).add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f).build();
     }
 
-    private <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event)
-    {
-        if (this.hasVehicle())
-        {
+    private <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event) {
+        if (this.hasVehicle()) {
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.ride"));
             return PlayState.CONTINUE;
         }
-        if (event.isMoving())
-        {
+        if (event.isMoving()) {
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.run"));
-        }
-        else
-        {
+        } else {
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.idle"));
         }
         return PlayState.CONTINUE;
     }
 
-    private PlayState attackPredicate(AnimationState<SoldierDollEntity> event)
-    {
-        if (this.handSwinging)
-        {
+    private PlayState attackPredicate(AnimationState<SoldierDollEntity> event) {
+        if (this.handSwinging) {
             event.getController().forceAnimationReset();
             event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.clay_soldier.attack"));
             this.handSwinging = false;
@@ -96,38 +91,32 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar)
-    {
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
         controllerRegistrar.add(new AnimationController<>(this, "attackController", 1, this::attackPredicate));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache()
-    {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return animationCache;
     }
 
     @Override
-    public ActionResult interactAt(PlayerEntity player, Vec3d hitPos, Hand hand)
-    {
-        if (hand == Hand.MAIN_HAND)
-        {
+    public ActionResult interactAt(PlayerEntity player, Vec3d hitPos, Hand hand) {
+        if (hand == Hand.MAIN_HAND) {
             this.isAnimating = !this.isAnimating;
         }
         return super.interactAt(player, hitPos, hand);
     }
 
-    protected void selectTargets()
-    {
+    protected void selectTargets() {
         this.targetSelector.add(4, new SoldierAIFindTarget.Mount(this, TypeFilter.instanceOf(HorseDollEntity.class)));
         this.targetSelector.add(4, new SoldierAIFindTarget.Upgrade(this, TypeFilter.instanceOf(ItemEntity.class)));
         AddTargets(this, this.targetSelector);
     }
 
     @Override
-    protected void initGoals()
-    {
+    protected void initGoals() {
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(5, new LookAroundGoal(this));
         this.goalSelector.add(4, new WanderAroundFarGoal(this, 1, 1));
@@ -142,16 +131,13 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     }
 
     @Override
-    public double getTick(Object o)
-    {
+    public double getTick(Object o) {
         return age;
     }
 
     @Override
-    public boolean handleAttack(Entity attacker)
-    {
-        if (attacker instanceof PlayerEntity)
-        {
+    public boolean handleAttack(Entity attacker) {
+        if (attacker instanceof PlayerEntity) {
             kill();
         }
 
@@ -159,35 +145,30 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource src)
-    {
+    protected SoundEvent getHurtSound(DamageSource src) {
         return SoundEvents.BLOCK_GRAVEL_BREAK;
     }
 
     @Override
-    protected SoundEvent getDeathSound()
-    {
+    protected SoundEvent getDeathSound() {
         return SoundEvents.BLOCK_GRAVEL_STEP;
     }
 
     @Override
-    public void onPlayerCollision(PlayerEntity player)
-    {
+    public void onPlayerCollision(PlayerEntity player) {
         super.onPlayerCollision(player);
     }
 
     boolean dropBrick = false;
 
     @Override
-    protected Identifier getLootTableId()
-    {
+    protected Identifier getLootTableId() {
         if (dropBrick) return new Identifier("clay:entities/soldier/brick");
         return super.getLootTableId();
     }
 
     @Override
-    public void onDeath(DamageSource damageSource)
-    {
+    public void onDeath(DamageSource damageSource) {
         if (this.hasVehicle()) Objects.requireNonNull(this.getVehicle()).kill();
         if (damageSource.getType().equals(this.getWorld().getDamageSources().inFire().getType()) || (damageSource.getType().equals(this.getWorld().getDamageSources().lava().getType())))
             dropBrick = true;
@@ -195,15 +176,13 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
     }
 
     @Override
-    public boolean tryAttack(Entity target)
-    {
+    public boolean tryAttack(Entity target) {
         swingHand(Hand.MAIN_HAND);
         return super.tryAttack(target);
     }
 
     @Override
-    public boolean cannotDespawn()
-    {
+    public boolean cannotDespawn() {
         if (this instanceof ISpawnReasonExtension) {
             return ((ISpawnReasonExtension) this).clay$getSpawnReason() == SpawnReason.SPAWN_EGG;
         }
@@ -220,5 +199,32 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable
 
     public boolean maxedOutUpgrades() {
         return false;
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        NbtList nbtListForUpgrades = nbt.getList(NBTValues.SOLDIER_UPGRADES.getKey(), NbtElement.COMPOUND_TYPE);
+        ClayMod.LOGGER.info("Reading custom data");
+        ClayMod.LOGGER.info("Reading list with size {}", nbtListForUpgrades.size());
+        for (int i = 0; i < nbtListForUpgrades.size(); i++) {
+            NbtCompound nbtCompound = nbtListForUpgrades.getCompound(i);
+            Identifier identifier = new Identifier(nbtCompound.getString(NBTValues.SOLDIER_UPGRADES_ID.getKey()));
+            this.upgrades.add(UpgradeManager.INSTANCE.getUpgrade(identifier));
+            ClayMod.LOGGER.info("Read upgrade: {}", identifier);
+        }
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        NbtList nbtListForUpgrades = new NbtList();
+        for (ISoldierUpgrade upgrade : this.upgrades) {
+            NbtCompound nbtElement = new NbtCompound();
+            nbtElement.putString(NBTValues.SOLDIER_UPGRADES_ID.getKey(), upgrade.getUpgradeIdentifier().toString());
+            nbtListForUpgrades.add(nbtElement);
+            ClayMod.LOGGER.info("Write upgrade: {}", upgrade.getUpgradeIdentifier());
+        }
+        nbt.put(NBTValues.SOLDIER_UPGRADES.getKey(), nbtListForUpgrades);
     }
 }

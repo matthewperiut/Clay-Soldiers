@@ -1,6 +1,5 @@
 package com.matthewperiut.clay.entity.ai.goal;
 
-import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
@@ -51,7 +50,6 @@ public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
         World world = this.soldier.getWorld();
 
         List<T> targets = world.getEntitiesByType(this.typeFilter, box, this::isTargetable);
-        ClayMod.LOGGER.info("Found {} targets", targets.size());
 
         if (targets.isEmpty()) return;
 
@@ -69,7 +67,6 @@ public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
 
         @Override
         protected boolean isTargetable(HorseDollEntity searchTarget) {
-            ClayMod.LOGGER.info("searching for horse");
             return searchTarget.isAlive() && !searchTarget.hasPassengers() && searchTarget.canSee(soldier);
         }
 
@@ -88,7 +85,6 @@ public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
         @Override
         protected boolean isTargetable(ItemEntity searchTarget) {
             ISoldierUpgrade upgrade = UpgradeManager.INSTANCE.getUpgrade(searchTarget.getStack());
-            ClayMod.LOGGER.info("searching for upgrade");
             return upgrade != null && !soldier.upgrades.contains(upgrade);
         }
 

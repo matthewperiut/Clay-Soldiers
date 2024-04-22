@@ -6,6 +6,8 @@ import com.matthewperiut.clay.upgrade.UpgradeManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 
 import java.util.EnumSet;
 
@@ -96,6 +98,7 @@ public abstract class SoliderAIFollowTarget extends Goal {
                 ItemEntity target = getTarget();
                 UpgradeManager.INSTANCE.applyUpdate(soldier, target.getStack());
                 target.getStack().decrement(1);
+                soldier.getWorld().playSound(null, soldier.getX(), soldier.getY(), soldier.getZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((soldier.getRandom().nextFloat() - soldier.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
                 if (target.getStack().getCount() == 0) {
                     target.setDespawnImmediately();
                 }

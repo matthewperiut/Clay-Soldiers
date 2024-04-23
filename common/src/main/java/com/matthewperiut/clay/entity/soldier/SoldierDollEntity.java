@@ -205,13 +205,10 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         NbtList nbtListForUpgrades = nbt.getList(NBTValues.SOLDIER_UPGRADES.getKey(), NbtElement.COMPOUND_TYPE);
-        ClayMod.LOGGER.info("Reading custom data");
-        ClayMod.LOGGER.info("Reading list with size {}", nbtListForUpgrades.size());
         for (int i = 0; i < nbtListForUpgrades.size(); i++) {
             NbtCompound nbtCompound = nbtListForUpgrades.getCompound(i);
             Identifier identifier = new Identifier(nbtCompound.getString(NBTValues.SOLDIER_UPGRADES_ID.getKey()));
             this.upgrades.add(UpgradeManager.INSTANCE.getUpgrade(identifier));
-            ClayMod.LOGGER.info("Read upgrade: {}", identifier);
         }
     }
 
@@ -223,7 +220,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable 
             NbtCompound nbtElement = new NbtCompound();
             nbtElement.putString(NBTValues.SOLDIER_UPGRADES_ID.getKey(), upgrade.getUpgradeIdentifier().toString());
             nbtListForUpgrades.add(nbtElement);
-            ClayMod.LOGGER.info("Write upgrade: {}", upgrade.getUpgradeIdentifier());
         }
         nbt.put(NBTValues.SOLDIER_UPGRADES.getKey(), nbtListForUpgrades);
     }

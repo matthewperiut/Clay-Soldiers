@@ -21,6 +21,7 @@ public class SoldierStickUpgrade implements ISoldierUpgrade {
     protected static final UUID MODIFIER_ID = UUID.randomUUID();
 
 
+    @Override
     public ItemStack getUpgradeItem() {
         return new ItemStack(Items.STICK, 1);
     }
@@ -30,10 +31,12 @@ public class SoldierStickUpgrade implements ISoldierUpgrade {
         return IDENTIFIER;
     }
 
+    @Override
     public boolean canUpgrade(ItemStack itemStack, SoldierDollEntity soldier) {
         return !soldier.upgrades.contains(this) && itemStack.isOf(Items.STICK);
     }
 
+    @Override
     public void onAdd(SoldierDollEntity soldier) {
         if (soldier.getWorld().isClient()) {
             return;

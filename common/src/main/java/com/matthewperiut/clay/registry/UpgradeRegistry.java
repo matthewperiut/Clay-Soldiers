@@ -3,6 +3,7 @@ package com.matthewperiut.clay.registry;
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
 import com.matthewperiut.clay.upgrade.hand.SoldierStickUpgrade;
+import com.matthewperiut.clay.upgrade.misc.SoldierGlowstoneUpgrade;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -19,6 +20,7 @@ public class UpgradeRegistry {
             .build();
 
     public static final RegistrySupplier<ISoldierUpgrade> STICK_UPGRADE = SOLDIER_UPGRADE_REGISTER.register(SoldierStickUpgrade.IDENTIFIER, SoldierStickUpgrade::new);
+    public static final RegistrySupplier<ISoldierUpgrade> GLOWSTONE_UPGRADE = SOLDIER_UPGRADE_REGISTER.register(SoldierGlowstoneUpgrade.IDENTIFIER, SoldierGlowstoneUpgrade::new);
 
     public static void init() {
 

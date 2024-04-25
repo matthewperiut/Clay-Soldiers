@@ -9,6 +9,7 @@ public interface ISoldierUpgrade {
 
     Identifier getUpgradeIdentifier();
 
+    // TODO maybe make a default implementation for not contains and itemStack has item
     boolean canUpgrade(ItemStack itemStack, SoldierDollEntity soldier);
 
     default boolean shouldSyncToClient() {
@@ -24,5 +25,6 @@ public interface ISoldierUpgrade {
     default void onDeath(SoldierDollEntity soldier) {
     }
 
+    @Override
     int hashCode();
 }

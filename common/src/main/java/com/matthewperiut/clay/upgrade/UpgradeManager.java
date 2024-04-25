@@ -4,7 +4,8 @@ import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.network.UpgradeAdded;
 import com.matthewperiut.clay.registry.UpgradeRegistry;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -23,9 +24,23 @@ public class UpgradeManager {
             upgrade.onAdd(entity);
             entity.upgrades.add(upgrade);
             if (upgrade.shouldSyncToClient()) {
-                UpgradeAdded.sendPacket(((ServerWorld) entity.getWorld()).getPlayers(), entity.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
+                UpgradeAdded.sendPacket(((ServerChunkManager) entity.getWorld().getChunkManager()).threadedAnvilChunkStorage.getPlayersWatchingChunk(entity.getChunkPos(), false), entity.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
             }
         }
+    }
+
+    public void onNBTRead(SoldierDollEntity entity, Identifier upgradeId) {
+        ISoldierUpgrade upgrade = getUpgrade(upgradeId);
+
+        if (upgrade == null) return;
+
+        upgrade.onAdd(entity);
+        entity.upgrades.add(upgrade);
+    }
+
+    public void sendUpgradeToPlayer(ServerPlayerEntity player, SoldierDollEntity entity, ISoldierUpgrade upgrade) {
+        UpgradeAdded.sendSinglePacket(player, entity.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
+
     }
 
     public ISoldierUpgrade getUpgrade(ItemStack stack) {

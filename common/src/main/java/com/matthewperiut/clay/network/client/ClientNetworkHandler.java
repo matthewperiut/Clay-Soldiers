@@ -1,5 +1,6 @@
 package com.matthewperiut.clay.network.client;
 
+import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.registry.UpgradeRegistry;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
@@ -19,9 +20,14 @@ public class ClientNetworkHandler {
             Identifier upgradeIdentifier = buf.readIdentifier();
 
             ISoldierUpgrade upgrade = UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.get(upgradeIdentifier);
+            if (upgrade == null) {
+                ClayMod.LOGGER.warn("Unknown upgrade id {}", upgradeIdentifier);
+                return;
+            }
             Entity entity = context.getPlayer().getEntityWorld().getEntityById(soldierEntityId);
-            if (entity instanceof SoldierDollEntity) {
-                ((SoldierDollEntity) entity).upgrades.add(upgrade);
+            if (entity instanceof SoldierDollEntity soldier) {
+                soldier.upgrades.add(upgrade);
+                upgrade.onAdd(soldier);
             }
         });
     }

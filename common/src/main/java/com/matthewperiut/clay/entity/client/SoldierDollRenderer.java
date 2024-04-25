@@ -66,7 +66,6 @@ public class SoldierDollRenderer extends GeoEntityRenderer<SoldierDollEntity>
 
     @Override
     protected int getBlockLight(SoldierDollEntity entity, BlockPos pos) {
-        // TODO make it depending on Glowstone Upgrade
-        return 15;
+        return entity.isLightBlockUnaffected() ? 15 : super.getBlockLight(entity, pos);
     }
 }

@@ -24,7 +24,7 @@ public class SyncUpgradesS2CPacket {
     }
 
     public void write(PacketByteBuf buf) {
-        buf.writeVarInt(upgrades.size());
+        buf.writeInt(upgrades.size());
         for (ISoldierUpgrade upgrade : upgrades) {
             buf.writeIdentifier(upgrade.getUpgradeIdentifier());
         }

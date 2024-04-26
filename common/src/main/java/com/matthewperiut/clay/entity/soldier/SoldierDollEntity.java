@@ -11,6 +11,7 @@ import com.matthewperiut.clay.network.packet.SyncUpgradesS2CPacket;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
 import com.matthewperiut.clay.upgrade.UpgradeManager;
 import dev.architectury.extensions.network.EntitySpawnExtension;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -22,14 +23,14 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -55,7 +56,6 @@ import static com.matthewperiut.clay.entity.soldier.Targets.AddTargets;
 public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable, EntitySpawnExtension {
     private Entity followingEntity;
     public HashSet<ISoldierUpgrade> upgrades = new HashSet<>();
-    public TrackedDataHandler<ISoldierUpgrade> upgradeDataHandler;
     public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private boolean isAnimating = false;
@@ -225,9 +225,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
             Identifier identifier = new Identifier(nbtCompound.getString(NBTValues.SOLDIER_UPGRADES_ID.getKey()));
             UpgradeManager.INSTANCE.onNBTRead(this, identifier);
         }
-        for (ISoldierUpgrade upgrade : this.upgrades) {
-            upgrade.onAdd(this);
-        }
     }
 
     @Override
@@ -243,8 +240,12 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     }
 
     @Override
+    public Packet<ClientPlayPacketListener> createSpawnPacket() {
+        return NetworkManager.createAddEntityPacket(this);
+    }
+
+    @Override
     public void saveAdditionalSpawnData(PacketByteBuf buf) {
-        ClayMod.LOGGER.info("Write additional spawn data");
         SyncUpgradesS2CPacket syncUpgradeData = new SyncUpgradesS2CPacket(this);
         syncUpgradeData.write(buf);
     }
@@ -254,18 +255,5 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         SyncUpgradesS2CPacket syncUpgradeData = new SyncUpgradesS2CPacket(buf);
         this.upgrades = new HashSet<>(syncUpgradeData.getUpgrades());
         this.upgrades.forEach(u -> u.onAdd(this));
-        ClayMod.LOGGER.info("load additional spawn data");
-    }
-
-    @Override
-    public void onStartedTrackingBy(ServerPlayerEntity player) {
-        super.onStartedTrackingBy(player);
-        sendUpgrades(player);
-    }
-
-    public void sendUpgrades(ServerPlayerEntity trackingPlayer) {
-        this.upgrades.stream().filter(ISoldierUpgrade::shouldSyncToClient).forEach(u -> {
-            UpgradeManager.INSTANCE.sendUpgradeToPlayer(trackingPlayer, this, u);
-        });
     }
 }

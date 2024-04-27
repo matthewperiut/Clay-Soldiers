@@ -45,6 +45,11 @@ public class SoldierGlowstoneUpgrade implements ISoldierUpgrade {
     }
 
     @Override
+    public void onLoad(SoldierDollEntity soldier) {
+        onAdd(soldier);
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hashCode(IDENTIFIER.toString());
     }

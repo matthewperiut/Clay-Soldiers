@@ -37,7 +37,6 @@ public abstract class SoliderAIFollowTarget extends Goal {
             this.soldier.getNavigation().startMovingTo(target, this.speed);
         }
         action(distanceToTarget);
-
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.matthewperiut.clay.entity.ai.goal;
 
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
-import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
 import com.matthewperiut.clay.upgrade.UpgradeManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -84,8 +83,7 @@ public abstract class SoldierAIFindTarget<T extends Entity> extends Goal {
 
         @Override
         protected boolean isTargetable(ItemEntity searchTarget) {
-            ISoldierUpgrade upgrade = UpgradeManager.INSTANCE.getUpgrade(searchTarget.getStack());
-            return upgrade != null && !soldier.upgrades.contains(upgrade);
+            return UpgradeManager.INSTANCE.canApplyUpdate(soldier, searchTarget.getStack());
         }
 
         @Override

@@ -9,6 +9,7 @@ import com.matthewperiut.clay.extension.ISpawnReasonExtension;
 import com.matthewperiut.clay.nbt.NBTValues;
 import com.matthewperiut.clay.network.packet.SyncUpgradesS2CPacket;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
+import com.matthewperiut.clay.upgrade.UpgradeInstance;
 import com.matthewperiut.clay.upgrade.UpgradeManager;
 import dev.architectury.extensions.network.EntitySpawnExtension;
 import dev.architectury.networking.NetworkManager;
@@ -50,14 +51,15 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 import static com.matthewperiut.clay.entity.soldier.Targets.AddTargets;
 
 public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable, EntitySpawnExtension {
     private Entity followingEntity;
     public HashSet<ISoldierUpgrade> upgrades = new HashSet<>();
+    public HashMap<ISoldierUpgrade, UpgradeInstance> upgradeInstances = new HashMap<>();
+    public Queue<ISoldierUpgrade> removeUpgrades = new LinkedList<>();
     public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private boolean isAnimating = false;
@@ -69,7 +71,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
 
     public static DefaultAttributeContainer.Builder createAttributes() {
         return PathAwareEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0f).add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f);
-
     }
 
     private <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event) {
@@ -225,7 +226,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         for (int i = 0; i < nbtListForUpgrades.size(); i++) {
             NbtCompound nbtCompound = nbtListForUpgrades.getCompound(i);
             Identifier identifier = new Identifier(nbtCompound.getString(NBTValues.SOLDIER_UPGRADES_ID.getKey()));
-            UpgradeManager.INSTANCE.onNBTRead(this, identifier, nbtCompound);
+            UpgradeManager.INSTANCE.handleNBTRead(this, identifier, nbtCompound);
         }
     }
 
@@ -235,7 +236,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         NbtList nbtListForUpgrades = new NbtList();
         for (ISoldierUpgrade upgrade : this.upgrades) {
             NbtCompound nbtElement = new NbtCompound();
-            nbtElement.putString(NBTValues.SOLDIER_UPGRADES_ID.getKey(), upgrade.getUpgradeIdentifier().toString());
+            UpgradeManager.INSTANCE.handleNBTWrite(this, upgrade, nbtElement);
             nbtListForUpgrades.add(nbtElement);
         }
         nbt.put(NBTValues.SOLDIER_UPGRADES.getKey(), nbtListForUpgrades);

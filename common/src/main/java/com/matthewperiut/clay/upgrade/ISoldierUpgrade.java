@@ -2,6 +2,7 @@ package com.matthewperiut.clay.upgrade;
 
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
 public interface ISoldierUpgrade {
@@ -23,6 +24,15 @@ public interface ISoldierUpgrade {
     }
 
     default void onDeath(SoldierDollEntity soldier) {
+    }
+
+    default void writeCustomNBTData(NbtCompound nbt) {
+    }
+
+    default void readCustomNBTData(NbtCompound nbt) {
+    }
+
+    default void onKill(SoldierDollEntity dyingSoldier, SoldierDollEntity attacker) {
     }
 
     @Override

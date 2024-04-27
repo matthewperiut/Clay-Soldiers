@@ -12,6 +12,8 @@ import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
 import com.matthewperiut.clay.upgrade.UpgradeManager;
 import dev.architectury.extensions.network.EntitySpawnExtension;
 import dev.architectury.networking.NetworkManager;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -68,10 +70,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     public static DefaultAttributeContainer.Builder createAttributes() {
         return PathAwareEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0f).add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f);
 
-    }
-
-    public static DefaultAttributeContainer setAttributes() {
-        return PathAwareEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 5.00f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0f).add(EntityAttributes.GENERIC_ATTACK_SPEED, 0.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25f).build();
     }
 
     private <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event) {
@@ -168,12 +166,14 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
 
     boolean dropBrick = false;
 
+
     @Override
     protected Identifier getLootTableId() {
         if (dropBrick) return new Identifier("clay:entities/soldier/brick");
         return super.getLootTableId();
     }
 
+    // TODO drop upgrades on death
     @Override
     public void onDeath(DamageSource damageSource) {
         if (this.hasVehicle()) Objects.requireNonNull(this.getVehicle()).kill();
@@ -208,10 +208,12 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         return false;
     }
 
+    @Environment(EnvType.CLIENT)
     public boolean isLightBlockUnaffected() {
         return isLightBlockUnaffected;
     }
 
+    @Environment(EnvType.CLIENT)
     public void setLightBlockUnaffected(boolean lightBlockUnaffected) {
         this.isLightBlockUnaffected = lightBlockUnaffected;
     }
@@ -223,7 +225,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         for (int i = 0; i < nbtListForUpgrades.size(); i++) {
             NbtCompound nbtCompound = nbtListForUpgrades.getCompound(i);
             Identifier identifier = new Identifier(nbtCompound.getString(NBTValues.SOLDIER_UPGRADES_ID.getKey()));
-            UpgradeManager.INSTANCE.onNBTRead(this, identifier);
+            UpgradeManager.INSTANCE.onNBTRead(this, identifier, nbtCompound);
         }
     }
 

@@ -2,10 +2,11 @@ package com.matthewperiut.clay.upgrade;
 
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import com.matthewperiut.clay.network.UpgradeAdded;
+import com.matthewperiut.clay.network.UpgradeRemoved;
 import com.matthewperiut.clay.registry.UpgradeRegistry;
+import com.matthewperiut.clay.util.NetworkUtils;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerChunkManager;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -24,23 +25,27 @@ public class UpgradeManager {
             upgrade.onAdd(entity);
             entity.upgrades.add(upgrade);
             if (upgrade.shouldSyncToClient()) {
-                UpgradeAdded.sendPacket(((ServerChunkManager) entity.getWorld().getChunkManager()).threadedAnvilChunkStorage.getPlayersWatchingChunk(entity.getChunkPos(), false), entity.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
+                UpgradeAdded.sendPacket(NetworkUtils.getTrackingPlayers(entity), entity.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
             }
         }
     }
 
-    public void onNBTRead(SoldierDollEntity entity, Identifier upgradeId) {
+    public void removeUpgrade(SoldierDollEntity entity, ISoldierUpgrade upgrade) {
+        upgrade.onRemove(entity);
+        entity.upgrades.remove(upgrade);
+        if (upgrade.shouldSyncToClient()) {
+            UpgradeRemoved.sendPacket(NetworkUtils.getTrackingPlayers(entity), entity.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
+        }
+    }
+
+    public void onNBTRead(SoldierDollEntity entity, Identifier upgradeId, NbtCompound compound) {
         ISoldierUpgrade upgrade = getUpgrade(upgradeId);
 
         if (upgrade == null) return;
 
         upgrade.onAdd(entity);
+        upgrade.readCustomNBTData(compound);
         entity.upgrades.add(upgrade);
-    }
-
-    public void sendUpgradeToPlayer(ServerPlayerEntity player, SoldierDollEntity entity, ISoldierUpgrade upgrade) {
-        UpgradeAdded.sendSinglePacket(player, entity.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
-
     }
 
     public ISoldierUpgrade getUpgrade(ItemStack stack) {

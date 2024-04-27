@@ -34,12 +34,14 @@ public class SoldierGlowstoneUpgrade implements ISoldierUpgrade {
 
     @Override
     public void onAdd(SoldierDollEntity soldier) {
-        soldier.setLightBlockUnaffected(true);
+        if (soldier.getWorld().isClient())
+            soldier.setLightBlockUnaffected(true);
     }
 
     @Override
     public void onRemove(SoldierDollEntity soldier) {
-        soldier.setLightBlockUnaffected(false);
+        if (soldier.getWorld().isClient())
+            soldier.setLightBlockUnaffected(false);
     }
 
     @Override

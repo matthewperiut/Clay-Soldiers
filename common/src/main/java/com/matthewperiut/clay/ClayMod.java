@@ -1,5 +1,6 @@
 package com.matthewperiut.clay;
 
+import com.matthewperiut.clay.event.LivingEntityEventManager;
 import com.matthewperiut.clay.network.client.ClientNetworkHandler;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.EnvType;
@@ -15,6 +16,7 @@ public class ClayMod
     public static void init()
     {
         ClayRegistries.init();
+        LivingEntityEventManager.register();
     }
 
     public static void post() {

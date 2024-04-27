@@ -2,4 +2,10 @@
 
 The goal is to create a fully functional Clay Soldiers like we had it in 1.7.10 or so.
 
-Since all the rights reserved to this person, i cant publish any code until the maintainer gives permissions, so you need to build it yourself in order to get updates :)
+# Upgrades
+
+| Upgrade Item | Description                        | Requires | Durability |
+|:------------:|------------------------------------|:--------:|------------|
+|    Stick     | Increases Attack damage by 2       |   ---    | 20         |
+|    Flint     | Increases Attack damage by 1       |  Stick   | ---        |
+|  Glowstone   | Makes the Soldier glow in the dark |          |            |

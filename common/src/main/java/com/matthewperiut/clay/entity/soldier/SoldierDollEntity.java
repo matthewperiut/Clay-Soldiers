@@ -184,6 +184,18 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     }
 
     @Override
+    public void onAttacking(Entity target) {
+        super.onAttacking(target);
+        if (target instanceof SoldierDollEntity targetSoldier) {
+            this.upgrades.forEach(u -> u.onAttack(targetSoldier, this));
+            ISoldierUpgrade upgrade;
+            while ((upgrade = removeUpgrades.poll()) != null) {
+                UpgradeManager.INSTANCE.removeUpgrade(this, upgrade);
+            }
+        }
+    }
+
+    @Override
     public boolean tryAttack(Entity target) {
         swingHand(Hand.MAIN_HAND);
         return super.tryAttack(target);

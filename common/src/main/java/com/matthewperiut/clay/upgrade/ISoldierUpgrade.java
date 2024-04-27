@@ -50,6 +50,15 @@ public interface ISoldierUpgrade {
     }
 
     /**
+     * On a successful attack on the target
+     *
+     * @param target   soldier which got hit
+     * @param attacker soldier with this upgrade
+     */
+    default void onAttack(SoldierDollEntity target, SoldierDollEntity attacker) {
+    }
+
+    /**
      * If an Upgrade depends on other upgrades, it should be declared here,
      * so it can be removed when the dependency is missing
      */

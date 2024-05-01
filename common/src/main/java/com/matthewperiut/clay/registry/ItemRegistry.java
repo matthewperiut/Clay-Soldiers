@@ -3,6 +3,7 @@ package com.matthewperiut.clay.registry;
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
+import com.matthewperiut.clay.item.armor.TinyChestplateArmorItem;
 import com.matthewperiut.clay.item.common.DollDispenserBehavior;
 import com.matthewperiut.clay.item.disruptor.ClayMaterial;
 import com.matthewperiut.clay.item.disruptor.DisruptorDispenserBehavior;
@@ -17,6 +18,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -32,6 +35,7 @@ public class ItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ClayMod.MOD_ID, (RegistryKey<Registry<Item>>) Registries.ITEM.getKey());
     public static final DeferredRegister<Item> HORSE_ITEMS = DeferredRegister.create(ClayMod.MOD_ID, (RegistryKey<Registry<Item>>) Registries.ITEM.getKey());
     public static final DeferredRegister<Item> MISC_ITEMS = DeferredRegister.create(ClayMod.MOD_ID, (RegistryKey<Registry<Item>>) Registries.ITEM.getKey());
+    public static final DeferredRegister<Item> INTERNAL_ITEMS = DeferredRegister.create(ClayMod.MOD_ID, (RegistryKey<Registry<Item>>) Registries.ITEM.getKey());
 
     // Soldiers
     public static final RegistrySupplier<Item> BRICK_SOLDIER = registerMiscItem("soldier/brick", () -> new Item(miscSettings()));
@@ -73,10 +77,15 @@ public class ItemRegistry {
     public static RegistrySupplier<Item> TERRACOTTA_DISRUPTOR = registerMiscItem("disruptor/terracotta", () -> new DisruptorItem(new TerracottaMaterial(), new Item.Settings().maxCount(1).arch$tab(CLAY_MISC_GROUP)));
     public static RegistrySupplier<Item> OBSIDIAN_DISRUPTOR = registerMiscItem("disruptor/obsidian", () -> new DisruptorItem(new Item.Settings().maxCount(1).arch$tab(CLAY_MISC_GROUP)));
 
+
+    // internal
+    public static RegistrySupplier<Item> TINY_CHESTPLATE = INTERNAL_ITEMS.register("armor/tiny_chestplate", () -> new TinyChestplateArmorItem(ArmorMaterials.DIAMOND, ArmorItem.Type.CHESTPLATE, new Item.Settings()));
+
     public static void init() {
         ITEMS.register();
         HORSE_ITEMS.register();
         MISC_ITEMS.register();
+        INTERNAL_ITEMS.register();
     }
 
     public static void post() {

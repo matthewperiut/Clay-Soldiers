@@ -36,6 +36,9 @@ dependencies {
     modImplementation "software.bernie.geckolib:geckolib-forge-${rootProject.gecko_lib}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
+
+    forgeRuntimeLibrary("com.eliotlash.mclib:mclib:20") // Fix for geckolib 4.4.x
+
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
 
@@ -56,7 +59,7 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    getInputFile().set(shadowJar.archiveFile)
     dependsOn shadowJar
     archiveClassifier = "forge-${rootProject.minecraft_version}"
 }

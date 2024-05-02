@@ -9,3 +9,4 @@ The goal is to create a fully functional Clay Soldiers like we had it in 1.7.10 
 |    Stick     | Increases Attack damage by 2       |   ---    | 20         |
 |    Flint     | Increases Attack damage by 1       |  Stick   | ---        |
 |  Glowstone   | Makes the Soldier glow in the dark |   ---    | ---        |
+|   Leather    | Gives the Soldier a leather arnor  |   ---    | ---        |

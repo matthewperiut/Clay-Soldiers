@@ -64,6 +64,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private boolean isAnimating = false;
     protected boolean isLightBlockUnaffected = false;
+    private boolean hasArmor = false;
 
     public SoldierDollEntity(EntityType<? extends PathAwareEntity> type, World worldIn) {
         super(type, worldIn);
@@ -98,8 +99,10 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController<>(this, "attackController", 1, this::attackPredicate));
+        controllerRegistrar.add(
+                new AnimationController<>(this, "controller", 0, this::predicate),
+                new AnimationController<>(this, "attackController", 1, this::attackPredicate)
+        );
     }
 
     @Override
@@ -221,16 +224,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         return false;
     }
 
-    @Environment(EnvType.CLIENT)
-    public boolean isLightBlockUnaffected() {
-        return isLightBlockUnaffected;
-    }
-
-    @Environment(EnvType.CLIENT)
-    public void setLightBlockUnaffected(boolean lightBlockUnaffected) {
-        this.isLightBlockUnaffected = lightBlockUnaffected;
-    }
-
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
@@ -270,5 +263,25 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         SyncUpgradesS2CPacket syncUpgradeData = new SyncUpgradesS2CPacket(buf);
         this.upgrades = new HashSet<>(syncUpgradeData.getUpgrades());
         this.upgrades.forEach(u -> u.onAdd(this));
+    }
+
+    @Environment(EnvType.CLIENT)
+    public boolean hasArmor() {
+        return hasArmor;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void setHasArmor(boolean hasArmor) {
+        this.hasArmor = hasArmor;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public boolean isLightBlockUnaffected() {
+        return isLightBlockUnaffected;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void setLightBlockUnaffected(boolean lightBlockUnaffected) {
+        this.isLightBlockUnaffected = lightBlockUnaffected;
     }
 }

@@ -56,7 +56,7 @@ shadowJar {
 
 remapJar {
     injectAccessWidener = true
-    input.set shadowJar.archiveFile
+    getInputFile().set(shadowJar.archiveFile)
     dependsOn shadowJar
     archiveClassifier = "fabric-${rootProject.minecraft_version}"
 }

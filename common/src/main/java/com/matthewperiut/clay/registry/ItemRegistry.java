@@ -80,12 +80,8 @@ public class ItemRegistry {
     }
 
     public static void post() {
-        HORSE_ITEMS.forEach(e -> {
-            DispenserBlock.registerBehavior(e.get(), DollDispenserBehavior.DOLL_DISPENSE);
-        });
-        ITEMS.forEach(e -> {
-            DispenserBlock.registerBehavior(e.get(), DollDispenserBehavior.DOLL_DISPENSE);
-        });
+        HORSE_ITEMS.forEach(e -> DispenserBlock.registerBehavior(e.get(), DollDispenserBehavior.DOLL_DISPENSE));
+        ITEMS.forEach(e -> DispenserBlock.registerBehavior(e.get(), DollDispenserBehavior.DOLL_DISPENSE));
 
         DisruptorDispenserBehavior dispenserBehavior = new DisruptorDispenserBehavior();
 

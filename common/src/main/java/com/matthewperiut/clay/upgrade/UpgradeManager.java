@@ -24,7 +24,9 @@ public class UpgradeManager {
         ISoldierUpgrade upgrade = getUpgrade(stack);
         if (upgrade != null && upgrade.canUpgrade(stack, soldier)) {
             soldier.upgrades.add(upgrade);
-            soldier.upgradeInstances.put(upgrade, new UpgradeInstance(new NbtCompound()));
+            if (upgrade.needsCustomData())
+                soldier.upgradeInstances.put(upgrade, new UpgradeInstance(new NbtCompound()));
+
             upgrade.onAdd(soldier);
             if (upgrade.shouldSyncToClient()) {
                 UpgradeAdded.sendPacket(NetworkUtils.getTrackingPlayers(soldier), soldier.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
@@ -43,7 +45,9 @@ public class UpgradeManager {
     public void removeUpgrade(SoldierDollEntity soldier, ISoldierUpgrade upgrade) {
         upgrade.onRemove(soldier);
         soldier.upgrades.remove(upgrade);
-        soldier.upgradeInstances.remove(upgrade);
+        if (upgrade.needsCustomData())
+            soldier.upgradeInstances.remove(upgrade);
+
         handleDependencies(soldier, upgrade);
         if (upgrade.shouldSyncToClient()) {
             UpgradeRemoved.sendPacket(NetworkUtils.getTrackingPlayers(soldier), soldier.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
@@ -66,7 +70,9 @@ public class UpgradeManager {
         if (upgrade == null) return;
 
         soldier.upgrades.add(upgrade);
-        soldier.upgradeInstances.put(upgrade, new UpgradeInstance(compound));
+        if (upgrade.needsCustomData())
+            soldier.upgradeInstances.put(upgrade, new UpgradeInstance(compound));
+
         upgrade.readCustomNBTData(soldier, compound);
         upgrade.onLoad(soldier);
     }

@@ -19,9 +19,26 @@ public interface ISoldierUpgrade {
         return false;
     }
 
+    /**
+     * If its set to true, this updates gets its own custom instance to save data for runtime
+     */
+    default boolean needsCustomData() {
+        return false;
+    }
+
+    /**
+     * When a upgrade is added
+     *
+     * @param soldier which got the upgrade added
+     */
     default void onAdd(SoldierDollEntity soldier) {
     }
 
+    /**
+     * When a upgrade is removed
+     *
+     * @param soldier which got the upgrade removed
+     */
     default void onRemove(SoldierDollEntity soldier) {
     }
 
@@ -33,9 +50,21 @@ public interface ISoldierUpgrade {
     default void onLoad(SoldierDollEntity entity) {
     }
 
+    /**
+     * To save custom NBT Data when the worlds save
+     *
+     * @param soldier who has this upgrade
+     * @param nbt     NBT to save on
+     */
     default void writeCustomNBTData(SoldierDollEntity soldier, NbtCompound nbt) {
     }
 
+    /**
+     * To load custom NBT Data when the world/Entity gets loaded
+     *
+     * @param soldier who has this upgrade
+     * @param nbt     NBT to read from
+     */
     default void readCustomNBTData(SoldierDollEntity soldier, NbtCompound nbt) {
     }
 

@@ -18,8 +18,8 @@ import static com.matthewperiut.clay.registry.UpgradeRegistry.WOOL_UPGRADE;
 public class SoldierDollLeatherArmorLayer extends GeoRenderLayer<SoldierDollEntity> {
     static final Identifier BASE_TEXTURE = new Identifier(ClayMod.MOD_ID, "textures/entity/upgrade/tiny_chestplate.png");
     static final Identifier UPGRADED_TEXTURE = new Identifier(ClayMod.MOD_ID, "textures/entity/upgrade/tiny_chestplate_with_wool.png");
-    static final RenderLayer baseArmorRenderType = RenderLayer.getArmorCutoutNoCull(BASE_TEXTURE);
-    static final RenderLayer UpgradedArmorRenderType = RenderLayer.getArmorCutoutNoCull(UPGRADED_TEXTURE);
+    static final RenderLayer BASE_ARMOR_RENDER_TYPE = RenderLayer.getArmorCutoutNoCull(BASE_TEXTURE);
+    static final RenderLayer UPGRADED_ARMOR_RENDER_TYPE = RenderLayer.getArmorCutoutNoCull(UPGRADED_TEXTURE);
 
 
     public SoldierDollLeatherArmorLayer(GeoRenderer<SoldierDollEntity> entityRendererIn) {
@@ -30,9 +30,9 @@ public class SoldierDollLeatherArmorLayer extends GeoRenderLayer<SoldierDollEnti
     public void render(MatrixStack poseStack, SoldierDollEntity animatable, BakedGeoModel bakedModel, RenderLayer renderType, VertexConsumerProvider bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
         if (!animatable.upgrades.contains(LEATHER_UPGRADE.get())) return;
 
-        RenderLayer renderLayer = baseArmorRenderType;
+        RenderLayer renderLayer = BASE_ARMOR_RENDER_TYPE;
 
-        if (animatable.upgrades.contains(WOOL_UPGRADE.get())) renderLayer = UpgradedArmorRenderType;
+        if (animatable.upgrades.contains(WOOL_UPGRADE.get())) renderLayer = UPGRADED_ARMOR_RENDER_TYPE;
 
         super.render(poseStack, animatable, bakedModel, renderType, bufferSource, buffer, partialTick, packedLight, packedOverlay);
 

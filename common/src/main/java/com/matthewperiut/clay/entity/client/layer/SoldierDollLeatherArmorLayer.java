@@ -12,9 +12,14 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
+import static com.matthewperiut.clay.registry.UpgradeRegistry.LEATHER_UPGRADE;
+import static com.matthewperiut.clay.registry.UpgradeRegistry.WOOL_UPGRADE;
+
 public class SoldierDollLeatherArmorLayer extends GeoRenderLayer<SoldierDollEntity> {
-    static final Identifier TEXTURE = new Identifier(ClayMod.MOD_ID, "textures/entity/upgrade/tiny_chestplate.png");
-    static final RenderLayer armorRenderType = RenderLayer.getArmorCutoutNoCull(TEXTURE);
+    static final Identifier BASE_TEXTURE = new Identifier(ClayMod.MOD_ID, "textures/entity/upgrade/tiny_chestplate.png");
+    static final Identifier UPGRADED_TEXTURE = new Identifier(ClayMod.MOD_ID, "textures/entity/upgrade/tiny_chestplate_with_wool.png");
+    static final RenderLayer baseArmorRenderType = RenderLayer.getArmorCutoutNoCull(BASE_TEXTURE);
+    static final RenderLayer UpgradedArmorRenderType = RenderLayer.getArmorCutoutNoCull(UPGRADED_TEXTURE);
 
 
     public SoldierDollLeatherArmorLayer(GeoRenderer<SoldierDollEntity> entityRendererIn) {
@@ -23,11 +28,16 @@ public class SoldierDollLeatherArmorLayer extends GeoRenderLayer<SoldierDollEnti
 
     @Override
     public void render(MatrixStack poseStack, SoldierDollEntity animatable, BakedGeoModel bakedModel, RenderLayer renderType, VertexConsumerProvider bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
-        if (!animatable.hasArmor()) return;
+        if (!animatable.upgrades.contains(LEATHER_UPGRADE.get())) return;
+
+        RenderLayer renderLayer = baseArmorRenderType;
+
+        if (animatable.upgrades.contains(WOOL_UPGRADE.get())) renderLayer = UpgradedArmorRenderType;
+
         super.render(poseStack, animatable, bakedModel, renderType, bufferSource, buffer, partialTick, packedLight, packedOverlay);
 
-        getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, armorRenderType,
-                bufferSource.getBuffer(armorRenderType), partialTick, packedLight, OverlayTexture.DEFAULT_UV,
+        getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, renderLayer,
+                bufferSource.getBuffer(renderLayer), partialTick, packedLight, OverlayTexture.DEFAULT_UV,
                 1, 1, 1, 1);
     }
 }

@@ -60,7 +60,7 @@ public class SoldierStickUpgrade implements ISoldierUpgrade, IDurable {
     }
 
     @Override
-    public void onKill(SoldierDollEntity dyingSoldier, SoldierDollEntity attacker) {
+    public void onAttack(SoldierDollEntity target, SoldierDollEntity attacker) {
         reduceNBTDurability(attacker.upgradeInstances.get(this).nbtCompound(), attacker);
         if (getDurability(attacker) <= 0) {
             attacker.removeUpgrades.add(this);

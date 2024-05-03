@@ -64,7 +64,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private boolean isAnimating = false;
     protected boolean isLightBlockUnaffected = false;
-    private boolean hasArmor = false;
 
     public SoldierDollEntity(EntityType<? extends PathAwareEntity> type, World worldIn) {
         super(type, worldIn);
@@ -149,6 +148,13 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         if (attacker instanceof PlayerEntity) {
             kill();
         }
+        if (attacker instanceof SoldierDollEntity attackerSoldier) {
+            this.upgrades.forEach(u -> u.onHit(attackerSoldier, this));
+            ISoldierUpgrade upgrade;
+            while ((upgrade = removeUpgrades.poll()) != null) {
+                UpgradeManager.INSTANCE.removeUpgrade(this, upgrade);
+            }
+        }
 
         return super.handleAttack(attacker);
     }
@@ -189,6 +195,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     @Override
     public void onAttacking(Entity target) {
         super.onAttacking(target);
+
         if (target instanceof SoldierDollEntity targetSoldier) {
             this.upgrades.forEach(u -> u.onAttack(targetSoldier, this));
             ISoldierUpgrade upgrade;
@@ -196,6 +203,11 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
                 UpgradeManager.INSTANCE.removeUpgrade(this, upgrade);
             }
         }
+    }
+
+    @Override
+    public void onDamaged(DamageSource damageSource) {
+        super.onDamaged(damageSource);
     }
 
     @Override
@@ -263,16 +275,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         SyncUpgradesS2CPacket syncUpgradeData = new SyncUpgradesS2CPacket(buf);
         this.upgrades = new HashSet<>(syncUpgradeData.getUpgrades());
         this.upgrades.forEach(u -> u.onAdd(this));
-    }
-
-    @Environment(EnvType.CLIENT)
-    public boolean hasArmor() {
-        return hasArmor;
-    }
-
-    @Environment(EnvType.CLIENT)
-    public void setHasArmor(boolean hasArmor) {
-        this.hasArmor = hasArmor;
     }
 
     @Environment(EnvType.CLIENT)

@@ -35,6 +35,11 @@ public class SoldierStickUpgrade implements ISoldierUpgrade, IDurable {
     }
 
     @Override
+    public boolean needsCustomData() {
+        return true;
+    }
+
+    @Override
     public boolean canUpgrade(ItemStack itemStack, SoldierDollEntity soldier) {
         return !soldier.upgrades.contains(this) && itemStack.isOf(Items.STICK);
     }

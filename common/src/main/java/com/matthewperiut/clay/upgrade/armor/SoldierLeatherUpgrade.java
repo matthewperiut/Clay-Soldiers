@@ -38,6 +38,11 @@ public class SoldierLeatherUpgrade implements ISoldierUpgrade, IDurable {
     }
 
     @Override
+    public boolean needsCustomData() {
+        return true;
+    }
+
+    @Override
     public boolean canUpgrade(ItemStack itemStack, SoldierDollEntity soldier) {
         return itemStack.isOf(Items.LEATHER) && !soldier.upgrades.contains(this);
     }

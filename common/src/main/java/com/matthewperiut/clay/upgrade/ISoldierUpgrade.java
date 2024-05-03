@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
-@SuppressWarnings("ALL")
 public interface ISoldierUpgrade {
     ItemStack getUpgradeItem();
 
@@ -20,14 +19,14 @@ public interface ISoldierUpgrade {
     }
 
     /**
-     * If its set to true, this updates gets its own custom instance to save data for runtime
+     * If it's set to true, this updates gets its own custom instance to save data for runtime
      */
     default boolean needsCustomData() {
         return false;
     }
 
     /**
-     * When a upgrade is added
+     * When an upgrade is added
      *
      * @param soldier which got the upgrade added
      */
@@ -35,7 +34,7 @@ public interface ISoldierUpgrade {
     }
 
     /**
-     * When a upgrade is removed
+     * When an upgrade is removed
      *
      * @param soldier which got the upgrade removed
      */

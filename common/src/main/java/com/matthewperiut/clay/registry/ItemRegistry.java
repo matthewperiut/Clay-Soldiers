@@ -33,7 +33,7 @@ public class ItemRegistry {
     public static final DeferredRegister<Item> HORSE_ITEMS = DeferredRegister.create(ClayMod.MOD_ID, (RegistryKey<Registry<Item>>) Registries.ITEM.getKey());
     public static final DeferredRegister<Item> MISC_ITEMS = DeferredRegister.create(ClayMod.MOD_ID, (RegistryKey<Registry<Item>>) Registries.ITEM.getKey());
 
-    // Soldiers
+    //region SOLDIERS
     public static final RegistrySupplier<Item> BRICK_SOLDIER = registerMiscItem("soldier/brick", () -> new Item(miscSettings()));
 
     public static final RegistrySupplier<Item> CLAY_SOLDIER_ITEM = registerItem("soldier/clay", CLAY_SOLDIER);
@@ -52,8 +52,9 @@ public class ItemRegistry {
     public static final RegistrySupplier<Item> BLACK_SOLDIER_ITEM = registerItem("soldier/black", BLACK_SOLDIER);
     public static final RegistrySupplier<Item> GRAY_SOLDIER_ITEM = registerItem("soldier/gray", GRAY_SOLDIER);
     public static final RegistrySupplier<Item> WHITE_SOLDIER_ITEM = registerItem("soldier/white", WHITE_SOLDIER);
+//endregion
 
-    // horses
+    //region HORSES
     public static final RegistrySupplier<Item> BRICK_HORSE = registerMiscItem("horse/brick", () -> new Item(miscSettings()));
 
     public static final RegistrySupplier<Item> DIRT_HORSE_ITEM = registerHorseDollItem("horse/dirt", DIRT_HORSE);
@@ -66,7 +67,7 @@ public class ItemRegistry {
     public static final RegistrySupplier<Item> CLAY_HORSE_ITEM = registerHorseDollItem("horse/clay", CLAY_HORSE);
     public static final RegistrySupplier<Item> SOUL_SAND_HORSE_ITEM = registerHorseDollItem("horse/soul_sand", SOUL_SAND_HORSE);
     public static final RegistrySupplier<Item> CAKE_HORSE_ITEM = registerHorseDollItem("horse/cake", CAKE_HORSE);
-
+//endregion
 
     // misc
     public static RegistrySupplier<Item> CLAY_DISRUPTOR = registerMiscItem("disruptor/clay", () -> new DisruptorItem(new ClayMaterial(), new Item.Settings().maxCount(1).arch$tab(CLAY_MISC_GROUP)));

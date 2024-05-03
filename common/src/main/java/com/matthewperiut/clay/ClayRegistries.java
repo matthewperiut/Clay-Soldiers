@@ -13,6 +13,7 @@ public class ClayRegistries {
         TabsRegistry.init();
         ItemRegistry.init();
         UpgradeRegistry.init();
+        TeamRegistry.init();
     }
 
     public static void post() {

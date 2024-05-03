@@ -1,6 +1,6 @@
 # This is a fork of [Matthews Clay Soldiers Mod](https://github.com/matthewperiut/Clay-Soldiers)
 
-The goal is to create a fully functional Clay Soldiers like we had it in 1.7.10 or so.
+The goal is to create a remastered fully functional Clay Soldiers like we had it in 1.7.10 or so.
 
 # Upgrades
 

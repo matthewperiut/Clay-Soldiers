@@ -5,9 +5,11 @@ import com.matthewperiut.clay.entity.ai.goal.MeleeAttackTinyGoal;
 import com.matthewperiut.clay.entity.ai.goal.SoldierAIFindTarget;
 import com.matthewperiut.clay.entity.ai.goal.SoliderAIFollowTarget;
 import com.matthewperiut.clay.entity.horse.HorseDollEntity;
+import com.matthewperiut.clay.entity.soldier.teams.ITeam;
 import com.matthewperiut.clay.extension.ISpawnReasonExtension;
 import com.matthewperiut.clay.nbt.NBTValues;
 import com.matthewperiut.clay.network.packet.SyncUpgradesS2CPacket;
+import com.matthewperiut.clay.registry.TeamRegistry;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
 import com.matthewperiut.clay.upgrade.UpgradeInstance;
 import com.matthewperiut.clay.upgrade.UpgradeManager;
@@ -19,10 +21,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -34,6 +33,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -42,6 +42,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -53,17 +54,20 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.*;
 
-import static com.matthewperiut.clay.entity.soldier.Targets.AddTargets;
+import static com.matthewperiut.clay.entity.soldier.teams.ITeam.NBT_IDENTIFIER;
+import static com.matthewperiut.clay.registry.TeamRegistry.CLAY_TEAM;
 
 public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable, EntitySpawnExtension {
-    private Entity followingEntity;
+    public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
+    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     public HashSet<ISoldierUpgrade> upgrades = new HashSet<>();
     public HashMap<ISoldierUpgrade, UpgradeInstance> upgradeInstances = new HashMap<>();
     public Queue<ISoldierUpgrade> removeUpgrades = new LinkedList<>();
-    public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
-    private boolean isAnimating = false;
     protected boolean isLightBlockUnaffected = false;
+    boolean dropBrick = false;
+    private Entity followingEntity;
+    private ITeam team;
+    private boolean isAnimating = false;
 
     public SoldierDollEntity(EntityType<? extends PathAwareEntity> type, World worldIn) {
         super(type, worldIn);
@@ -118,9 +122,14 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     }
 
     protected void selectTargets() {
-        this.targetSelector.add(4, new SoldierAIFindTarget.Mount(this, TypeFilter.instanceOf(HorseDollEntity.class)));
-        this.targetSelector.add(4, new SoldierAIFindTarget.Upgrade(this, TypeFilter.instanceOf(ItemEntity.class)));
-        AddTargets(this, this.targetSelector);
+        this.targetSelector.add(3, new SoldierAIFindTarget.Mount(this, TypeFilter.instanceOf(HorseDollEntity.class)));
+        this.targetSelector.add(3, new SoldierAIFindTarget.Upgrade(this, TypeFilter.instanceOf(ItemEntity.class)));
+        targetSelector.add(4, new ActiveTargetGoal<>(this, SoldierDollEntity.class, true, (e) -> {
+            if (e instanceof SoldierDollEntity target) {
+                return !target.getTeam().isinSameTeam(this.getTeam().getTeamId());
+            }
+            return false;
+        }));
     }
 
     @Override
@@ -144,22 +153,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     }
 
     @Override
-    public boolean handleAttack(Entity attacker) {
-        if (attacker instanceof PlayerEntity) {
-            kill();
-        }
-        if (attacker instanceof SoldierDollEntity attackerSoldier) {
-            this.upgrades.forEach(u -> u.onHit(attackerSoldier, this));
-            ISoldierUpgrade upgrade;
-            while ((upgrade = removeUpgrades.poll()) != null) {
-                UpgradeManager.INSTANCE.removeUpgrade(this, upgrade);
-            }
-        }
-
-        return super.handleAttack(attacker);
-    }
-
-    @Override
     protected SoundEvent getHurtSound(DamageSource src) {
         return SoundEvents.BLOCK_GRAVEL_BREAK;
     }
@@ -170,18 +163,11 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     }
 
     @Override
-    public void onPlayerCollision(PlayerEntity player) {
-        super.onPlayerCollision(player);
-    }
-
-    boolean dropBrick = false;
-
-
-    @Override
     protected Identifier getLootTableId() {
         if (dropBrick) return new Identifier("clay:entities/soldier/brick");
         return super.getLootTableId();
     }
+//region EVENTS
 
     // TODO drop upgrades on death
     @Override
@@ -211,10 +197,27 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     }
 
     @Override
+    public boolean handleAttack(Entity attacker) {
+        if (attacker instanceof PlayerEntity) {
+            kill();
+        }
+        if (attacker instanceof SoldierDollEntity attackerSoldier) {
+            this.upgrades.forEach(u -> u.onHit(attackerSoldier, this));
+            ISoldierUpgrade upgrade;
+            while ((upgrade = removeUpgrades.poll()) != null) {
+                UpgradeManager.INSTANCE.removeUpgrade(this, upgrade);
+            }
+        }
+
+        return super.handleAttack(attacker);
+    }
+
+    @Override
     public boolean tryAttack(Entity target) {
         swingHand(Hand.MAIN_HAND);
         return super.tryAttack(target);
     }
+//endregion EVENTS
 
     @Override
     public boolean cannotDespawn() {
@@ -236,9 +239,26 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         return false;
     }
 
+    public ITeam getTeam() {
+        return team;
+    }
+
+    public void setTeam(@NotNull ITeam team) {
+        this.team = team;
+    }
+
+    //region SYNC
+
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
+        short teamId = nbt.getShort(NBT_IDENTIFIER);
+        Optional<Map.Entry<RegistryKey<ITeam>, ITeam>> teamOptional = TeamRegistry.SOLDIER_TEAMS.entrySet()
+                .stream()
+                .filter(t -> t.getValue().isinSameTeam(teamId))
+                .findFirst();
+        setTeam(teamOptional.map(Map.Entry::getValue).orElse(CLAY_TEAM.get()));
+
         NbtList nbtListForUpgrades = nbt.getList(NBTValues.SOLDIER_UPGRADES.getKey(), NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < nbtListForUpgrades.size(); i++) {
             NbtCompound nbtCompound = nbtListForUpgrades.getCompound(i);
@@ -250,6 +270,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
+        nbt.putShort(NBT_IDENTIFIER, getTeam().getTeamId());
         NbtList nbtListForUpgrades = new NbtList();
         for (ISoldierUpgrade upgrade : this.upgrades) {
             NbtCompound nbtElement = new NbtCompound();
@@ -276,6 +297,9 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         this.upgrades = new HashSet<>(syncUpgradeData.getUpgrades());
         this.upgrades.forEach(u -> u.onAdd(this));
     }
+//endregion SYNC
+
+//region CLIENT
 
     @Environment(EnvType.CLIENT)
     public boolean isLightBlockUnaffected() {
@@ -286,4 +310,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     public void setLightBlockUnaffected(boolean lightBlockUnaffected) {
         this.isLightBlockUnaffected = lightBlockUnaffected;
     }
+
+//endregion
 }

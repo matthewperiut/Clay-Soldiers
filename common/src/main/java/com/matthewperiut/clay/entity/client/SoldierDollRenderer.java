@@ -41,9 +41,9 @@ public class SoldierDollRenderer extends GeoEntityRenderer<SoldierDollEntity> {
                                           float partialTick, int packedLight, int packedOverlay) {
             if (stack.isOf(Items.STICK)) {
                 poseStack.multiply(RotationAxis.NEGATIVE_X.rotation(105));
-                poseStack.scale(0.2f, 0.4f, 0.2f);
-                poseStack.translate(0.15f, -0.5f, 0f);
-                poseStack.multiply(RotationAxis.NEGATIVE_Z.rotation(90));
+                poseStack.scale(0.2f, 0.2f, 0.2f);
+                poseStack.translate(0.06f, -0.5f, 0f);
+                poseStack.multiply(RotationAxis.NEGATIVE_Z.rotation(2.4f));
             }
             super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
         }

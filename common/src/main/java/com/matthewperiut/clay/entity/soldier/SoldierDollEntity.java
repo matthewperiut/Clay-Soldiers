@@ -169,12 +169,14 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     }
 //region EVENTS
 
-    // TODO drop upgrades on death
     @Override
     public void onDeath(DamageSource damageSource) {
         if (this.hasVehicle()) Objects.requireNonNull(this.getVehicle()).kill();
         if (damageSource.getType().equals(this.getWorld().getDamageSources().inFire().getType()) || (damageSource.getType().equals(this.getWorld().getDamageSources().lava().getType())))
             dropBrick = true;
+        for (ISoldierUpgrade upgrade : upgrades) {
+            getWorld().spawnEntity(new ItemEntity(getWorld(), getX(), getY(), getZ(), upgrade.getUpgradeItem()));
+        }
         super.onDeath(damageSource);
     }
 

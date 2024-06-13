@@ -4,7 +4,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/clay.accesswidener")
+    //accessWidenerPath = file("src/main/resources/clay.accesswidener")
 }
 
 repositories {

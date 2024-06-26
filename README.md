@@ -1,6 +1,6 @@
-# This is a fork of [Matthews Clay Soldiers Mod](https://github.com/matthewperiut/Clay-Soldiers)
+# Clay Soldiers Reborn
 
-The goal is to create a remastered fully functional Clay Soldiers like we had it in 1.7.10 or so.
+Porting Clay Soldiers from b1.7.3/1.7.10/1.12 to 1.21+
 
 # Upgrades
 
@@ -11,3 +11,12 @@ The goal is to create a remastered fully functional Clay Soldiers like we had it
 |  Glowstone   | Makes the Soldier glow in the dark          |   ---    |    ---     |
 |   Leather    | Gives a leather armor / 3 Armor points      |   ---    |     20     |
 |     Wool     | Upgrades the leather Armor / 2 Armor points | Leather  |    ---     |
+(More Upgrades coming)
+
+# Mounts
+- Various Horse
+- (more coming)
+
+# Contributions
+
+Special Thanks to @TrustNoOneElse for Upgrade Interface and related code

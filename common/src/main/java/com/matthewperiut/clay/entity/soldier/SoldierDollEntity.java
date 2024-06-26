@@ -1,5 +1,6 @@
 package com.matthewperiut.clay.entity.soldier;
 
+import com.google.common.collect.Lists;
 import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.entity.ai.goal.MeleeAttackTinyGoal;
 import com.matthewperiut.clay.entity.ai.goal.SoldierAIFindTarget;
@@ -10,30 +11,39 @@ import com.matthewperiut.clay.extension.ISpawnReasonExtension;
 import com.matthewperiut.clay.nbt.NBTValues;
 import com.matthewperiut.clay.network.packet.SyncUpgradesS2CPacket;
 import com.matthewperiut.clay.registry.TeamRegistry;
+import com.matthewperiut.clay.registry.UpgradeRegistry;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
 import com.matthewperiut.clay.upgrade.UpgradeInstance;
 import com.matthewperiut.clay.upgrade.UpgradeManager;
+import com.mojang.datafixers.util.Pair;
 import dev.architectury.extensions.network.EntitySpawnExtension;
 import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.SpawnReason;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.EntityEquipmentUpdateS2CPacket;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -254,21 +264,18 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        short teamId = nbt.getShort(NBT_IDENTIFIER);
-        Optional<Map.Entry<RegistryKey<ITeam>, ITeam>> teamOptional = TeamRegistry.SOLDIER_TEAMS.entrySet()
-                .stream()
-                .filter(t -> t.getValue().isinSameTeam(teamId))
-                .findFirst();
-        setTeam(teamOptional.map(Map.Entry::getValue).orElse(CLAY_TEAM.get()));
-
-        NbtList nbtListForUpgrades = nbt.getList(NBTValues.SOLDIER_UPGRADES.getKey(), NbtElement.COMPOUND_TYPE);
-        for (int i = 0; i < nbtListForUpgrades.size(); i++) {
-            NbtCompound nbtCompound = nbtListForUpgrades.getCompound(i);
-            Identifier identifier = new Identifier(nbtCompound.getString(NBTValues.SOLDIER_UPGRADES_ID.getKey()));
-            UpgradeManager.INSTANCE.handleNBTRead(this, identifier, nbtCompound);
-        }
+        System.out.println(getMainHandStack());
     }
 
+    public static final TrackedData<Boolean> HAS_STICK;
+    @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(HAS_STICK, false);
+    }
+    static {
+        HAS_STICK = DataTracker.registerData(SoldierDollEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    }
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
@@ -314,4 +321,15 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     }
 
 //endregion
+
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (!getWorld().isClient() && age % 20 == 0) {
+            if(getMainHandStack().isOf(Items.STICK)) {
+                dataTracker.set(HAS_STICK, true);
+            }
+        }
+    }
 }

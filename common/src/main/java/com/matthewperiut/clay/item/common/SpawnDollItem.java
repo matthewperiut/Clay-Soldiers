@@ -77,7 +77,6 @@ public class SpawnDollItem extends Item {
                 world.playSound(context.getPlayer(), blockPos, SoundEvents.BLOCK_GRAVEL_BREAK, SoundCategory.BLOCKS, 1.f, 1.f);
 
                 if (entity instanceof SoldierDollEntity soldier) {
-                    ClayMod.LOGGER.info(team.getTeamName());
                     soldier.setTeam(team);
                 }
             }

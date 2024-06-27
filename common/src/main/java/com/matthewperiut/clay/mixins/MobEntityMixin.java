@@ -23,7 +23,7 @@ public class MobEntityMixin implements ISpawnReasonExtension {
     private SpawnReason clay$spawnReason;
 
     @Inject(method = "initialize", at = @At("TAIL"))
-    private void initializeMixin(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, EntityData entityData, NbtCompound entityNbt, CallbackInfoReturnable<EntityData> cir) {
+    private void initializeMixin(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, EntityData entityData, CallbackInfoReturnable<EntityData> cir) {
         this.clay$spawnReason = spawnReason;
     }
 

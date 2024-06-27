@@ -21,7 +21,7 @@ for i in range(1,9):
                 '  "result":\n' + \
                 '  {\n' + \
                 '    "count": ' + str(i) + ',\n' + \
-                '    "item": "clay:soldier/' + soldier + '"\n' + \
+                '    "id": "clay:soldier/' + soldier + '"\n' + \
                 '  }\n' + \
                 '}')
     f.close()

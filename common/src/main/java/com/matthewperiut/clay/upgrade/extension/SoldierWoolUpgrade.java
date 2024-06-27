@@ -52,7 +52,7 @@ public class SoldierWoolUpgrade implements ISoldierUpgrade {
         soldier.playSoundIfNotSilent(SoundEvents.BLOCK_WOOL_PLACE);
 
         EntityAttributeInstance armorInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ARMOR);
-        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_wool_upgrade", 2, EntityAttributeModifier.Operation.ADDITION);
+        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_wool_upgrade", 2, EntityAttributeModifier.Operation.ADD_VALUE);
         if (armorInstance != null && !armorInstance.hasModifier(attributeModifier)) {
             armorInstance.addPersistentModifier(attributeModifier);
         }

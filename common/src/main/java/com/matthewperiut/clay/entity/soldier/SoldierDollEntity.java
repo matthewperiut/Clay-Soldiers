@@ -9,6 +9,7 @@ import com.matthewperiut.clay.entity.soldier.teams.ITeam;
 import com.matthewperiut.clay.extension.ISpawnReasonExtension;
 import com.matthewperiut.clay.nbt.NBTValues;
 import com.matthewperiut.clay.network.packet.SyncUpgradesS2CPacket;
+import com.matthewperiut.clay.registry.ItemRegistry;
 import com.matthewperiut.clay.registry.TeamRegistry;
 import com.matthewperiut.clay.upgrade.ISoldierUpgrade;
 import com.matthewperiut.clay.upgrade.UpgradeInstance;
@@ -26,15 +27,22 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -44,13 +52,10 @@ import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
+import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.*;
@@ -65,7 +70,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     public HashMap<ISoldierUpgrade, UpgradeInstance> upgradeInstances = new HashMap<>();
     public Queue<ISoldierUpgrade> removeUpgrades = new LinkedList<>();
     protected boolean isLightBlockUnaffected = false;
-    boolean dropBrick = false;
     private Entity followingEntity;
     private ITeam team;
     private boolean isAnimating = false;
@@ -162,19 +166,13 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
     protected SoundEvent getDeathSound() {
         return SoundEvents.BLOCK_GRAVEL_STEP;
     }
-
-    @Override
-    protected Identifier getLootTableId() {
-        if (dropBrick) return new Identifier("clay:entities/soldier/brick");
-        return super.getLootTableId();
-    }
 //region EVENTS
 
     @Override
     public void onDeath(DamageSource damageSource) {
         if (this.hasVehicle()) Objects.requireNonNull(this.getVehicle()).kill();
         if (damageSource.getType().equals(this.getWorld().getDamageSources().inFire().getType()) || (damageSource.getType().equals(this.getWorld().getDamageSources().lava().getType())))
-            dropBrick = true;
+            getWorld().spawnEntity(new ItemEntity(getWorld(), getX(), getY(), getZ(), new ItemStack(ItemRegistry.BRICK_SOLDIER, 1)));
         for (ISoldierUpgrade upgrade : upgrades) {
             getWorld().spawnEntity(new ItemEntity(getWorld(), getX(), getY(), getZ(), upgrade.getUpgradeItem()));
         }
@@ -318,10 +316,12 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
 
     // temp stick fix
     public static final TrackedData<Boolean> HAS_STICK;
+
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(HAS_STICK, false);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(HAS_STICK, false);
+
     }
     static {
         HAS_STICK = DataTracker.registerData(SoldierDollEntity.class, TrackedDataHandlerRegistry.BOOLEAN);

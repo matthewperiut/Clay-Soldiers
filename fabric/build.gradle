@@ -27,8 +27,8 @@ configurations {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
@@ -36,7 +36,6 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-
 }
 
 processResources {
@@ -56,13 +55,8 @@ shadowJar {
 
 remapJar {
     injectAccessWidener = true
-    getInputFile().set(shadowJar.archiveFile)
+    input.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveClassifier = "fabric-${rootProject.minecraft_version}"
-}
-
-jar {
-    archiveClassifier = "dev"
 }
 
 sourcesJar {
@@ -83,6 +77,10 @@ publishing {
             artifactId = rootProject.archives_base_name + "-" + project.name
             from components.java
         }
+    }
+
+    base {
+        archivesName = rootProject.archives_base_name + "-fabric-" + minecraft_version
     }
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.

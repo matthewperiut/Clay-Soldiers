@@ -49,7 +49,7 @@ public class SoldierStickUpgrade implements ISoldierUpgrade, IDurable {
         soldier.upgradeInstances.get(this).nbtCompound().putShort(IDurable.NBT_KEY, durability);
         soldier.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STICK, 1));
         EntityAttributeInstance attackInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_stick_upgrade", 2, EntityAttributeModifier.Operation.ADDITION);
+        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_stick_upgrade", 2, EntityAttributeModifier.Operation.ADD_VALUE);
         if (attackInstance != null && !attackInstance.hasModifier(attributeModifier))
             attackInstance.addPersistentModifier(attributeModifier);
     }

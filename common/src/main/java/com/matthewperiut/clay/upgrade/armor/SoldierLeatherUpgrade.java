@@ -51,12 +51,12 @@ public class SoldierLeatherUpgrade implements ISoldierUpgrade, IDurable {
     public void onAdd(SoldierDollEntity soldier) {
         if (soldier.getWorld().isClient()) return;
 
-        soldier.playSoundIfNotSilent(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
+        soldier.playSoundIfNotSilent(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER.value());
 
         soldier.upgradeInstances.get(this).nbtCompound().putShort(IDurable.NBT_KEY, durability);
 
         EntityAttributeInstance armorInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ARMOR);
-        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_leather_upgrade", 3, EntityAttributeModifier.Operation.ADDITION);
+        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_leather_upgrade", 3, EntityAttributeModifier.Operation.ADD_VALUE);
         if (armorInstance != null && !armorInstance.hasModifier(attributeModifier)) {
             armorInstance.addPersistentModifier(attributeModifier);
         }

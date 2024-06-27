@@ -64,11 +64,14 @@ public class SpawnDollItem extends Item {
             }
 
             int count = itemStack.getCount();
-            EntityType<?> entityType2 = this.getEntityType(itemStack.getNbt());
+            EntityType<?> entityType = this.getEntityType();
             ITeam team = this.getTeam(itemStack);
 
             for (int i = 0; i < count; i++) {
-                Entity entity = entityType2.spawnFromItemStack((ServerWorld) world, itemStack, context.getPlayer(), blockPos2, SpawnReason.SPAWN_EGG, false, !Objects.equals(blockPos, blockPos2) && direction == Direction.UP);
+                if (types.size() > 1) {
+                    entityType = this.getEntityType();
+                }
+                Entity entity = entityType.spawnFromItemStack((ServerWorld) world, itemStack, context.getPlayer(), blockPos2, SpawnReason.SPAWN_EGG, false, !Objects.equals(blockPos, blockPos2) && direction == Direction.UP);
 
                 if (entity == null) continue;
 
@@ -90,18 +93,7 @@ public class SpawnDollItem extends Item {
         return teamOptional.map(Map.Entry::getValue).orElse(CLAY_TEAM.get());
     }
 
-    public EntityType<?> getEntityType(@Nullable NbtCompound nbt) {
-        if (types.isEmpty()) return null;
-
-        if (nbt != null && nbt.contains("EntityTag", 10)) {
-            NbtCompound nbtCompound = nbt.getCompound("EntityTag");
-            if (nbtCompound.contains("id", 8)) {
-                return EntityType.get(nbtCompound.getString("id")).orElse(types.get(0).get());
-            }
-        }
-
-        if (types.size() == 1) return types.get(0).get();
-
+    public EntityType<?> getEntityType() {
         int selected = Random.createLocal().nextBetween(0, types.size() - 1);
         return types.get(selected).get();
     }

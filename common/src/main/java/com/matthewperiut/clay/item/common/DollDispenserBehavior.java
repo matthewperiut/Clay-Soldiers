@@ -26,14 +26,14 @@ public class DollDispenserBehavior implements DispenserBehavior
     {
         if (stack.getItem() instanceof SpawnDollItem doll)
         {
-            ServerWorld world = pointer.getWorld();
-            BlockPos pos = pointer.getPos();
-            DispenserBlockEntity dispenserEntity = pointer.getBlockEntity();
+            ServerWorld world = pointer.world();
+            BlockPos pos = pointer.pos();
+            DispenserBlockEntity dispenserEntity = pointer.blockEntity();
             BlockState dispenserBlock = world.getBlockState(dispenserEntity.getPos());
             Direction direction = dispenserBlock.get(Properties.FACING);
             BlockPos spawnPos = pos.add(new Vec3i(direction.getOffsetX(), direction.getOffsetY(), direction.getOffsetZ()));
 
-            EntityType<?> entityType = doll.getEntityType(stack.getNbt());
+            EntityType<?> entityType = ((SpawnDollItem)stack.getItem()).getEntityType();
             Entity e = entityType.spawnFromItemStack(world, stack, null, spawnPos, SpawnReason.DISPENSER, false, false);
             if (e != null)
             {

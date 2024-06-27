@@ -1,8 +1,11 @@
 package com.matthewperiut.clay.entity.horse;
 
+import com.matthewperiut.clay.ClayMod;
 import com.matthewperiut.clay.extension.ISpawnReasonExtension;
+import com.matthewperiut.clay.registry.ItemRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -10,17 +13,17 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootTable;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class HorseDollEntity extends PathAwareEntity implements GeoAnimatable
@@ -101,20 +104,11 @@ public class HorseDollEntity extends PathAwareEntity implements GeoAnimatable
         return super.handleAttack(attacker);
     }
 
-    boolean dropBrick = false;
-
-    @Override
-    protected Identifier getLootTableId()
-    {
-        if (dropBrick) return new Identifier("clay:entities/horse/brick");
-        return super.getLootTableId();
-    }
-
     @Override
     public void onDeath(DamageSource damageSource)
     {
         if (damageSource.getType().equals(this.getWorld().getDamageSources().inFire().getType()) || damageSource.getType().equals(this.getWorld().getDamageSources().lava().getType()))
-            dropBrick = true;
+            getWorld().spawnEntity(new ItemEntity(getWorld(), getX(), getY(), getZ(), new ItemStack(ItemRegistry.BRICK_HORSE, 1)));
         super.onDeath(damageSource);
     }
 

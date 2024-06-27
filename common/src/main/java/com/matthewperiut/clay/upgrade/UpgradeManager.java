@@ -29,7 +29,7 @@ public class UpgradeManager {
 
             upgrade.onAdd(soldier);
             if (upgrade.shouldSyncToClient()) {
-                UpgradeAdded.sendPacket(NetworkUtils.getTrackingPlayers(soldier), soldier.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
+                UpgradeAdded.sendPacket(NetworkUtils.getTrackingPlayers(soldier), soldier.getId(), upgrade);
             }
         }
     }
@@ -50,7 +50,7 @@ public class UpgradeManager {
 
         handleDependencies(soldier, upgrade);
         if (upgrade.shouldSyncToClient()) {
-            UpgradeRemoved.sendPacket(NetworkUtils.getTrackingPlayers(soldier), soldier.getId(), UpgradeRegistry.SOLDIER_UPGRADE_REGISTER.getId(upgrade));
+            UpgradeRemoved.sendPacket(NetworkUtils.getTrackingPlayers(soldier), soldier.getId(), upgrade);
         }
     }
 

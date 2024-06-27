@@ -1,7 +1,9 @@
 package com.matthewperiut.clay.item.disruptor;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.TagKey;
 
 public class ClayMaterial implements ToolMaterial
 {
@@ -24,9 +26,8 @@ public class ClayMaterial implements ToolMaterial
     }
 
     @Override
-    public int getMiningLevel()
-    {
-        return 0;
+    public TagKey<Block> getInverseTag() {
+        return null;
     }
 
     @Override

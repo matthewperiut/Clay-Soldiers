@@ -4,7 +4,7 @@ import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,7 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -65,10 +64,11 @@ public class DisruptorItem extends ToolItem
         {
             if (!unlimited)
             {
-                if (stack.damage(1, world.getRandom(), (ServerPlayerEntity) null))
-                {
-                    return true;
-                }
+                stack.damage(1, world.random, (ServerPlayerEntity) null, () -> {
+                    stack.setCount(0);
+                });
+
+                return true;
             }
 
             if (user instanceof PlayerEntity)
@@ -79,10 +79,15 @@ public class DisruptorItem extends ToolItem
             else
             {
                 PlayerEntity player = (PlayerEntity) user;
-                if (!unlimited) stack.damage(1, player, (e) ->
-                {
-                    e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND);
-                });
+                if (!unlimited) {
+                    stack.damage(1, world.random, (ServerPlayerEntity) null, () -> {
+                                        ((PlayerEntity) user).getItemCooldownManager().set(this, 20);
+
+                        stack.setCount(0);
+                    });
+                }
+
+
                 return true;
             }
         }
@@ -117,10 +122,13 @@ public class DisruptorItem extends ToolItem
         {
             if (!unlimited)
             {
-                if (stack.damage(1, world.getRandom(), (ServerPlayerEntity) null))
-                {
+                    stack.damage(1, world.random, (ServerPlayerEntity) null, () -> {
+                                        ((PlayerEntity) user).getItemCooldownManager().set(this, 20);
+
+
+                        stack.setCount(0);
+                    });
                     return true;
-                }
             }
 
             if (user instanceof PlayerEntity)
@@ -130,10 +138,8 @@ public class DisruptorItem extends ToolItem
             }
             else
             {
-                PlayerEntity player = (PlayerEntity) user;
-                if (!unlimited) stack.damage(1, player, (e) ->
-                {
-                    e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND);
+                stack.damage(1, world.random, (ServerPlayerEntity) null, () -> {
+                    stack.setCount(0);
                 });
                 return true;
             }
@@ -154,9 +160,8 @@ public class DisruptorItem extends ToolItem
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
-    {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("item.clay.disruptor.range").formatted(Formatting.GRAY));
-        super.appendTooltip(stack, world, tooltip, context);
+        super.appendTooltip(stack, context, tooltip, type);
     }
 }

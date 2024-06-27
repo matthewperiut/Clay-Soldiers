@@ -17,6 +17,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -98,32 +99,32 @@ public class ItemRegistry {
 
     @Environment(EnvType.CLIENT)
     public static void clientRegister() {
-        ClientInfoStorage.add(CLAY_SOLDIER_ITEM, 0xAFB5C6);
-        ClientInfoStorage.add(RED_SOLDIER_ITEM, 0xF54E42);
-        ClientInfoStorage.add(YELLOW_SOLDIER_ITEM, 0xF3CA2F);
-        ClientInfoStorage.add(GREEN_SOLDIER_ITEM, 0x536D1B);
-        ClientInfoStorage.add(BLUE_SOLDIER_ITEM, 0x353A9F);
-        ClientInfoStorage.add(ORANGE_SOLDIER_ITEM, 0xE66E10);
-        ClientInfoStorage.add(MAGENTA_SOLDIER_ITEM, 0xBF4CBB);
-        ClientInfoStorage.add(LIGHTBLUE_SOLDIER_ITEM, 0x3FB2DB);
-        ClientInfoStorage.add(LIME_SOLDIER_ITEM, 0x73BA1A);
-        ClientInfoStorage.add(PINK_SOLDIER_ITEM, 0xE791B0);
-        ClientInfoStorage.add(CYAN_SOLDIER_ITEM, 0x148C93);
-        ClientInfoStorage.add(PURPLE_SOLDIER_ITEM, 0x792AAB);
-        ClientInfoStorage.add(BROWN_SOLDIER_ITEM, 0x744A2B);
-        ClientInfoStorage.add(BLACK_SOLDIER_ITEM, 0x18181D);
-        ClientInfoStorage.add(GRAY_SOLDIER_ITEM, 0x51585D);
-        ClientInfoStorage.add(WHITE_SOLDIER_ITEM, 0xE2E6EA);
+        ClientInfoStorage.add(CLAY_SOLDIER_ITEM, 0xFFAFB5C6);
+        ClientInfoStorage.add(RED_SOLDIER_ITEM, 0xFFF54E42);
+        ClientInfoStorage.add(YELLOW_SOLDIER_ITEM, 0xFFF3CA2F);
+        ClientInfoStorage.add(GREEN_SOLDIER_ITEM, 0xFF536D1B);
+        ClientInfoStorage.add(BLUE_SOLDIER_ITEM, 0xFF353A9F);
+        ClientInfoStorage.add(ORANGE_SOLDIER_ITEM, 0xFFE66E10);
+        ClientInfoStorage.add(MAGENTA_SOLDIER_ITEM, 0xFFBF4CBB);
+        ClientInfoStorage.add(LIGHTBLUE_SOLDIER_ITEM, 0xFF3FB2DB);
+        ClientInfoStorage.add(LIME_SOLDIER_ITEM, 0xFF73BA1A);
+        ClientInfoStorage.add(PINK_SOLDIER_ITEM, 0xFFE791B0);
+        ClientInfoStorage.add(CYAN_SOLDIER_ITEM, 0xFF148C93);
+        ClientInfoStorage.add(PURPLE_SOLDIER_ITEM, 0xFF792AAB);
+        ClientInfoStorage.add(BROWN_SOLDIER_ITEM, 0xFF744A2B);
+        ClientInfoStorage.add(BLACK_SOLDIER_ITEM, 0xFF18181D);
+        ClientInfoStorage.add(GRAY_SOLDIER_ITEM, 0xFF51585D);
+        ClientInfoStorage.add(WHITE_SOLDIER_ITEM, 0xFFE2E6EA);
 
-        // Horses
-        ClientInfoStorage.add(DIRT_HORSE_ITEM, 0x593A35);
-        ClientInfoStorage.add(GRAVEL_HORSE_ITEM, 0xAA9F9E);
-        ClientInfoStorage.add(FULL_GRASS_HORSE_ITEM, 0x27B019);
-        ClientInfoStorage.add(FULL_SNOW_HORSE_ITEM, 0xDCEAF2);
-        ClientInfoStorage.add(LAPIS_HORSE_ITEM, 0x3E2EBC);
-        ClientInfoStorage.add(CARROT_HORSE_ITEM, 0xFD6800);
-        ClientInfoStorage.add(CLAY_HORSE_ITEM, 0x969BBA);
-        ClientInfoStorage.add(SOUL_SAND_HORSE_ITEM, 0x49372C);
+// Horses
+        ClientInfoStorage.add(DIRT_HORSE_ITEM, 0xFF593A35);
+        ClientInfoStorage.add(GRAVEL_HORSE_ITEM, 0xFFAA9F9E);
+        ClientInfoStorage.add(FULL_GRASS_HORSE_ITEM, 0xFF27B019);
+        ClientInfoStorage.add(FULL_SNOW_HORSE_ITEM, 0xFFDCEAF2);
+        ClientInfoStorage.add(LAPIS_HORSE_ITEM, 0xFF3E2EBC);
+        ClientInfoStorage.add(CARROT_HORSE_ITEM, 0xFFFD6800);
+        ClientInfoStorage.add(CLAY_HORSE_ITEM, 0xFF969BBA);
+        ClientInfoStorage.add(SOUL_SAND_HORSE_ITEM, 0xFF49372C);
     }
 
     public static RegistrySupplier<Item> registerItem(String name, RegistrySupplier<EntityType<? extends SoldierDollEntity>> entity) {

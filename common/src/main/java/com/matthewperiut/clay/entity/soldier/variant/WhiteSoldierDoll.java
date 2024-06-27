@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 public class WhiteSoldierDoll extends SoldierDollEntity
 {
-    public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/white.png");
+    public static final Identifier TEXTURE_ID = Identifier.of(ClayMod.MOD_ID, "textures/entity/soldier/white.png");
 
     public WhiteSoldierDoll(EntityType<? extends PathAwareEntity> type, World worldIn)
     {

@@ -8,5 +8,5 @@ import net.minecraft.util.Identifier;
 
 public class ClayTag
 {
-    public static final TagKey<Item> SOLDIERS = TagKey.of(Registries.ITEM.getKey(), new Identifier(ClayMod.MOD_ID, "soldiers"));
+    public static final TagKey<Item> SOLDIERS = TagKey.of(Registries.ITEM.getKey(), Identifier.of(ClayMod.MOD_ID, "soldiers"));
 }

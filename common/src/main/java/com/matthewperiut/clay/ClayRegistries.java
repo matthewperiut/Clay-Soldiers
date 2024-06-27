@@ -29,7 +29,7 @@ public class ClayRegistries {
 
 
     public static Identifier getIdentifier(String name) {
-        return new Identifier(ClayMod.MOD_ID, name);
+        return Identifier.of(ClayMod.MOD_ID, name);
     }
 
 }

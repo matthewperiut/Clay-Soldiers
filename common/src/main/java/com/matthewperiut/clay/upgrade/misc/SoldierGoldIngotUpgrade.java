@@ -9,7 +9,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 public class SoldierGoldIngotUpgrade implements ISoldierUpgrade {
-    public static final Identifier IDENTIFIER = new Identifier(ClayMod.MOD_ID, "upgrades/soldier/gold_ingot_upgrade");
+    public static final Identifier IDENTIFIER = Identifier.of(ClayMod.MOD_ID, "upgrades/soldier/gold_ingot_upgrade");
 
     @Override
     public ItemStack getUpgradeItem() {

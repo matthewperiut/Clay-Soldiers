@@ -4,6 +4,7 @@ import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -26,9 +27,8 @@ public class DisruptorDispenserBehavior extends FallibleItemDispenserBehavior
             this.setSuccess(disruptor.killClayEntity(world, Vec3d.ofCenter(pointer.pos())));
             if (this.isSuccess()) {
                 if (!disruptor.unlimited) {
-                    stack.damage(1, world.getRandom(), (ServerPlayerEntity)null, () -> {
-                        stack.setCount(0);
-                    });
+                    stack.damage(1, (ServerWorld) world, (ServerPlayerEntity) null, i -> stack.setCount(0));
+
                 }
             }
         }

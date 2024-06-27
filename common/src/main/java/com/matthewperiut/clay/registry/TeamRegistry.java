@@ -14,7 +14,7 @@ import static com.matthewperiut.clay.ClayRegistries.getIdentifier;
 import static com.matthewperiut.clay.registry.ItemRegistry.*;
 
 public class TeamRegistry {
-    public static final Identifier REGISTRY_ID = new Identifier(ClayMod.MOD_ID, "teams");
+    public static final Identifier REGISTRY_ID = Identifier.of(ClayMod.MOD_ID, "teams");
     public static final RegistryKey<Registry<ITeam>> REGISTRY_TEAMS_KEY =
             RegistryKey.ofRegistry(REGISTRY_ID);
     public static final Registrar<ITeam> SOLDIER_TEAMS = RegistrarManager

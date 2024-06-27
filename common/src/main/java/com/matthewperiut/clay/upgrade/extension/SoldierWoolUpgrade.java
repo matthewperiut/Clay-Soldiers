@@ -17,8 +17,9 @@ import java.util.UUID;
 import static com.matthewperiut.clay.registry.UpgradeRegistry.LEATHER_UPGRADE;
 
 public class SoldierWoolUpgrade implements ISoldierUpgrade {
-    public static final Identifier IDENTIFIER = new Identifier(ClayMod.MOD_ID, "upgrades/soldier/wool_upgrade");
-    protected static final UUID MODIFIER_ID = UUID.randomUUID();
+    public static final Identifier IDENTIFIER = Identifier.of(ClayMod.MOD_ID, "upgrades/soldier/wool_upgrade");
+    protected static final Identifier SOLDIER_WOOL_UPGRADE = Identifier.of(ClayMod.MOD_ID, "soldier_wool_upgrade");
+
 
     @Override
     public ItemStack getUpgradeItem() {
@@ -52,8 +53,8 @@ public class SoldierWoolUpgrade implements ISoldierUpgrade {
         soldier.playSoundIfNotSilent(SoundEvents.BLOCK_WOOL_PLACE);
 
         EntityAttributeInstance armorInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ARMOR);
-        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_wool_upgrade", 2, EntityAttributeModifier.Operation.ADD_VALUE);
-        if (armorInstance != null && !armorInstance.hasModifier(attributeModifier)) {
+        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(SOLDIER_WOOL_UPGRADE, 2, EntityAttributeModifier.Operation.ADD_VALUE);
+        if (armorInstance != null && !armorInstance.hasModifier(attributeModifier.id())) {
             armorInstance.addPersistentModifier(attributeModifier);
         }
     }
@@ -64,6 +65,6 @@ public class SoldierWoolUpgrade implements ISoldierUpgrade {
 
         EntityAttributeInstance armorInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ARMOR);
         if (armorInstance != null)
-            armorInstance.tryRemoveModifier(MODIFIER_ID);
+            armorInstance.removeModifier(SOLDIER_WOOL_UPGRADE);
     }
 }

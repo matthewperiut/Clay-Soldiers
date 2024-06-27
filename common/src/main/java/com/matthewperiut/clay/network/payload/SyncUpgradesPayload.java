@@ -58,7 +58,7 @@ public record SyncUpgradesPayload(int entityId, Action action, List<ISoldierUpgr
                 byte[] identifierBytes = new byte[identifierLength];
                 byteBuf.readBytes(identifierBytes);
                 String identifierStr = new String(identifierBytes, StandardCharsets.UTF_8);
-                Identifier identifier = new Identifier(identifierStr);
+                Identifier identifier = Identifier.of(identifierStr);
                 ISoldierUpgrade upgrade = UpgradeManager.INSTANCE.getUpgrade(identifier);
                 if (upgrade != null) {
                     upgrades.add(upgrade);

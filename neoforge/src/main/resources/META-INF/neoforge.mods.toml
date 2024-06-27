@@ -19,7 +19,7 @@ config = "clay.mixins.json"
 [[dependencies.clay]]
 modId="minecraft"
 type="required"
-versionRange="[1.20.5,1.20.6]"
+versionRange="[1.21)"
 
 [[dependencies.clay]]
 modId="neoforge"

@@ -16,8 +16,8 @@ import java.util.UUID;
 import static com.matthewperiut.clay.registry.UpgradeRegistry.STICK_UPGRADE;
 
 public class SoldierFlintUpgrade implements ISoldierUpgrade {
-    public static final Identifier IDENTIFIER = new Identifier(ClayMod.MOD_ID, "upgrades/soldier/flint_upgrade");
-    protected static final UUID MODIFIER_ID = UUID.randomUUID();
+    public static final Identifier IDENTIFIER = Identifier.of(ClayMod.MOD_ID, "upgrades/soldier/flint_upgrade");
+    protected static final Identifier SOLDIER_FLINT_UPGRADE = Identifier.of(ClayMod.MOD_ID, "soldier_flint_upgrade");
 
     @Override
     public ItemStack getUpgradeItem() {
@@ -38,8 +38,8 @@ public class SoldierFlintUpgrade implements ISoldierUpgrade {
     public void onAdd(SoldierDollEntity soldier) {
         soldier.playSoundIfNotSilent(SoundEvents.BLOCK_ANVIL_USE);
         EntityAttributeInstance attackInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_flint_upgrade", 1, EntityAttributeModifier.Operation.ADD_VALUE);
-        if (attackInstance != null && !attackInstance.hasModifier(attributeModifier))
+        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(SOLDIER_FLINT_UPGRADE, 1, EntityAttributeModifier.Operation.ADD_VALUE);
+        if (attackInstance != null && !attackInstance.hasModifier(attributeModifier.id()))
             attackInstance.addPersistentModifier(attributeModifier);
     }
 
@@ -47,7 +47,7 @@ public class SoldierFlintUpgrade implements ISoldierUpgrade {
     public void onRemove(SoldierDollEntity soldier) {
         EntityAttributeInstance attackInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
         if (attackInstance != null)
-            attackInstance.tryRemoveModifier(MODIFIER_ID);
+            attackInstance.removeModifier(SOLDIER_FLINT_UPGRADE);
     }
 
     @Override

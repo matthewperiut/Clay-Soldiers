@@ -16,8 +16,8 @@ import static com.matthewperiut.clay.registry.UpgradeRegistry.LEATHER_UPGRADE;
 import static com.matthewperiut.clay.registry.UpgradeRegistry.WOOL_UPGRADE;
 
 public class SoldierDollLeatherArmorLayer extends GeoRenderLayer<SoldierDollEntity> {
-    static final Identifier BASE_TEXTURE = new Identifier(ClayMod.MOD_ID, "textures/entity/upgrade/tiny_chestplate.png");
-    static final Identifier UPGRADED_TEXTURE = new Identifier(ClayMod.MOD_ID, "textures/entity/upgrade/tiny_chestplate_with_wool.png");
+    static final Identifier BASE_TEXTURE = Identifier.of(ClayMod.MOD_ID, "textures/entity/upgrade/tiny_chestplate.png");
+    static final Identifier UPGRADED_TEXTURE = Identifier.of(ClayMod.MOD_ID, "textures/entity/upgrade/tiny_chestplate_with_wool.png");
     static final RenderLayer BASE_ARMOR_RENDER_TYPE = RenderLayer.getArmorCutoutNoCull(BASE_TEXTURE);
     static final RenderLayer UPGRADED_ARMOR_RENDER_TYPE = RenderLayer.getArmorCutoutNoCull(UPGRADED_TEXTURE);
 
@@ -38,6 +38,6 @@ public class SoldierDollLeatherArmorLayer extends GeoRenderLayer<SoldierDollEnti
 
         getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, renderLayer,
                 bufferSource.getBuffer(renderLayer), partialTick, packedLight, OverlayTexture.DEFAULT_UV,
-                1, 1, 1, 1);
+                1);
     }
 }

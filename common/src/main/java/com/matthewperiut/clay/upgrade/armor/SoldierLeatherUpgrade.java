@@ -17,10 +17,10 @@ import java.util.UUID;
 
 
 public class SoldierLeatherUpgrade implements ISoldierUpgrade, IDurable {
-    public static final Identifier IDENTIFIER = new Identifier(ClayMod.MOD_ID, "upgrades/soldier/leather_upgrade");
-    protected static final UUID MODIFIER_ID = UUID.randomUUID();
+    public static final Identifier IDENTIFIER = Identifier.of(ClayMod.MOD_ID, "upgrades/soldier/leather_upgrade");
     private static final short durability = 20;
 
+    private static final Identifier LEATHER_UPGRADE = Identifier.of(ClayMod.MOD_ID, "soldier_leather_upgrade");
 
     @Override
     public ItemStack getUpgradeItem() {
@@ -56,8 +56,8 @@ public class SoldierLeatherUpgrade implements ISoldierUpgrade, IDurable {
         soldier.upgradeInstances.get(this).nbtCompound().putShort(IDurable.NBT_KEY, durability);
 
         EntityAttributeInstance armorInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ARMOR);
-        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_leather_upgrade", 3, EntityAttributeModifier.Operation.ADD_VALUE);
-        if (armorInstance != null && !armorInstance.hasModifier(attributeModifier)) {
+        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(LEATHER_UPGRADE, 3, EntityAttributeModifier.Operation.ADD_VALUE);
+        if (armorInstance != null && !armorInstance.hasModifier(attributeModifier.id())) {
             armorInstance.addPersistentModifier(attributeModifier);
         }
     }
@@ -70,7 +70,7 @@ public class SoldierLeatherUpgrade implements ISoldierUpgrade, IDurable {
 
         EntityAttributeInstance armorInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ARMOR);
         if (armorInstance != null) {
-            armorInstance.removeModifier(MODIFIER_ID);
+            armorInstance.removeModifier(LEATHER_UPGRADE);
         }
     }
 

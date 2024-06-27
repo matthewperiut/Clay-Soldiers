@@ -19,9 +19,9 @@ import java.util.UUID;
 
 public class SoldierStickUpgrade implements ISoldierUpgrade, IDurable {
 
-    public static final Identifier IDENTIFIER = new Identifier(ClayMod.MOD_ID, "upgrades/soldier/stick_upgrade");
+    public static final Identifier IDENTIFIER = Identifier.of(ClayMod.MOD_ID, "upgrades/soldier/stick_upgrade");
     private static final short durability = 20;
-    protected static final UUID MODIFIER_ID = UUID.randomUUID();
+    protected static final Identifier SOLDIER_STICK_UPGRADE = Identifier.of(ClayMod.MOD_ID, "soldier_stick_upgrade");
 
 
     @Override
@@ -49,8 +49,8 @@ public class SoldierStickUpgrade implements ISoldierUpgrade, IDurable {
         soldier.upgradeInstances.get(this).nbtCompound().putShort(IDurable.NBT_KEY, durability);
         soldier.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STICK, 1));
         EntityAttributeInstance attackInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(MODIFIER_ID, ClayMod.MOD_ID + ":soldier_stick_upgrade", 2, EntityAttributeModifier.Operation.ADD_VALUE);
-        if (attackInstance != null && !attackInstance.hasModifier(attributeModifier))
+        EntityAttributeModifier attributeModifier = new EntityAttributeModifier(SOLDIER_STICK_UPGRADE, 2, EntityAttributeModifier.Operation.ADD_VALUE);
+        if (attackInstance != null && !attackInstance.hasModifier(attributeModifier.id()))
             attackInstance.addPersistentModifier(attributeModifier);
     }
 
@@ -59,7 +59,7 @@ public class SoldierStickUpgrade implements ISoldierUpgrade, IDurable {
         soldier.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
         EntityAttributeInstance attackInstance = soldier.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
         if (attackInstance != null)
-            attackInstance.tryRemoveModifier(MODIFIER_ID);
+            attackInstance.removeModifier(SOLDIER_STICK_UPGRADE);
         if (getDurability(soldier) <= 0)
             soldier.playSoundIfNotSilent(SoundEvents.ENTITY_ITEM_BREAK);
     }

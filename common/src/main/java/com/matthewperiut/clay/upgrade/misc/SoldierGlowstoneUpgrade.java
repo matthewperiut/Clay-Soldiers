@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import java.util.Objects;
 
 public class SoldierGlowstoneUpgrade implements ISoldierUpgrade {
-    public static final Identifier IDENTIFIER = new Identifier(ClayMod.MOD_ID, "upgrades/soldier/glowstone_upgrade");
+    public static final Identifier IDENTIFIER = Identifier.of(ClayMod.MOD_ID, "upgrades/soldier/glowstone_upgrade");
 
     @Override
     public ItemStack getUpgradeItem() {

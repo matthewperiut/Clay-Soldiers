@@ -20,7 +20,7 @@ public class SoldierDollModel extends GeoModel<SoldierDollEntity>
     @Override
     public Identifier getModelResource(SoldierDollEntity object)
     {
-        return new Identifier(ClayMod.MOD_ID, "geo/clay_soldier.geo.json");
+        return Identifier.of(ClayMod.MOD_ID, "geo/clay_soldier.geo.json");
     }
 
     @Override
@@ -32,6 +32,6 @@ public class SoldierDollModel extends GeoModel<SoldierDollEntity>
     @Override
     public Identifier getAnimationResource(SoldierDollEntity animatable)
     {
-        return new Identifier(ClayMod.MOD_ID, "animations/clay_soldier.animation.json");
+        return Identifier.of(ClayMod.MOD_ID, "animations/clay_soldier.animation.json");
     }
 }

@@ -43,6 +43,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -64,7 +65,7 @@ import static com.matthewperiut.clay.entity.soldier.teams.ITeam.NBT_IDENTIFIER;
 import static com.matthewperiut.clay.registry.TeamRegistry.CLAY_TEAM;
 
 public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable, EntitySpawnExtension {
-    public static final Identifier TEXTURE_ID = new Identifier(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
+    public static final Identifier TEXTURE_ID = Identifier.of(ClayMod.MOD_ID, "textures/entity/soldier/lightgray.png");
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     public HashSet<ISoldierUpgrade> upgrades = new HashSet<>();
     public HashMap<ISoldierUpgrade, UpgradeInstance> upgradeInstances = new HashMap<>();
@@ -263,7 +264,7 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
         NbtList nbtListForUpgrades = nbt.getList(NBTValues.SOLDIER_UPGRADES.getKey(), NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < nbtListForUpgrades.size(); i++) {
             NbtCompound nbtCompound = nbtListForUpgrades.getCompound(i);
-            Identifier identifier = new Identifier(nbtCompound.getString(NBTValues.SOLDIER_UPGRADES_ID.getKey()));
+            Identifier identifier = Identifier.of(nbtCompound.getString(NBTValues.SOLDIER_UPGRADES_ID.getKey()));
             UpgradeManager.INSTANCE.handleNBTRead(this, identifier, nbtCompound);
         }
     }
@@ -279,11 +280,6 @@ public class SoldierDollEntity extends PathAwareEntity implements GeoAnimatable,
             nbtListForUpgrades.add(nbtElement);
         }
         nbt.put(NBTValues.SOLDIER_UPGRADES.getKey(), nbtListForUpgrades);
-    }
-
-    @Override
-    public Packet<ClientPlayPacketListener> createSpawnPacket() {
-        return NetworkManager.createAddEntityPacket(this);
     }
 
     @Override

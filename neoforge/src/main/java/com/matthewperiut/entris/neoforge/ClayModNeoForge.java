@@ -1,10 +1,10 @@
 package com.matthewperiut.entris.neoforge;
 
 import com.matthewperiut.clay.ClayMod;
+import dev.architectury.utils.EnvExecutor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.DistExecutor;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -28,7 +28,7 @@ public class ClayModNeoForge {
         modEventBus.addListener(this::commonSetup);
         ClayMod.init();
         NeoForge.EVENT_BUS.register(this);
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClayMod::initClient);
+        EnvExecutor.runInEnv(Dist.CLIENT, () -> ClayMod::initClient);
 
 
     }

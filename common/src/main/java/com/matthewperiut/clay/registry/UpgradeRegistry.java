@@ -16,7 +16,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 
 public class UpgradeRegistry {
-    public static final Identifier REGISTRY_ID = new Identifier(ClayMod.MOD_ID, "upgrades");
+    public static final Identifier REGISTRY_ID = Identifier.of(ClayMod.MOD_ID, "upgrades");
     public static final RegistryKey<Registry<ISoldierUpgrade>> UPGRADES_KEY =
             RegistryKey.ofRegistry(REGISTRY_ID);
     public static final Registrar<ISoldierUpgrade> SOLDIER_UPGRADE_REGISTER = RegistrarManager.get(ClayMod.MOD_ID).<ISoldierUpgrade>builder(REGISTRY_ID)

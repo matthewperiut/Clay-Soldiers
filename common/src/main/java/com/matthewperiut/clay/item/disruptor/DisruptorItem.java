@@ -4,14 +4,15 @@ import com.matthewperiut.clay.entity.horse.HorseDollEntity;
 import com.matthewperiut.clay.entity.soldier.SoldierDollEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.item.TooltipType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -22,6 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class DisruptorItem extends ToolItem
 {
@@ -64,9 +66,8 @@ public class DisruptorItem extends ToolItem
         {
             if (!unlimited)
             {
-                stack.damage(1, world.random, (ServerPlayerEntity) null, () -> {
-                    stack.setCount(0);
-                });
+                stack.damage(1, (ServerWorld) world, (ServerPlayerEntity) user, item -> stack.setCount(0));
+                ((PlayerEntity) user).getItemCooldownManager().set(this, 20);
 
                 return true;
             }
@@ -78,15 +79,8 @@ public class DisruptorItem extends ToolItem
             }
             else
             {
-                PlayerEntity player = (PlayerEntity) user;
-                if (!unlimited) {
-                    stack.damage(1, world.random, (ServerPlayerEntity) null, () -> {
-                                        ((PlayerEntity) user).getItemCooldownManager().set(this, 20);
-
-                        stack.setCount(0);
-                    });
-                }
-
+                stack.damage(1, (ServerWorld) world, (ServerPlayerEntity) user, item -> stack.setCount(0));
+                ((PlayerEntity) user).getItemCooldownManager().set(this, 20);
 
                 return true;
             }
@@ -122,13 +116,9 @@ public class DisruptorItem extends ToolItem
         {
             if (!unlimited)
             {
-                    stack.damage(1, world.random, (ServerPlayerEntity) null, () -> {
-                                        ((PlayerEntity) user).getItemCooldownManager().set(this, 20);
-
-
-                        stack.setCount(0);
-                    });
-                    return true;
+                stack.damage(1, (ServerWorld) world, (ServerPlayerEntity) user, item -> stack.setCount(0));
+                ((PlayerEntity) user).getItemCooldownManager().set(this, 20);
+                return true;
             }
 
             if (user instanceof PlayerEntity)
@@ -138,9 +128,8 @@ public class DisruptorItem extends ToolItem
             }
             else
             {
-                stack.damage(1, world.random, (ServerPlayerEntity) null, () -> {
-                    stack.setCount(0);
-                });
+                stack.damage(1, (ServerWorld) world, (ServerPlayerEntity) user, item -> stack.setCount(0));
+                ((PlayerEntity) user).getItemCooldownManager().set(this, 20);
                 return true;
             }
         }
@@ -151,6 +140,7 @@ public class DisruptorItem extends ToolItem
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
     {
+
         ItemStack itemStack = user.getStackInHand(hand);
 
         if (removeClayEntity(world, user, itemStack) || removeClayBlock(world, user, itemStack))

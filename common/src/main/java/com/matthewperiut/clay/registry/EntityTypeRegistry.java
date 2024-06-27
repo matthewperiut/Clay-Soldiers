@@ -83,19 +83,19 @@ public class EntityTypeRegistry {
         registerSoldier(GRAY_SOLDIER, GraySoldierDoll.TEXTURE_ID);
         registerSoldier(WHITE_SOLDIER, WhiteSoldierDoll.TEXTURE_ID);
 
-        registerHorse(DIRT_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/dirt1.png"));
-        registerHorse(GRASS_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/dirt2.png"));
-        registerHorse(MYCELIUM_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/dirt3.png"));
-        registerHorse(SNOW_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/dirt4.png"));
-        registerHorse(SAND_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/sand.png"));
-        registerHorse(GRAVEL_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/gravel3.png"));
-        registerHorse(FULL_GRASS_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/grass1.png"));
-        registerHorse(FULL_SNOW_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/snow.png"));
-        registerHorse(LAPIS_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/lapis1.png"));
-        registerHorse(CARROT_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/carrot1.png"));
-        registerHorse(CLAY_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/clay.png"));
-        registerHorse(SOUL_SAND_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/soulsand1.png"));
-        registerHorse(CAKE_HORSE, new Identifier(ClayMod.MOD_ID, "textures/entity/mount/horse/cake.png"));
+        registerHorse(DIRT_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/dirt1.png"));
+        registerHorse(GRASS_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/dirt2.png"));
+        registerHorse(MYCELIUM_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/dirt3.png"));
+        registerHorse(SNOW_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/dirt4.png"));
+        registerHorse(SAND_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/sand.png"));
+        registerHorse(GRAVEL_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/gravel3.png"));
+        registerHorse(FULL_GRASS_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/grass1.png"));
+        registerHorse(FULL_SNOW_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/snow.png"));
+        registerHorse(LAPIS_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/lapis1.png"));
+        registerHorse(CARROT_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/carrot1.png"));
+        registerHorse(CLAY_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/clay.png"));
+        registerHorse(SOUL_SAND_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/soulsand1.png"));
+        registerHorse(CAKE_HORSE, Identifier.of(ClayMod.MOD_ID, "textures/entity/mount/horse/cake.png"));
     }
 
     @Environment(EnvType.CLIENT)

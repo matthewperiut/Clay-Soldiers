@@ -12,7 +12,7 @@ public class NetworkUtils {
     }
 
     public static Iterable<ServerPlayerEntity> getTrackingPlayers(Entity entity) {
-        return ((ServerChunkManager) entity.getWorld().getChunkManager()).threadedAnvilChunkStorage.getPlayersWatchingChunk(entity.getChunkPos(), false);
+        return ((ServerChunkManager) entity.getWorld().getChunkManager()).chunkLoadingManager.getPlayersWatchingChunk(entity.getChunkPos(), false);
     }
 
     public static PacketByteBuf getBufferForUpgrades(int entityId, Identifier upgradeIdentifier) {
